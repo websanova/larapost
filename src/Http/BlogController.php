@@ -34,7 +34,9 @@ class BlogController extends BaseController
 
     public function search()
     {
-
+        return view('larablog::blog.search', [
+            'posts' => Larablog::search()
+        ]);
     }
 
     public function feed()

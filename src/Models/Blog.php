@@ -17,6 +17,11 @@ class Blog extends Model
         $this->table = config('larablog.table');
     }
 
+    public function scopeSearch($q, $search)
+    {
+        return $q->whereRaw("MATCH (`title`, `body`) AGAINST (?)" , [$search]);
+    }
+
     public function getMetaAttribute($val)
     {
     	return json_decode($val);

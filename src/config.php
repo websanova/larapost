@@ -10,11 +10,14 @@ return [
 
 	'path' => 'blog',
 	
-	'uri' => 'blog',
-
 	'site' => [
+		
 		'name' => 'LaraBlog',
 		
+		'path' => '/blog',
+
+		
+
 		'nav' => [
 			'/' => 'Home',
 			'/blog' => 'Blog'
@@ -23,5 +26,9 @@ return [
 		'adcode' => '',
 		
 		'analytics' => ''
+	],
+
+	'search' => [
+		'path' => '/blog/search',
 	]
 ];

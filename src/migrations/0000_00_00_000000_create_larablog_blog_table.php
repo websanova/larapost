@@ -21,6 +21,8 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('created_at');
 			$t->index('updated_at');
 		});
+
+		\DB::statement("ALTER TABLE " . config('larablog.table') . " ADD FULLTEXT KEY posts_fulltext (`title`, `body`)");
 	}
 
 	public function down()
