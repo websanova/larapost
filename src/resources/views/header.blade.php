@@ -39,11 +39,24 @@
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
+                <li class="visible-xs">
+                    <a>
+                        <form action="{{ config('larablog.search.path') }}">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control" placeholder="Search"/>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Go</button>
+                                </span>
+                            </div>
+                        </form>
+                    </a>
+                </li>
+
                 @foreach (config('larablog.site.nav') as $key => $val) 
                     <li class="{{ ('/' . Request::path()) === $key ? 'active' : '' }}">
                         <a href="{{ $key }}">{{ $val }}</a>
                     </li>
-                @endforeach     
+                @endforeach
             </ul>
         </div>
     </div>

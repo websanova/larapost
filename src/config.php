@@ -27,6 +27,7 @@ return [
 	],
 
 	'search' => [
+	
 		'path' => '/blog/search',
 
 		'fields' => ['title', 'body']
