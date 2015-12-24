@@ -4,6 +4,7 @@ If you're like me and got annoyed from using WordPress and GitHub pages and you 
 
 The idea is to keep your blog content in the `.md` files so they can be moved around to other platforms. This just being one of the options.
 
+__ * For now this is a project for myself, if there is some interest I will work on more of the todo's. Otherwise I will just go along as need by for myself.__
 
 ## Migrations
 
@@ -27,6 +28,7 @@ Some things that still need to be done.
 * Related articles matching.
 * Comments
 * Most popular
+* Themes
 * Maybe a backend admin with a Markdown editor.
 
 Would also be nice to have some kind of plugin architecture. For instance some kind of SEO plugin. Although not sure how this would work quite yet.

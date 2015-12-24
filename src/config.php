@@ -16,8 +16,6 @@ return [
 		
 		'path' => '/blog',
 
-		
-
 		'nav' => [
 			'/' => 'Home',
 			'/blog' => 'Blog'
@@ -30,5 +28,7 @@ return [
 
 	'search' => [
 		'path' => '/blog/search',
+
+		'fields' => ['title', 'body']
 	]
 ];

@@ -22,7 +22,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('updated_at');
 		});
 
-		\DB::statement("ALTER TABLE " . config('larablog.table') . " ADD FULLTEXT KEY posts_fulltext (`title`, `body`)");
+		\DB::statement("ALTER TABLE " . config('larablog.table') . " ADD FULLTEXT KEY posts_fulltext (`" . implode('`, `', config('larablog.search.fields')) . "`)");
 	}
 
 	public function down()
