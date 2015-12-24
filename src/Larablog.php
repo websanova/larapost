@@ -7,7 +7,7 @@ use Websanova\Larablog\Models\Blog;
 
 class Larablog
 {
-    public static function published($page = 1, $limit = 30)
+    public static function published()
     {
         return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
     }
@@ -29,5 +29,10 @@ class Larablog
         }
 
         return $post;
+    }
+
+    public static function count()
+    {
+        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->count();
     }
 }

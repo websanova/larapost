@@ -2,15 +2,14 @@
 
 namespace Websanova\Larablog\Http;
 
-use Request;
-use Websanova\Larablog\Models\Blog;
+use Websanova\Larablog\Larablog;
 use Illuminate\Routing\Controller as BaseController;
 
 class HomeController extends BaseController
 {
     public function index()
     {
-        $total = Blog::count();
+        $total = Larablog::count();
 
 		return view('larablog::home.index', ['total' => $total]);
     }
