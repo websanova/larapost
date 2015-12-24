@@ -20,11 +20,7 @@ class Larablog
 
         $post = Blog::where('slug', $slug)->first();
 
-        if ( ! $post) {
-            return null;
-        }
-
-        if ($post->type === 'post' && $post->published_at === null) {
+        if ($post && $post->type === 'post' && $post->published_at === null) {
             return null;
         }
 
