@@ -1,4 +1,4 @@
-@foreach ($posts as $k => $p)
+@forelse ($posts as $k => $p)
 	@if ($k > 0)
 		<hr/>
 	@endif
@@ -7,7 +7,11 @@
 	<div class="text-muted">{{ $p->published_at->format('M d Y') }}</div>
 	<br/>
 	<div>{{ $p->meta->description }}</div>
-@endforeach
+@empty
+	<br/>
+
+	No posts yet.
+@endforelse
 
 @if ($posts->total() > $posts->perPage())
 	<hr/>

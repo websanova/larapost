@@ -6,6 +6,12 @@ The idea is to keep your blog content in the `.md` files so they can be moved ar
 
 __ * For now this is a project for myself, if there is some interest I will work on more of the todo's. Otherwise I will just go along as need by for myself.__
 
+## Installing
+
+--include
+--service provider...
+
+
 ## Migrations
 
 ~~~
@@ -14,9 +20,18 @@ __ * For now this is a project for myself, if there is some interest I will work
 ~~~
 
 
+## Write
+
+If you use the default then articles will just go in the `/blog` folder in the root of your project.
+
+~~~
+> php artisan larablog:reset
+~~~
+
+
 ## Config
 
-Coming soon...
+Best way to get a sense of the options is to just publish the config and take a look.
 
 
 ## To Do

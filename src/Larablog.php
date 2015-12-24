@@ -22,6 +22,16 @@ class Larablog
         return Blog::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
     }
 
+    public static function all()
+    {
+        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->get();
+    }
+
+    public static function last()
+    {
+        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->first();
+    }
+
     public static function post($slug = '')
     {
         if (empty($slug)) {

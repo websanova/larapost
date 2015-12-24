@@ -19,7 +19,7 @@ class Blog extends Model
 
     public function scopeSearch($q, $search)
     {
-        return $q->whereRaw("MATCH (`" . implode('`, `', config('larablog.search.fields')) . "`) AGAINST (?)" , [$search]);
+        return $q->whereRaw("MATCH (`" . implode('`, `', config('larablog.search_fields')) . "`) AGAINST (?)" , [$search]);
     }
 
     public function getMetaAttribute($val)

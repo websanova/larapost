@@ -6,30 +6,26 @@ return [
 	
 	'perpage' => 15,
 
-	'table' => 'blog',
+	'table' => 'blog_posts',
 
-	'path' => 'blog',
+	'folder_path' => 'blog',
 	
-	'site' => [
-		
-		'name' => 'LaraBlog',
-		
-		'path' => '/blog',
-
-		'nav' => [
-			'/' => 'Home',
-			'/blog' => 'Blog'
-		],
-
-		'adcode' => '',
-		
-		'analytics' => ''
+	'site_pages' => [
+		'/' => 'Home',
+		'/blog' => 'Blog'
 	],
 
-	'search' => [
-	
-		'path' => '/blog/search',
+	'site_author' => 'LaraBlog',
 
-		'fields' => ['title', 'body']
-	]
+	'site_name' => 'LaraBlog',
+
+	'site_path' => '/blog',
+
+	'search_path' => '/blog/search',
+
+	'search_fields' => ['title', 'body'],
+
+	'sitemap_path' => '/blog/sitemap',
+
+	'feed_path' => '/blog/feed'
 ];

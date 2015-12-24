@@ -31,7 +31,7 @@ class LarablogReset extends Command
      */
     public function handle()
     {
-        $path = base_path(config('larablog.path'));
+        $path = base_path(config('larablog.folder_path'));
 
         if (file_exists($path)) {
             $files = File::files($path);
