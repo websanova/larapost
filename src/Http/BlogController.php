@@ -49,8 +49,6 @@ class BlogController extends BaseController
 
     public function notfound()
     {
-        return view('larablog::blog.post', [
-            'post' => $post
-        ]);
+        return view('larablog::blog.404');
     }
 }
