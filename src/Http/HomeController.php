@@ -11,6 +11,9 @@ class HomeController extends BaseController
     {
         $total = Larablog::count();
 
-		return view('larablog::home.index', ['total' => $total]);
+		return view('larablog::themes.default', [
+			'view' => 'larablog::home.index',
+			'total' => $total
+		]);
     }
 }

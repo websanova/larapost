@@ -1,30 +1,4 @@
-
-<!doctype html>
-<html class="base en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <meta name="robots" content="NOODP,NOYDIR" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-
-    <meta name="google-site-verification" content="0JyXAX-vhy2alkzysO2rJ_ZLx-ldjIN29bkyerato-Q" />
-
-    @include ('larablog::meta')
-
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link type="application/opensearchdescription+xml" rel="search" title="Websanova" href="http://www.websanova.com/search.xml" />
-
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-</head>
-<body>
+@include ('larablog::layout.header')
 
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
@@ -67,4 +41,23 @@
 <div id="container" class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
+			@include ($view)
+	    </div>
+	    <div class="hidden-xs col-sm-4 col-md-3 col-lg-2">
+	    	<br/>
+		    @include ('larablog::layout.sidebar')
+	    </div>
+    </div>
+</div>
 
+<br/>
+
+<div class="container">
+	<hr/>
+
+	&copy {{ date('Y') }}
+</div>
+
+<br/>
+
+@include ('larablog::layout.footer')
