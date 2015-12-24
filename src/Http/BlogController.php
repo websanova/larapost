@@ -11,7 +11,7 @@ class BlogController extends BaseController
 {
     public function index()
     {
-		return view('larablog::themes.default', [
+		return view(config('larablog.theme'), [
             'view' => 'larablog::blog.index',
             'posts' => Larablog::published()
         ]);
@@ -29,7 +29,7 @@ class BlogController extends BaseController
             return Redirect::to($post->meta->redirect_to);
         }
 
-        return view('larablog::themes.default', [
+        return view(config('larablog.theme'), [
             'view' => 'larablog::blog.post',
             'post' => $post
         ]);
@@ -37,7 +37,7 @@ class BlogController extends BaseController
 
     public function search()
     {
-        return view('larablog::themes.default', [
+        return view(config('larablog.theme'), [
             'view' => 'larablog::blog.search',
             'posts' => Larablog::search()
         ]);
@@ -65,7 +65,7 @@ class BlogController extends BaseController
 
     public function notfound()
     {
-        return view('larablog::themes.default', [
+        return view(config('larablog.theme'), [
             'view' => 'larablog::blog.404'
         ]);
     }

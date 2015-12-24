@@ -2,7 +2,7 @@
 
 return [
 
-	'theme' => 'default',
+	'theme' => 'larablog::themes.default',
 	
 	'perpage' => 15,
 

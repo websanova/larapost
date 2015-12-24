@@ -34,6 +34,15 @@ If you use the default then articles will just go in the `/blog` folder in the r
 Best way to get a sense of the options is to just publish the config and take a look.
 
 
+## Themes
+
+You can write your own view as a theme and just set it in the `larablog.theme` setting. That is if you want to use the existing controllers. You of course have all the flexibility you need.
+
+So for the currently supported themes are:
+
+* default
+
+
 ## To Do
 
 Some things that still need to be done.
@@ -43,7 +52,6 @@ Some things that still need to be done.
 * Related articles matching.
 * Comments
 * Most popular
-* Themes
 * Maybe a backend admin with a Markdown editor.
 
 Would also be nice to have some kind of plugin architecture. For instance some kind of SEO plugin. Although not sure how this would work quite yet.
