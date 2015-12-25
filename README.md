@@ -34,6 +34,21 @@ If you use the default then articles will just go in the `/blog` folder in the r
 
 Best way to get a sense of the options is to just publish the config and take a look.
 
+## Meta
+
+Many of the tags for display items on a page can be overwritten in any controller method by simply setting the variable in the data associated with the view. Current options are.
+
+### Meta
+
+* img
+* keywords
+* description
+* title
+* type
+* slug
+
+We will try to use appropriate defaults wherever we can.
+
 
 ## Themes
 

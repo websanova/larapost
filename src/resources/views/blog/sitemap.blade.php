@@ -7,7 +7,7 @@
     <url> 
       <loc>{{ config('app.url') }}{{ $k }}</loc>
       <image:image>
-         <image:loc>{{ config('app.url') }}/img/logo-200x200.png</image:loc> 
+         <image:loc>{{ config('app.url') }}{{ config('larablog.site_logo') }}</image:loc> 
       </image:image>
       <lastmod>{{ @$last->published_at }}</lastmod>
       <changefreq>daily</changefreq>
@@ -20,9 +20,9 @@
       <loc>{{ config('app.url') }}{{ $p->slug }}</loc>
       <image:image>
         @if ($p->img)
-          <image:loc>{{ config('app.url') }}{{ $p->img }}</image:loc>
+          <image:loc>{{ config('app.url') }}{{ $p->meta->img }}</image:loc>
         @else
-          <image:loc>{{ config('app.url') }}/img/logo-200x200.png</image:loc>
+          <image:loc>{{ config('app.url') }}{{ config('larablog.site_logo') }}</image:loc>
         @endif
       </image:image>
       <lastmod>{{ $p->published_at }}</lastmod>

@@ -31,7 +31,7 @@ class BlogController extends BaseController
 
         return view(config('larablog.theme'), [
             'view' => 'larablog::blog.post',
-            'post' => $post
+            'post' => $post,
         ]);
     }
 
