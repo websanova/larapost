@@ -21,7 +21,11 @@ return [
 
 	'site_path' => '/blog',
 
+	'site_meta' => 'larablog::layout.meta',
+
 	'search_path' => '/blog/search',
+
+	'opensearch_path' => '/blog/search.xml',
 
 	'search_fields' => ['title', 'body'],
 

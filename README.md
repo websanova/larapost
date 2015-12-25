@@ -6,6 +6,7 @@ The idea is to keep your blog content in the `.md` files so they can be moved ar
 
 __ * For now this is a project for myself, if there is some interest I will work on more of the todo's. Otherwise I will just go along as need by for myself.__
 
+
 ## Installing
 
 --include

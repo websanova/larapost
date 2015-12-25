@@ -63,6 +63,13 @@ class BlogController extends BaseController
         return Response::make($content, '200')->header('Content-Type', 'text/xml');
     }
 
+    public function opensearch()
+    {
+        $content = view('larablog::blog.opensearch');
+
+        return Response::make($content, '200')->header('Content-Type', 'text/xml');
+    }
+
     public function notfound()
     {
         return view(config('larablog.theme'), [

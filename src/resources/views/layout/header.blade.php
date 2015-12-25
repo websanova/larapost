@@ -8,13 +8,13 @@
     <meta name="robots" content="NOODP,NOYDIR" />
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
 
-    <meta name="google-site-verification" content="0JyXAX-vhy2alkzysO2rJ_ZLx-ldjIN29bkyerato-Q" />
-
-    @include ('larablog::layout.meta')
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link type="application/opensearchdescription+xml" rel="search" title="Websanova" href="http://www.websanova.com/search.xml" />
+    
+    <link type="application/opensearchdescription+xml" rel="search" title="Websanova" href="{{ config('app.url') }}{{ config('larablog.opensearch_path')}}" />
+    
+    @include (config('larablog.site_meta'))
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
 
