@@ -12,8 +12,6 @@ class LarablogServiceProvider extends ServiceProvider
             return new Larablog;
         });
 
-        echo __DIR__;
-
         $this->mergeConfigFrom(
             __DIR__ . '/../../config/larablog.php', 'larablog'
         );
