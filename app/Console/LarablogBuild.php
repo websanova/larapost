@@ -8,21 +8,21 @@ use Websanova\Larablog\Models\Blog;
 use Illuminate\Support\Facades\File;
 use Websanova\Larablog\Parser\Parser;
 
-class LarablogReset extends Command
+class LarablogBuild extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'larablog:reset';
+    protected $signature = 'larablog:build';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Runs through blog folder and generates files.';
+    protected $description = 'Add and update blog posts.';
 
     /**
      * Execute the console command.
@@ -36,16 +36,25 @@ class LarablogReset extends Command
         if (file_exists($path)) {
             $files = File::files($path);
 
-            Blog::truncate();
-
             foreach ($files as $file) {
                 $fields = Parser::parse($file);
 
                 $data = Parser::process($fields);
 
-                echo 'Post: ' . $data['slug'] . "\n";
+                $post = Blog::where('slug', $data['slug'])->first();
 
-                $post = Blog::create($data);
+                if ($post) {
+                    $post->fill($data);
+
+                    if ($post->isDirty()) {
+                        $post->save();
+                        echo 'Update Post: ' . $data['slug'] . "\n";
+                    }
+                }
+                else {
+                    $post = Blog::create($data);
+                    echo 'New Post: ' . $data['slug'] . "\n";
+                }
 
                 Parser::handle($fields, $post);
             }

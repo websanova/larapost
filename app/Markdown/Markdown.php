@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog;
+namespace Websanova\Larablog\Markdown;
 
 class Markdown
 {

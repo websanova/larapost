@@ -17,11 +17,12 @@ class RedirectFrom
 			$val = [$val];
 		}
 
+		// TODO: delete redirects that don't exist anymore.
+
 		foreach ($val as $redirect_from) {
+			$redirect = Blog::where('slug', $redirect_from)->first();
 
-			echo 'Redirect: ' . $redirect_from . "\n";
-
-			$post = Blog::create([
+			$data = [
 				'slug' => $redirect_from,
 				'title' => '',
 				'body' => '',
@@ -29,7 +30,21 @@ class RedirectFrom
 				'meta' => json_encode([
 					'redirect_to' => $post->slug
 				])
-			]);
+			];
+
+			if ($redirect) {
+				$redirect->fill($data);
+
+				if ($redirect->isDirty()) {
+					$redirect->save();
+					echo 'Update Redirect: ' . $redirect_from . "\n";
+				}
+			}
+			else {
+				$post = Blog::create($data);
+
+				echo 'New Redirect: ' . $redirect_from . "\n";
+			}
 		}
 	}
 }

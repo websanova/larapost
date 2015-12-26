@@ -43,13 +43,49 @@ Or publish separately.
 ~~~
 
 
-## Write
+## Adding &amp; Updating Posts
 
-If you use the default then articles will just go in the `/blog` folder in the root of your project.
+Posts should go in the folder specified by the config, by default `./blog` folder. You can the run the `larablog:posts` command to add new posts and update existing ones.
 
 ~~~
-> php artisan larablog:reset
+> php artisan larablog:posts
 ~~~
+
+The main key used for checking existing posts will be the `permalink` field.
+
+Note that the files are in markdown format and you can change the parser by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
+
+
+## Post Format &amp; Fields
+
+The post format should like like the following:
+
+~~~
+---
+title: Larablog Package Released
+keywords: larablog, package, laravel, release
+description: Larablog package released for Laravel.
+date: Jan 1 2016
+permalink: /blog/laravel/larablog-package-released-for-laravel
+redirect_from:
+  - /some/old/url
+  - /some/old/format.html
+---
+
+... Body ...
+
+~~~
+
+You can set any fields in the top section of the file. Any that DO NOT have a parser will just get tossed into a default `meta` field. Otherwise if a parser is found it will run. The parsers can manipulate a `data` object which ultimately get's passed into the `create` method for the the `posts` table.
+
+Current parsers that ship are:
+
+* Body
+* Date
+* Meta
+* Permalink
+* RedirectFrom
+* Title
 
 
 ## Config

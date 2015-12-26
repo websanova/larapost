@@ -2,7 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
-use Websanova\Larablog\Markdown;
+use Websanova\Larablog\Markdown\Markdown;
 
 class Body
 {
