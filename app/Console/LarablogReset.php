@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Commands;
+namespace Websanova\Larablog\Console;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;

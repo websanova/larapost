@@ -15,9 +15,31 @@ __ * For now this is a project for myself, if there is some interest I will work
 
 ## Migrations
 
+The migration can be run directly from the packages `migrations` folder.
+
 ~~~
 > php artisan migrate --path=/packages/websanova/larablog/src/migrations
 > php artisan migrate:rollback
+~~~
+
+If it needs to be run as part of the regular `php artisan migrate` use the `vendor:publish` command.
+
+
+## Publishing
+
+Publish all files from package.
+
+~~~
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider"
+~~~
+
+Or publish separately.
+
+~~~
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=migrations
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=views
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=assets
 ~~~
 
 

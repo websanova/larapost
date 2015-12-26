@@ -17,23 +17,27 @@ class LarablogServiceProvider extends ServiceProvider
         );
 
         $this->commands([
-            'Websanova\Larablog\Commands\LarablogReset'
+            'Websanova\Larablog\Console\LarablogReset'
         ]);
     }
 
     public function boot()
     {
-        // $this->publishes([
-        //     __DIR__ . '/migrations' => $this->app->databasePath() . '/migrations'
-        // ], 'migrations');
+         $this->publishes([
+             __DIR__ . '/../../database/migrations' => $this->app->databasePath() . '/migrations'
+        ], 'migrations');
 
-        // $this->publishes([
-        //     __DIR__ . '/views' => base_path('resources/views/vendor/websanova-demo')
-        // ], 'views');
+        $this->publishes([
+            __DIR__ . '/../../resources/views' => base_path('resources/views/vendor/larablog')
+        ], 'views');
 
-        // $this->publishes([
-        //     __DIR__ . '/config' => config_path('larablog')
-        // ], 'config');
+        $this->publishes([
+            __DIR__ . '/../../config' => config_path()
+        ], 'config');
+
+        $this->publishes([
+            __DIR__ . '/../../resources/assets' => public_path()
+        ], 'assets');
         
         require __DIR__ . '/../Http/routes.php';
 
