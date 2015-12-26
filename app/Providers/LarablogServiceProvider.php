@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog;
+namespace Websanova\Larablog\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -12,15 +12,15 @@ class LarablogServiceProvider extends ServiceProvider
             return new Larablog;
         });
 
+        echo __DIR__;
+
         $this->mergeConfigFrom(
-            __DIR__ . '/config.php', 'larablog'
+            __DIR__ . '/../../config/larablog.php', 'larablog'
         );
 
         $this->commands([
             'Websanova\Larablog\Commands\LarablogReset'
         ]);
-
-        
     }
 
     public function boot()
@@ -37,8 +37,8 @@ class LarablogServiceProvider extends ServiceProvider
         //     __DIR__ . '/config' => config_path('larablog')
         // ], 'config');
         
-        require __DIR__ . '/Http/routes.php';
+        require __DIR__ . '/../Http/routes.php';
 
-	    $this->loadViewsFrom(__DIR__ . '/resources/views', 'larablog');
+	    $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'larablog');
     }
 }
