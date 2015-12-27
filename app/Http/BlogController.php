@@ -29,6 +29,8 @@ class BlogController extends BaseController
             return Redirect::to($post->meta->redirect_to);
         }
 
+        $post->increment('views_count');
+
         if ($post->type === 'page') {
             return self::page($post);
         }

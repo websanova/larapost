@@ -183,6 +183,13 @@ So for the currently supported themes are:
 * default
 
 
+## Headers &amp; Footers
+
+Each theme should also support a header and footer section (and perhaps more standard sections to follow). The idea is that a list of views can be provided and they will be included in that order.
+
+This allows the inclusion of any ads or analytics tracking codes.
+
+
 ## Larablog Facade
 
 The package ships with some convenience methods for the `Blog` model.
