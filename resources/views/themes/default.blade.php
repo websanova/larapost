@@ -38,6 +38,10 @@
 
 <br/><br/><br/>
 
+@foreach(config('larablog.headers') as $footer)
+    @include($footer);
+@endforeach
+
 <div id="container" class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
@@ -49,6 +53,10 @@
 	    </div>
     </div>
 </div>
+
+@foreach(config('larablog.footers') as $footer)
+    @include($footer);
+@endforeach
 
 <br/>
 

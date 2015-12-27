@@ -39,5 +39,9 @@ return [
 
 	'sitemap_path' => '/blog/sitemap',
 
-	'feed_path' => '/blog/feed'
+	'feed_path' => '/blog/feed',
+
+	'site_headers' => [],
+
+	'site_footers' => [],
 ];
