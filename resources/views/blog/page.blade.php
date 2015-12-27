@@ -1,0 +1,1 @@
+<div>{!! $post->body !!}</div>

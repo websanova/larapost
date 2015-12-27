@@ -14,7 +14,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->string('title', 255);
 			$t->text('body');
 			$t->text('meta');
-			$t->enum('type', ['post', 'redirect'])->default('post');
+			$t->enum('type', ['page', 'post', 'redirect'])->default('post');
 			$t->datetime('published_at')->index()->nullable();
 			$t->timestamps();
 

@@ -35,7 +35,11 @@ class Larablog
     public static function post($slug = '')
     {
         if (empty($slug)) {
-            $slug = '/' . Request::path();
+            $slug = Request::path();
+        }
+
+        if ($slug[0] !== '/') {
+            $slug = '/' . $slug;
         }
 
         $post = Blog::where('slug', $slug)->first();

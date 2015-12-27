@@ -1,16 +1,50 @@
-# Larablog
+# LaraBlog
 
-If you're like me and got annoyed from using WordPress and GitHub pages and you also Like Laravel, then this blogging plugin is for you.
+A simple blogging package powered by Laravel.
 
-The idea is to keep your blog content in the `.md` files so they can be moved around to other platforms. This just being one of the options.
+The package can be used standalone without writing any code. However, as a Laravel package it comes with all the Laravel goodness allowing more organized customization compared to a traditional CMS systems like WordPress.
 
-__ * For now this is a project for myself, if there is some interest I will work on more of the todo's. Otherwise I will just go along as need by for myself.__
+LaraBlog is still a new package. For any bugs, or feature requests please contact me at [rob@websanova.com](mailto:rob@websanova.com)
 
 
 ## Installing
 
---include
---service provider...
+Include the package.
+
+~~~
+composer require "websanova/larablog"
+~~~
+
+Add provider to `config/app`.
+
+~~~
+'providers' => [
+	Websanova\Larablog\Providers\LarablogServiceProvider::class,
+	...
+]
+~~~
+
+If you want to customize things you may want to also use the `Larablog` facade.
+
+~~~
+'aliases' => [
+	'Blog'      => Websanova\Larablog\Facades\LarablogFacade::class,
+	...
+]
+~~~
+
+And migrations path in `composer.json` if you don't want to publish.
+
+~~~
+    "autoload": {
+        "classmap": [
+            "vendor/websanova/larablog/database/migrations",
+            ...
+        ],
+
+        ...
+    ...
+~~~
 
 
 ## Migrations
@@ -18,16 +52,16 @@ __ * For now this is a project for myself, if there is some interest I will work
 The migration can be run directly from the packages `migrations` folder.
 
 ~~~
-> php artisan migrate --path=/packages/websanova/larablog/src/migrations
+> php artisan migrate --path=/packages/websanova/larablog/database/migrations
 > php artisan migrate:rollback
 ~~~
 
 If it needs to be run as part of the regular `php artisan migrate` use the `vendor:publish` command.
 
 
-## Publishing
+## Assets
 
-Publish all files from package.
+Publish all files from the package.
 
 ~~~
 > php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider"
@@ -45,15 +79,31 @@ Or publish separately.
 
 ## Adding &amp; Updating Posts
 
-Posts should go in the folder specified by the config, by default `./blog` folder. You can the run the `larablog:posts` command to add new posts and update existing ones.
+Posts should go in the folder specified by the config, by default `./blog` folder. You can the run the `larablog:build` command to add new posts and update existing ones.
 
 ~~~
-> php artisan larablog:posts
+> php artisan larablog:build
 ~~~
 
 The main key used for checking existing posts will be the `permalink` field.
 
 Note that the files are in markdown format and you can change the parser by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
+
+
+## Pages
+
+Pages work the same way as posts do, but need to have the type field set to `page`.
+
+~~~
+---
+type: page
+
+...
+
+---
+~~~
+
+In there, the same fields can be set such as `keywords`, `img`, `redirect_from`. It can also be used simply as a redirect system for pages coded directly in Laravel that need a simple way to setup redirects.
 
 
 ## Post Format &amp; Fields
@@ -80,23 +130,29 @@ You can set any fields in the top section of the file. Any that DO NOT have a pa
 
 Current parsers that ship are:
 
-* Body
-* Date
-* Meta
-* Permalink
-* RedirectFrom
+* Type (`page` or `post`)
 * Title
+* Body
+* Date (`published_at` date)
+* Meta
+* Permalink (`slug`)
+* RedirectFrom
 
 
 ## Config
 
 Best way to get a sense of the options is to just publish the config and take a look.
 
-## Meta
+~~~
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
+~~~
 
-Many of the tags for display items on a page can be overwritten in any controller method by simply setting the variable in the data associated with the view. Current options are.
 
-### Meta
+## View Meta
+
+Many of the tags for display items on a page can be overwritten in any controller method by simply setting the variable in the data associated with the view.
+
+Current options are:
 
 * img
 * keywords
@@ -105,16 +161,38 @@ Many of the tags for display items on a page can be overwritten in any controlle
 * type
 * slug
 
-We will try to use appropriate defaults wherever we can.
+~~~
+function index() {
+	$content = view('larablog::blog.index', [
+		'img' => '/path/to/img',
+		...
+	]);
+}
+
+~~~
+
+Appropriate defaults are used already wherever possible so these shouldn't have to be set for the most part.
 
 
 ## Themes
 
-You can write your own view as a theme and just set it in the `larablog.theme` setting. That is if you want to use the existing controllers. You of course have all the flexibility you need.
+The theme works as one source view that is set. That view should then accept an argument for what view to load and assemble the page. The theme can be set through the config with the `larablog.theme` property.
 
 So for the currently supported themes are:
 
 * default
+
+
+## Larablog Facade
+
+The package ships with some convenience methods for the `Blog` model.
+
+* **`published()`** - Paginated list of posts.
+* **`search($q)`** - Paginated list of posts by search.
+* **`all()`** - All posts.
+* **`last()`** - Last post (by published_at date).
+* **`post($slug)`** - Post or page by slug.
+* **`count()`** - Post count.
 
 
 ## To Do
@@ -129,11 +207,6 @@ Some things that still need to be done.
 * Maybe a backend admin with a Markdown editor.
 
 Would also be nice to have some kind of plugin architecture. For instance some kind of SEO plugin. Although not sure how this would work quite yet.
-
-
-## Default Parsers
-
-There are only two default parsers. One for processing the `body` content. The other one is a general `meta` parser for any fields missing a parser. The `meta` fields all get put into a `meta` array field.
 
 
 ## Adding Parser

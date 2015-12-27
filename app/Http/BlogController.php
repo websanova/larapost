@@ -29,9 +29,22 @@ class BlogController extends BaseController
             return Redirect::to($post->meta->redirect_to);
         }
 
+        if ($post->type === 'page') {
+            return self::page($post);
+        }
+
         return view(config('larablog.theme'), [
             'view' => 'larablog::blog.post',
             'post' => $post,
+        ]);
+    }
+
+    public function page($post)
+    {
+        return view(config('larablog.theme'), [
+            'view' => 'larablog::blog.page',
+            'type' => 'page',
+            'post' => $post
         ]);
     }
 
