@@ -52,7 +52,7 @@ And migrations path in `composer.json` if you don't want to publish.
 The migration can be run directly from the packages `migrations` folder.
 
 ~~~
-> php artisan migrate --path=/packages/websanova/larablog/database/migrations
+> php artisan migrate --path=/vendor/websanova/larablog/database/migrations
 > php artisan migrate:rollback
 ~~~
 

@@ -6,7 +6,11 @@ return [
 	
 	'perpage' => 15,
 
-	'table' => 'blog_posts',
+	'table_posts' => 'blog_posts',
+	
+	'table_tags' => 'blog_tags',
+
+	'table_post_tag' => 'blog_post_tag',
 
 	'folder_path' => 'blog',
 	
@@ -44,4 +48,8 @@ return [
 	'site_headers' => [],
 
 	'site_footers' => [],
+
+	'page_headers' => [],
+
+	'page_footers' => [],
 ];

@@ -14,7 +14,12 @@ class Blog extends Model
     {
         parent::__construct($attributes);
         
-        $this->table = config('larablog.table');
+        $this->table = config('larablog.table_posts');
+    }
+
+    public function tags()
+    {
+        return $this->belongsToMany('Websanova\Larablog\Models\Tag', 'blog_post_tag', 'post_id', 'tag_id');
     }
 
     public function scopeSearch($q, $search)
