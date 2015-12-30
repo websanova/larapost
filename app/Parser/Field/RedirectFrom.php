@@ -2,7 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
-use Websanova\Larablog\Models\Blog;
+use Websanova\Larablog\Models\Post;
 
 class RedirectFrom
 {
@@ -20,7 +20,7 @@ class RedirectFrom
 		// TODO: delete redirects that don't exist anymore.
 
 		foreach ($val as $redirect_from) {
-			$redirect = Blog::where('slug', $redirect_from)->first();
+			$redirect = Post::where('slug', $redirect_from)->first();
 
 			$data = [
 				'slug' => $redirect_from,
@@ -41,7 +41,7 @@ class RedirectFrom
 				}
 			}
 			else {
-				$post = Blog::create($data);
+				$post = Post::create($data);
 
 				echo 'New Redirect: ' . $redirect_from . "\n";
 			}

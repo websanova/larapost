@@ -17,6 +17,6 @@ class Tag extends Model
 
     public function posts()
     {
-        return $this->belongsToMany('Websanova\Larablog\Models\Blog', 'blog_post_tag', 'post_id', 'tag_id');
+        return $this->belongsToMany('Websanova\Larablog\Models\Post', 'blog_post_tag');
     }
 }

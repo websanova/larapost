@@ -2,5 +2,5 @@
 
 <br/>
 
-@include ('larablog::blog.list')
+@include ('larablog::post.list')
 

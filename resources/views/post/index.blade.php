@@ -1,0 +1,1 @@
+@include ('larablog::post.list')

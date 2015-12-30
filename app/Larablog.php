@@ -4,13 +4,13 @@ namespace Websanova\Larablog;
 
 use Input;
 use Request;
-use Websanova\Larablog\Models\Blog;
+use Websanova\Larablog\Models\Post;
 
 class Larablog
 {
     public static function published()
     {
-        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
     }
 
     public static function search($q = '')
@@ -19,17 +19,17 @@ class Larablog
             $q = Input::get('q');
         }
 
-        return Blog::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
     }
 
     public static function all()
     {
-        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->get();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->get();
     }
 
     public static function last()
     {
-        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->first();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->first();
     }
 
     public static function post($slug = '')
@@ -42,7 +42,7 @@ class Larablog
             $slug = '/' . $slug;
         }
 
-        $post = Blog::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->first();
 
         if ($post && $post->type === 'post' && $post->published_at === null) {
             return null;
@@ -53,6 +53,6 @@ class Larablog
 
     public static function count()
     {
-        return Blog::where('published_at', '<>', 'NULL')->where('type', 'post')->count();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->count();
     }
 }

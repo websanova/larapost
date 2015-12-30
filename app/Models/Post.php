@@ -4,7 +4,7 @@ namespace Websanova\Larablog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Blog extends Model
+class Post extends Model
 {
 	protected $dates = ['published_at'];
 
@@ -19,7 +19,7 @@ class Blog extends Model
 
     public function tags()
     {
-        return $this->belongsToMany('Websanova\Larablog\Models\Tag', 'blog_post_tag', 'post_id', 'tag_id');
+        return $this->belongsToMany('Websanova\Larablog\Models\Tag', 'blog_post_tag');
     }
 
     public function scopeSearch($q, $search)

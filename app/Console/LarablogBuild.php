@@ -4,7 +4,7 @@ namespace Websanova\Larablog\Console;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use Websanova\Larablog\Models\Blog;
+use Websanova\Larablog\Models\Post;
 use Illuminate\Support\Facades\File;
 use Websanova\Larablog\Parser\Parser;
 
@@ -41,7 +41,7 @@ class LarablogBuild extends Command
 
                 $data = Parser::process($fields);
 
-                $post = Blog::where('slug', $data['slug'])->first();
+                $post = Post::where('slug', $data['slug'])->first();
 
                 if ($post) {
                     $post->fill($data);
@@ -52,7 +52,7 @@ class LarablogBuild extends Command
                     }
                 }
                 else {
-                    $post = Blog::create($data);
+                    $post = Post::create($data);
                     echo 'New Post: ' . $data['slug'] . "\n";
                 }
 
