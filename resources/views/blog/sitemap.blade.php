@@ -17,7 +17,7 @@
 
   @foreach ($posts as $p)
     <url> 
-      <loc>{{ config('app.url') }}{{ $p->slug }}</loc>
+      <loc>{{ $p->url }}</loc>
       <image:image>
         @if ($p->img)
           <image:loc>{{ config('app.url') }}{{ $p->meta->img }}</image:loc>

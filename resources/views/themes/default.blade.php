@@ -67,6 +67,10 @@
         <div class="col-xs-12">
             <div class="pull-left">
                 &copy {{ date('Y') }}
+
+                <span class="text-muted">&bull;</span>
+
+                <a href="{{ config('larablog.feed_path') }}" class="text-danger">rss</a>
             </div>
 
             <div class="pull-right">

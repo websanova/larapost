@@ -13,9 +13,9 @@
     @foreach ($posts as $p)
         <entry>
             <title>{{ $p->title }}</title>
-            <link href="{{ config('app.url') }}{{ $p->slug }}"/>
+            <link href="{{ $p->url }}"/>
             <updated>{{ $p->published_at }}</updated>
-            <id>{{ config('app.url') }}{{ $p->slug }}</id>
+            <id>{{ $p->url }}</id>
             <content type="html">{{ $p->meta->description }}</content>
         </entry>
     @endforeach

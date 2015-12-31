@@ -1,4 +1,4 @@
-<h1><a href="{{ $post->slug }}">{{ $post->title }}</a></h1>
+<h1><a href="{{ $post->url }}">{{ $post->title }}</a></h1>
 
 <div class="text-muted">{{ $post->published_at->format('M d Y') }}</div>
 
