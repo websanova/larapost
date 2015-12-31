@@ -52,6 +52,11 @@ class Larablog
         return $post;
     }
 
+    public static function top($amount = 10)
+    {
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('views_count', 'desc')->with('tags')->limit(10)->get();
+    }
+
     public static function count()
     {
         return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->count();

@@ -27,6 +27,11 @@ class Post extends Model
         return $q->whereRaw("MATCH (`" . implode('`, `', config('larablog.search_fields')) . "`) AGAINST (?)" , [$search]);
     }
 
+    public function getUrlAttribute()
+    {
+        return config('app.url') . $this->slug;
+    }
+
     public function getMetaAttribute($val)
     {
     	return json_decode($val);
