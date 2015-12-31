@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Http;
+namespace Websanova\Larablog\Http\Controllers;
 
 use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Larablog;

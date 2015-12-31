@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Http;
+namespace Websanova\Larablog\Http\Controllers;
 
 use Redirect;
 use Response;
