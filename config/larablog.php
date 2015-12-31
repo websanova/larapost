@@ -18,6 +18,7 @@ return [
 	
 	'site_pages' => [
 		'/' => 'Home',
+		'/blog/tags' => 'Tags',
 		'/blog' => 'Blog'
 	],
 

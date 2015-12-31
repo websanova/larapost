@@ -2,6 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
+use Websanova\Larablog\Larablog;
 use Websanova\Larablog\Models\Tag;
 
 class Tags
@@ -35,14 +36,24 @@ class Tags
 				]);
 			}
 
-			array_push($tags, $tag->id);
+			array_push($tags, $tag);
 		}
 		
-		$diff = array_merge(array_diff($post->tags->lists('id')->toArray(), $tags), array_diff($tags, $post->tags->lists('id')->toArray()));
+		$tags_old = $post->tags->lists('id')->toArray();
+		$tags_new = array_map(function ($v) { return $v->id; }, $tags);
 
-		$post->tags()->sync($tags);
+		$diff = array_merge(array_diff($tags_old, $tags_new), array_diff($tags_new, $tags_old));
+
+		$post->tags()->sync($tags_new);
+
+		foreach ($tags as $t) {
+			$t->posts_count = Larablog::publishedWhereTag($t)->count();
+			$t->save();
+		}
 
 		if (count($diff) > 0) {
+
+
 			echo 'Updated Tags: ' . $val . "\n";
 		}
 	}

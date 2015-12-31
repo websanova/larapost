@@ -30,6 +30,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->increments('id')->unsigned();
 			$t->string('slug', 255)->unique()->index();
 			$t->string('name', 255);
+			$t->integer('posts_count')->unsigned()->default(0)->index();
 			$t->timestamps();
 
 			$t->index('created_at');
@@ -45,8 +46,8 @@ class CreateLarablogBlogTable extends Migration
 
 	public function down()
 	{
-		//Schema::drop(config('larablog.table_post_tag'));
+		Schema::drop(config('larablog.table_post_tag'));
 		Schema::drop(config('larablog.table_posts'));
-		//Schema::drop(config('larablog.table_tags'));
+		Schema::drop(config('larablog.table_tags'));
 	}
 }
