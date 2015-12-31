@@ -38,9 +38,7 @@ class LarablogBuild extends Command
         if (file_exists($path)) {
             $files = File::files($path);
 
-            DB::table(config('larablog.table_post_tag'))->truncate();
-            DB::table(config('larablog.table_tags'))->truncate();
-            DB::table(config('larablog.table_posts'))->truncate();
+            $slugs = [];
 
             foreach ($files as $file) {
                 $fields = Parser::parse($file);
@@ -51,6 +49,7 @@ class LarablogBuild extends Command
 
                 if ($post) {
                     $post->fill($data);
+                    $post->status = 'active';
 
                     if ($post->isDirty()) {
                         $post->save();
@@ -62,13 +61,25 @@ class LarablogBuild extends Command
                     echo 'New Post: ' . $data['slug'] . "\n";
                 }
 
+                array_push($slugs, $post->slug);
+
                 Parser::handle($fields, $post);
             }
+
+            // Update to deleted status.
+            Post::whereNotIn('slug', $slugs)->where(function ($q) {
+                $q->where('type', 'post')
+                  ->orWhere('type', 'page');
+            })->update([
+                'status' => 'deleted'
+            ]);
 
             // TODO: convert to eloquent?
             DB::table(config('larablog.table_tags'))->update([
                 'posts_count' => DB::Raw("(SELECT COUNT(*) FROM blog_post_tag WHERE blog_post_tag.tag_id = blog_tags.id)")
             ]);
+
+            Tag::where('posts_count', 0)->delete();
         }
         else {
             echo "\nThe \"" . $path . "\" folder does not exist.\n\n";

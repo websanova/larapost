@@ -11,7 +11,7 @@ class Larablog
 {
     public static function published()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.perpage'));
     }
 
     public static function search($q = '')
@@ -20,17 +20,17 @@ class Larablog
             $q = Input::get('q');
         }
 
-        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.perpage'));
     }
 
     public static function all()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->get();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->get();
     }
 
     public static function last()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->first();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->first();
     }
 
     public static function post($slug = '')
@@ -45,7 +45,7 @@ class Larablog
 
         $post = Post::where('slug', $slug)->with('tags')->first();
 
-        if ($post && $post->type === 'post' && $post->published_at === null) {
+        if ($post && $post->type === 'post' && ($post->published_at === null || $post->status !== 'active') ) {
             return null;
         }
 
@@ -54,7 +54,7 @@ class Larablog
 
     public static function count()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->count();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->count();
     }
 
     public static function tags()
@@ -64,6 +64,6 @@ class Larablog
 
     public static function publishedWhereTag($tag)
     {
-        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->with('tags')->paginate(config('larablog.perpage'));
+        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags')->paginate(config('larablog.perpage'));
     }
 }
