@@ -13,6 +13,8 @@ return [
 	'table_post_tag' => 'blog_post_tag',
 
 	'folder_path' => 'blog',
+
+	'catchall_path' => '',
 	
 	'site_pages' => [
 		'/' => 'Home',
