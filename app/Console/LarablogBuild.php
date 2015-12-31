@@ -74,6 +74,8 @@ class LarablogBuild extends Command
                 'status' => 'deleted'
             ]);
 
+            // TODO: Delete old redirects somehow.
+
             // TODO: convert to eloquent?
             DB::table(config('larablog.table_tags'))->update([
                 'posts_count' => DB::Raw("(SELECT COUNT(*) FROM blog_post_tag WHERE blog_post_tag.tag_id = blog_tags.id)")

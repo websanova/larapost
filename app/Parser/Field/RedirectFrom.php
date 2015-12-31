@@ -17,8 +17,6 @@ class RedirectFrom
 			$val = [$val];
 		}
 
-		// TODO: delete redirects that don't exist anymore.
-
 		foreach ($val as $redirect_from) {
 			$redirect = Post::where('slug', $redirect_from)->first();
 
@@ -41,7 +39,7 @@ class RedirectFrom
 				}
 			}
 			else {
-				$post = Post::create($data);
+				$redirect = Post::create($data);
 
 				echo 'New Redirect: ' . $redirect_from . "\n";
 			}
