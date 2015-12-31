@@ -3,7 +3,9 @@
 <br/>
 
 <div>
-	@foreach ($tags as $t)
+	@forelse ($tags as $t)
 		<a href="{{ $t->url }}" class="label label-info">{{ $t->name }} ({{ $t->posts_count }})</a>
-	@endforeach
+	@empty
+		No tag(s) yet.
+	@endforelse
 </div>
