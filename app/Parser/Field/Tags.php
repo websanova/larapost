@@ -46,14 +46,7 @@ class Tags
 
 		$post->tags()->sync($tags_new);
 
-		foreach ($tags as $t) {
-			$t->posts_count = Larablog::publishedWhereTag($t)->count();
-			$t->save();
-		}
-
 		if (count($diff) > 0) {
-
-
 			echo 'Updated Tags: ' . $val . "\n";
 		}
 	}

@@ -2,8 +2,10 @@
 
 namespace Websanova\Larablog\Console;
 
+use DB;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Models\Post;
 use Illuminate\Support\Facades\File;
 use Websanova\Larablog\Parser\Parser;
@@ -58,6 +60,13 @@ class LarablogBuild extends Command
 
                 Parser::handle($fields, $post);
             }
+
+            // Find deletes
+
+            // Reset tag counts.
+            DB::statement("UPDATE blog_tags AS bt SET posts_count = (SELECT COUNT(*) FROM blog_post_tag AS bpt WHERE bpt.tag_id = bt.id)");
+
+            Tag::where('posts_count', 0)->delete();
         }
         else {
             echo "\nThe \"" . $path . "\" folder does not exist.\n\n";
