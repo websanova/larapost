@@ -54,7 +54,7 @@ return [
 
 	'site_footers' => [],
 
-	'page_headers' => [],
+	'post_headers' => [],
 
-	'page_footers' => [],
+	'post_footers' => [],
 ];

@@ -10,4 +10,12 @@
 
 <br>
 
+@foreach(config('larablog.page_headers') as $page_header)
+    @include($page_header);
+@endforeach
+
 <div>{!! $post->body !!}</div>
+
+@foreach(config('larablog.page_footers') as $page_footer)
+    @include($page_footer);
+@endforeach

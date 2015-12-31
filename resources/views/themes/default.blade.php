@@ -38,8 +38,8 @@
 
 <br/><br/><br/>
 
-@foreach(config('larablog.site_headers') as $header)
-    @include($header);
+@foreach(config('larablog.site_headers') as $site_header)
+    @include($site_header);
 @endforeach
 
 <div id="container" class="container">
@@ -54,8 +54,8 @@
     </div>
 </div>
 
-@foreach(config('larablog.site_footers') as $site_footers)
-    @include($site_footers);
+@foreach(config('larablog.site_footers') as $site_footer)
+    @include($site_footer);
 @endforeach
 
 <br/>
