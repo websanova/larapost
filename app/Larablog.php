@@ -4,13 +4,14 @@ namespace Websanova\Larablog;
 
 use Input;
 use Request;
+use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Models\Post;
 
 class Larablog
 {
     public static function published()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.perpage'));
     }
 
     public static function search($q = '')
@@ -19,17 +20,17 @@ class Larablog
             $q = Input::get('q');
         }
 
-        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->orderBy('published_at', 'desc')->paginate(config('larablog.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.perpage'));
     }
 
     public static function all()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->get();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->get();
     }
 
     public static function last()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->first();
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->orderBy('published_at', 'desc')->with('tags')->first();
     }
 
     public static function post($slug = '')
@@ -42,7 +43,7 @@ class Larablog
             $slug = '/' . $slug;
         }
 
-        $post = Post::where('slug', $slug)->first();
+        $post = Post::where('slug', $slug)->with('tags')->first();
 
         if ($post && $post->type === 'post' && $post->published_at === null) {
             return null;
@@ -54,5 +55,15 @@ class Larablog
     public static function count()
     {
         return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->count();
+    }
+
+    public static function tags()
+    {
+        return Tag::orderBy('slug', 'asc')->get();
+    }
+
+    public static function publishedWhereTag($tag)
+    {
+        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->with('tags')->paginate(config('larablog.perpage'));
     }
 }

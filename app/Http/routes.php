@@ -6,4 +6,7 @@ Route::get(config('larablog.opensearch_path'), '\Websanova\Larablog\Http\BlogCon
 Route::get(config('larablog.sitemap_path'), '\Websanova\Larablog\Http\BlogController@sitemap');
 Route::get(config('larablog.feed_path'), '\Websanova\Larablog\Http\BlogController@feed');
 
+Route::get(config('larablog.tags_path'), '\Websanova\Larablog\Http\TagController@index');
+Route::get(config('larablog.tags_path') . '/{slug}', '\Websanova\Larablog\Http\TagController@show');
+
 Route::get('/{any}', '\Websanova\Larablog\Http\PostController@post')->where('any', '(.*)');

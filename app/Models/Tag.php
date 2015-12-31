@@ -19,4 +19,9 @@ class Tag extends Model
     {
         return $this->belongsToMany('Websanova\Larablog\Models\Post', 'blog_post_tag');
     }
+
+    public function getUrlAttribute()
+    {
+        return config('app.url') . config('larablog.tags_path') . '/' . $this->slug;
+    }
 }

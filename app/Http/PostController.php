@@ -61,7 +61,7 @@ class PostController extends BaseController
     public function notfound()
     {
         return view(config('larablog.theme'), [
-            'view' => 'larablog::post.404'
+            'view' => 'larablog::blog.404'
         ]);
     }
 }

@@ -4,8 +4,16 @@
 	@endif
 
 	<h1><a href="{{ $p->slug }}">{{ $p->title }}</a></h1>
+
 	<div class="text-muted">{{ $p->published_at->format('M d Y') }}</div>
+	
+	<div>
+		@foreach ($p->tags as $t)
+			<a href="{{ $t->url }}" class="label label-info">{{ $t->name }}</a>
+		@endforeach
+	</div>
 	<br/>
+
 	<div>{{ $p->meta->description }}</div>
 @empty
 	<br/>

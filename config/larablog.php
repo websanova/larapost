@@ -45,6 +45,8 @@ return [
 
 	'feed_path' => '/blog/feed',
 
+	'tags_path' => '/blog/tags',
+
 	'site_headers' => [],
 
 	'site_footers' => [],
