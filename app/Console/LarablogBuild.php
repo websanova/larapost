@@ -38,6 +38,10 @@ class LarablogBuild extends Command
         if (file_exists($path)) {
             $files = File::files($path);
 
+            DB::table(config('larablog.table_post_tag'))->truncate();
+            DB::table(config('larablog.table_tags'))->truncate();
+            DB::table(config('larablog.table_posts'))->truncate();
+
             foreach ($files as $file) {
                 $fields = Parser::parse($file);
 
@@ -61,12 +65,10 @@ class LarablogBuild extends Command
                 Parser::handle($fields, $post);
             }
 
-            // Find deletes
-
-            // Reset tag counts.
-            DB::statement("UPDATE blog_tags AS bt SET posts_count = (SELECT COUNT(*) FROM blog_post_tag AS bpt WHERE bpt.tag_id = bt.id)");
-
-            Tag::where('posts_count', 0)->delete();
+            // TODO: convert to eloquent?
+            DB::table(config('larablog.table_tags'))->update([
+                'posts_count' => DB::Raw("(SELECT COUNT(*) FROM blog_post_tag WHERE blog_post_tag.tag_id = blog_tags.id)")
+            ]);
         }
         else {
             echo "\nThe \"" . $path . "\" folder does not exist.\n\n";
