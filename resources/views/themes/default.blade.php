@@ -38,8 +38,8 @@
 
 <br/><br/><br/>
 
-@foreach(config('larablog.headers') as $footer)
-    @include($footer);
+@foreach(config('larablog.site_headers') as $header)
+    @include($header);
 @endforeach
 
 <div id="container" class="container">
@@ -54,8 +54,8 @@
     </div>
 </div>
 
-@foreach(config('larablog.footers') as $footer)
-    @include($footer);
+@foreach(config('larablog.site_footers') as $site_footers)
+    @include($site_footers);
 @endforeach
 
 <br/>
@@ -63,7 +63,17 @@
 <div class="container">
 	<hr/>
 
-	&copy {{ date('Y') }}
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pull-left">
+                &copy {{ date('Y') }}
+            </div>
+
+            <div class="pull-right">
+                Powered by <a href="https://github.com/websanova/larablog">LaraBlog</a>
+            </div>
+        </div>
+    </div>
 </div>
 
 <br/>
