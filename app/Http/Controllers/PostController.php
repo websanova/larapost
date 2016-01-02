@@ -35,8 +35,6 @@ class PostController extends BaseController
             return self::page($post);
         }
 
-        $post->increment('views_count');
-
         return view(config('larablog.theme'), [
             'view' => 'larablog::post.show',
             'post' => $post,
