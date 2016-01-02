@@ -4,7 +4,7 @@ return [
 
 	'theme' => 'larablog::themes.default',
 	
-	'perpage' => 8,
+	'perpage' => 15,
 
 	'table_posts' => 'blog_posts',
 	
