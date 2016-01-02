@@ -24,57 +24,15 @@ Add provider to `config/app`.
 ]
 ~~~
 
-If you want to customize things you may want to also use the `Larablog` facade.
+Migrate the LaraBlog tables.
 
 ~~~
-'aliases' => [
-	'Blog'      => Websanova\Larablog\Facades\LarablogFacade::class,
-	...
-]
+php artisan migrate --path=/vendor/websanova/larablog/database/migrations
 ~~~
 
-And migrations path in `composer.json` if you don't want to publish.
+You can now navigate to `/blog` and see the default blog page. With no articles you will just see empty pages and 404 not found pages.
 
-~~~
-    "autoload": {
-        "classmap": [
-            "vendor/websanova/larablog/database/migrations",
-            ...
-        ],
-
-        ...
-    ...
-~~~
-
-
-## Migrations
-
-The migration can be run directly from the packages `migrations` folder.
-
-~~~
-> php artisan migrate --path=/vendor/websanova/larablog/database/migrations
-> php artisan migrate:rollback
-~~~
-
-If it needs to be run as part of the regular `php artisan migrate` use the `vendor:publish` command.
-
-
-## Assets
-
-Publish all files from the package.
-
-~~~
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider"
-~~~
-
-Or publish separately.
-
-~~~
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=migrations
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=views
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=assets
-~~~
+Also note that if you have a fresh install you will need to go to your routes file and remove the default `/` path for the `welcome` page.
 
 
 ## Adding &amp; Updating Posts
@@ -90,22 +48,6 @@ The main key used for checking existing posts will be the `permalink` field.
 Note that the files are in markdown format and you can change the parser by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
 
 
-## Pages
-
-Pages work the same way as posts do, but need to have the type field set to `page`.
-
-~~~
----
-type: page
-
-...
-
----
-~~~
-
-In there, the same fields can be set such as `keywords`, `img`, `redirect_from`. It can also be used simply as a redirect system for pages coded directly in Laravel that need a simple way to setup redirects.
-
-
 ## Post Format &amp; Fields
 
 The post format should like like the following:
@@ -117,6 +59,7 @@ keywords: larablog, package, laravel, release
 description: Larablog package released for Laravel.
 date: Jan 1 2016
 permalink: /blog/laravel/larablog-package-released-for-laravel
+tags: Larablog, Laravel
 redirect_from:
   - /some/old/url
   - /some/old/format.html
@@ -137,6 +80,23 @@ Current parsers that ship are:
 * Meta
 * Permalink (`slug`)
 * RedirectFrom
+* Tags
+
+
+## Pages
+
+Pages work the same way as posts do, but need to have the type field set to `page`.
+
+~~~
+---
+type: page
+
+...
+
+---
+~~~
+
+In there, the same fields can be set such as `keywords`, `img`, `redirect_from`. It can also be used simply as a redirect system for pages coded directly in Laravel that need a simple way to setup redirects.
 
 
 ## Config
@@ -145,6 +105,75 @@ Best way to get a sense of the options is to just publish the config and take a 
 
 ~~~
 > php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
+~~~
+
+
+## Migrations
+
+The migration can be run directly from the packages `migrations` folder.
+
+~~~
+> php artisan migrate --path=/vendor/websanova/larablog/database/migrations
+> php artisan migrate:rollback
+~~~
+
+If it needs to be run as part of the regular `php artisan migrate` use the `vendor:publish` command.
+
+~~~
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=migrations
+~~~
+
+
+## Themes
+
+The theme works as one source view that is set. That view should then accept an argument for what view to load and assemble the page. The theme can be set through the config with the `larablog.theme` property.
+
+So for the currently supported themes are:
+
+* default
+
+
+## Customize
+
+If you want to customize things you may want to also use the `Larablog` facade.
+
+~~~
+'aliases' => [
+  'Blog'      => Websanova\Larablog\Facades\LarablogFacade::class,
+  ...
+]
+~~~
+
+This provides access to the following quick reference functions:
+
+* **`published()`** - Paginated list of posts.
+* **`search($q)`** - Paginated list of posts by search.
+* **`all()`** - All posts.
+* **`last()`** - Last post (by published_at date).
+* **`post($slug)`** - Post or page by slug.
+* **`count()`** - Post count.
+* **`top($amount)`** - Top posts (default 10).
+* **`tags()`** - All tags.
+* **`publishedWhereTag($tag)`** - Paginated list of posts by tag.
+
+You can overwrite the controller methods or write your own to get the functionality you like.
+
+
+## Assets
+
+Publish all files from the package.
+
+~~~
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider"
+~~~
+
+Or publish separately.
+
+~~~
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=migrations
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=views
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
+> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=assets
 ~~~
 
 
@@ -174,15 +203,6 @@ function index() {
 Appropriate defaults are used already wherever possible so these shouldn't have to be set for the most part.
 
 
-## Themes
-
-The theme works as one source view that is set. That view should then accept an argument for what view to load and assemble the page. The theme can be set through the config with the `larablog.theme` property.
-
-So for the currently supported themes are:
-
-* default
-
-
 ## Headers &amp; Footers
 
 Each theme should also support a header and footer section (and perhaps more standard sections to follow). The idea is that a list of views can be provided and they will be included in that order.
@@ -190,34 +210,20 @@ Each theme should also support a header and footer section (and perhaps more sta
 This allows the inclusion of any ads or analytics tracking codes.
 
 
-## Larablog Facade
+## Adding Parser
 
-The package ships with some convenience methods for the `Blog` model.
+If you want to add your own parsers you can create your own parser class with the name of the key. So `title` would look for `Websanova\Larablog\Parser\Title`. This allows you to easily add any additional fields you may need if you need to modify the table or perform some other operations.
 
-* **`published()`** - Paginated list of posts.
-* **`search($q)`** - Paginated list of posts by search.
-* **`all()`** - All posts.
-* **`last()`** - Last post (by published_at date).
-* **`post($slug)`** - Post or page by slug.
-* **`count()`** - Post count.
+You can also overwrite parsers in this some way. Most of the time this should be ok. For now you can not extend parsers because there is no class mapping for the fields.
 
 
 ## To Do
 
 Some things that still need to be done.
 
-* Auto build hook.
-* Tags
+* Auto build/post hook.
 * Related articles matching.
-* Comments
-* Most popular
-* Maybe a backend admin with a Markdown editor.
+* Comments.
+* Backend Admin (with MD editor).
 
 Would also be nice to have some kind of plugin architecture. For instance some kind of SEO plugin. Although not sure how this would work quite yet.
-
-
-## Adding Parser
-
-If you want to add your own parsers you can create your own parser class with the name of the key. So `title` would look for `Websanova\Larablog\Parser\Title`. This allows you to easily add any additional fields you may need if you need to modify the table or perform some other operations.
-
-You can also overwrite parsers in this some way. Most of the time this should be ok. For now you can not extend parsers because there is no class mapping for the fields.
