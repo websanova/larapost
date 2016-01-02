@@ -3,7 +3,6 @@
 namespace Websanova\Larablog\Http\Controllers;
 
 use Redirect;
-use Response;
 use Websanova\Larablog\Larablog;
 use Illuminate\Routing\Controller as BaseController;
 

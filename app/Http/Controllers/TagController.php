@@ -2,8 +2,8 @@
 
 namespace Websanova\Larablog\Http\Controllers;
 
-use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Larablog;
+use Websanova\Larablog\Models\Tag;
 use Illuminate\Routing\Controller as BaseController;
 
 class TagController extends BaseController
