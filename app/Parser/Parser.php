@@ -19,7 +19,7 @@ class Parser
         foreach ($head as $h) {
             $h = trim($h);
 
-            if (preg_match('/(.*)\:(.*)/', $h, $m)) {
+            if (preg_match('/(.*?)\:(.*)/', $h, $m)) {
                 $key = trim($m[1]);
                 $val = trim($m[2]);
                 $data[$key] = $val;
