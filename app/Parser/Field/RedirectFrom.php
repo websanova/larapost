@@ -20,7 +20,7 @@ class RedirectFrom
 		foreach ($val as $redirect_from) {
 			$redirect = Post::where('slug', $redirect_from)->first();
 
-			if ($redirect->type !== 'redirect') {
+			if ($redirect && $redirect->type !== 'redirect') {
 				echo '***********************************************************************' . "\n";
 				echo '* WARNING: Slug exists: ' . $redirect->slug . "\n";
 				echo '***********************************************************************' . "\n";
@@ -35,7 +35,6 @@ class RedirectFrom
 					'redirect_to' => $post->slug
 				])
 			];
-
 			if ($redirect) {
 				$redirect->fill($data);
 
