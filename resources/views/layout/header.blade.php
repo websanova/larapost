@@ -11,7 +11,7 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     
-    <link type="application/opensearchdescription+xml" rel="search" title="Websanova" href="{{ config('app.url') }}{{ config('larablog.opensearch_path')}}" />
+    <link type="application/opensearchdescription+xml" rel="search" title="{{ config('larablog.site_name') }}" href="{{ config('app.url') . config('larablog.opensearch_path') }" />
     
     @include (config('larablog.site_meta'))
 

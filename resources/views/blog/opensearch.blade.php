@@ -3,5 +3,5 @@
     <ShortName>{{ config('larablog.site_name' )}}</ShortName>
     <Description>Search {{ config('larablog.site_name') }}</Description>
     <Image height="16" width="16" type="image/x-icon">{{ config('app.url') }}/favicon.ico</Image>
-    <Url type="text/html" method="get" template="{{ config('app.url') }}{{ config('site.search_path') }}?q={searchTerms}" />
+    <Url type="text/html" method="get" template="{{ config('app.url') . config('site.search_path') }}?q={searchTerms}" />
 </OpenSearchDescription>
