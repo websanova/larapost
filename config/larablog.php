@@ -48,6 +48,10 @@ return [
 
 	'feed_path' => '/blog/feed',
 
+	'twitter' => 'websanova',
+
+	'facebook' => 'websanova',
+
 	'tags_path' => '/blog/tags',
 
 	'site_headers' => [],

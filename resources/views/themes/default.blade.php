@@ -68,9 +68,25 @@
             <div class="pull-left">
                 &copy {{ date('Y') }}
 
-                <span class="text-muted">&bull;</span>
+                &nbsp;
 
-                <a href="{{ config('larablog.feed_path') }}" class="text-danger">rss</a>
+                <a href="{{ config('larablog.feed_path') }}" class="text-muted">
+                    <i class="fa fa-lg fa-rss-square"></i>
+                </a>
+
+                @if (config('larablog.twitter'))
+                    &nbsp;
+                    <a href="https://twitter.com/{{ config('larablog.twitter') }}" class="text-muted">
+                        <i class="fa fa-lg fa-twitter-square"></i>
+                    </a>
+                @endif
+
+                @if (config('larablog.facebook'))
+                    &nbsp;
+                    <a href="https://facebook.com/{{ config('larablog.facebook') }}" class="text-muted">
+                        <i class="fa fa-lg fa-facebook-square"></i>
+                    </a>
+                @endif
             </div>
 
             <div class="pull-right">
