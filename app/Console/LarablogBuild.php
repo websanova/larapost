@@ -50,6 +50,7 @@ class LarablogBuild extends Command
                 if ($post) {
                     $post->fill($data);
                     $post->status = 'active';
+                    $post->type = @$data['type'] ?: 'post';
 
                     if ($post->isDirty()) {
                         $post->save();

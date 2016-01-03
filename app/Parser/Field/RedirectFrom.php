@@ -20,6 +20,12 @@ class RedirectFrom
 		foreach ($val as $redirect_from) {
 			$redirect = Post::where('slug', $redirect_from)->first();
 
+			if ($redirect->type !== 'redirect') {
+				echo '***********************************************************************' . "\n";
+				echo '* WARNING: Slug exists: ' . $redirect->slug . "\n";
+				echo '***********************************************************************' . "\n";
+			}
+
 			$data = [
 				'slug' => $redirect_from,
 				'title' => '',
