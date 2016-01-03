@@ -1,4 +1,4 @@
-<h3>Search results for "{{ Input::get('q') }}".</h3>
+<h3>Search results for "{{ request('q') }}".</h3>
 
 <br/>
 
