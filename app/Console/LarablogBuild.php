@@ -2,9 +2,9 @@
 
 namespace Websanova\Larablog\Console;
 
-use DB;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Models\Post;
 use Illuminate\Support\Facades\File;

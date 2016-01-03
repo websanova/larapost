@@ -2,10 +2,10 @@
 
 namespace Websanova\Larablog;
 
-use Input;
-use Request;
 use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Models\Post;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 
 class Larablog
 {

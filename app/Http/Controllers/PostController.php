@@ -2,8 +2,8 @@
 
 namespace Websanova\Larablog\Http\Controllers;
 
-use Redirect;
 use Websanova\Larablog\Larablog;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Routing\Controller as BaseController;
 
 class PostController extends BaseController

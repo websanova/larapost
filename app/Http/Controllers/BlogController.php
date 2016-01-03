@@ -2,8 +2,8 @@
 
 namespace Websanova\Larablog\Http\Controllers;
 
-use Response;
 use Websanova\Larablog\Larablog;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Routing\Controller as BaseController;
 
 class BlogController extends BaseController
