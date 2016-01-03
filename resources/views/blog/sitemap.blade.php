@@ -5,11 +5,11 @@
   
   @foreach (config('larablog.site_pages') as $k => $v)
     <url> 
-      <loc>{{ config('app.url') }}{{ $k }}</loc>
+      <loc>{!! htmlspecialchars(config('app.url') . $k) !!}</loc>
       <image:image>
-         <image:loc>{{ config('app.url') }}{{ config('larablog.site_logo') }}</image:loc> 
+         <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.site_logo')) !!}</image:loc> 
       </image:image>
-      <lastmod>{{ @$last->published_at }}</lastmod>
+      <lastmod>{!! htmlspecialchars(@$last->published_at) !!}</lastmod>
       <changefreq>daily</changefreq>
       <priority>1.0</priority>
     </url>
@@ -17,15 +17,15 @@
 
   @foreach ($posts as $p)
     <url> 
-      <loc>{{ $p->url }}</loc>
+      <loc>{!! htmlspecialchars($p->url) !!}</loc>
       <image:image>
         @if ($p->img)
-          <image:loc>{{ config('app.url') }}{{ $p->meta->img }}</image:loc>
+          <image:loc>{!! htmlspecialchars(config('app.url') . $p->meta->img) !!}</image:loc>
         @else
-          <image:loc>{{ config('app.url') }}{{ config('larablog.site_logo') }}</image:loc>
+          <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.site_logo')) !!}</image:loc>
         @endif
       </image:image>
-      <lastmod>{{ $p->published_at }}</lastmod>
+      <lastmod>{!! htmlspecialchars($p->published_at) !!}</lastmod>
       <priority>1.0</priority>
     </url>
   @endforeach
