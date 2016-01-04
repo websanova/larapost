@@ -38,10 +38,6 @@
 
 <br/><br/><br/>
 
-@foreach(config('larablog.site_headers') as $site_header)
-    @include($site_header);
-@endforeach
-
 <div id="container" class="container">
     <div class="row">
         <div class="col-xs-12 col-sm-8 col-md-9 col-lg-10">
@@ -53,10 +49,6 @@
 	    </div>
     </div>
 </div>
-
-@foreach(config('larablog.site_footers') as $site_footer)
-    @include($site_footer);
-@endforeach
 
 <br/>
 

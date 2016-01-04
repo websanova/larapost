@@ -25,3 +25,7 @@
     <![endif]-->
 </head>
 <body>
+
+@foreach(config('larablog.site_headers') as $site_header)
+    @include ($site_header)
+@endforeach

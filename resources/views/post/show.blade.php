@@ -11,11 +11,11 @@
 <br>
 
 @foreach(config('larablog.post_headers') as $post_header)
-    @include($post_header);
+    @include ($post_header)
 @endforeach
 
 <div>{!! $post->body !!}</div>
 
 @foreach(config('larablog.post_footers') as $page_footer)
-    @include($page_footer);
+    @include ($page_footer)
 @endforeach
