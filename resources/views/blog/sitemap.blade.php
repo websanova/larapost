@@ -11,7 +11,7 @@
                 <image:image>
                     <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.site_logo')) !!}</image:loc> 
                 </image:image>
-                <lastmod>{!! htmlspecialchars(date('Y-m-dTH:i:sP', strtotime(@$last->published_at))) !!}</lastmod>
+                <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
                 <changefreq>daily</changefreq>
                 <priority>1.0</priority>
             </url>
@@ -28,7 +28,7 @@
                     <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.site_logo')) !!}</image:loc>
                 @endif
             </image:image>
-            <lastmod>{!! htmlspecialchars(date('Y-m-dTH:i:sP', strtotime($p->published_at))) !!}</lastmod>
+            <lastmod>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</lastmod>
             <priority>1.0</priority>
         </url>
     @endforeach
