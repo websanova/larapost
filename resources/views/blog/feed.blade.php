@@ -14,7 +14,7 @@
         <entry>
             <title>{!! htmlspecialchars($p->title) !!}</title>
             <link href="{!! htmlspecialchars($p->url) !!}"/>
-            <updated>{!! htmlspecialchars($p->published_at) !!}</updated>
+            <updated>{!! htmlspecialchars(date('Y-m-dTH:i:sP', strtotime($p->published_at))) !!}</updated>
             <id>{!! htmlspecialchars($p->url) !!}</id>
             <content type="html">{!! htmlspecialchars($p->meta->description) !!}</content>
         </entry>
