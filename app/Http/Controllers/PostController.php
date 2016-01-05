@@ -25,7 +25,7 @@ class PostController extends BaseController
         }
 
         if ($post->type === 'redirect') {
-            return Redirect::to($post->meta->redirect_to);
+            return Redirect::to($post->meta->redirect_to, 301);
         }
 
         $post->increment('views_count');
