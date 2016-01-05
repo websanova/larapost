@@ -44,7 +44,7 @@ return [
 
 	'search_fields' => ['title', 'body'],
 
-	'sitemap_path' => '/blog/sitemap',
+	'sitemap_path' => '/sitemap',
 
 	'feed_path' => '/blog/feed',
 
