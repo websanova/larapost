@@ -13,27 +13,28 @@ use Websanova\Larablog\Parser\Parser;
 class LarablogBuild extends Command
 {
     /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
+    * The name and signature of the console command.
+    *
+    * @var string
+    */
     protected $signature = 'larablog:build';
 
     /**
-     * The console command description.
-     *
-     * @var string
-     */
+    * The console command description.
+    *
+    * @var string
+    */
     protected $description = 'Add and update blog posts.';
 
     /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
+    * Execute the console command.
+    *
+    * @return mixed
+    */
     public function handle()
     {
         $path = base_path(config('larablog.folder_path'));
+        $prefix = config('larablog.table.prefix');
 
         if (file_exists($path)) {
             $files = File::files($path);
@@ -78,8 +79,8 @@ class LarablogBuild extends Command
             // TODO: Delete old redirects somehow.
 
             // TODO: convert to eloquent?
-            DB::table(config('larablog.table_tags'))->update([
-                'posts_count' => DB::Raw("(SELECT COUNT(*) FROM blog_post_tag WHERE blog_post_tag.tag_id = blog_tags.id)")
+            DB::table($prefix . '_tags')->update([
+                'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_post_tag WHERE {$prefix}_post_tag.tag_id = {$prefix}_tags.id)")
             ]);
 
             Tag::where('posts_count', 0)->delete();

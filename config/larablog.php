@@ -6,11 +6,15 @@ return [
 	
 	'perpage' => 15,
 
-	'table_posts' => 'blog_posts',
-	
-	'table_tags' => 'blog_tags',
+	'table' => [
+		'prefix' => 'lb'
+	],
 
-	'table_post_tag' => 'blog_post_tag',
+	// 'table_posts' => 'blog_posts',
+	
+	// 'table_tags' => 'blog_tags',
+
+	// 'table_post_tag' => 'blog_post_tag',
 
 	'folder_path' => 'blog',
 

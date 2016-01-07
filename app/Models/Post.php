@@ -14,12 +14,12 @@ class Post extends Model
     {
         parent::__construct($attributes);
         
-        $this->table = config('larablog.table_posts');
+        $this->table = config('larablog.table.prefix') . '_posts';
     }
 
     public function tags()
     {
-        return $this->belongsToMany('Websanova\Larablog\Models\Tag', 'blog_post_tag');
+        return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.table.prefix') . '_post_tag');
     }
 
     public function scopeSearch($q, $search)

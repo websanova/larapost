@@ -7,9 +7,12 @@ class CreateLarablogBlogTable extends Migration
 {
 	public function up()
 	{
-		Schema::create(config('larablog.table_posts'), function(Blueprint $t)
+		$prefix = config('larablog.table.prefix');
+
+		Schema::create($prefix . '_posts', function(Blueprint $t)
 		{
 			$t->increments('id')->unsigned();
+			$t->string('identifier', 255)->unique()->index();
 			$t->string('slug', 255)->unique()->index();
 			$t->string('title', 255);
 			$t->text('body');
@@ -24,9 +27,9 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('updated_at');
 		});
 
-		\DB::statement("ALTER TABLE " . config('larablog.table_posts') . " ADD FULLTEXT KEY posts_fulltext (`" . implode('`, `', config('larablog.search_fields')) . "`)");
+		\DB::statement("ALTER TABLE " . $prefix . "_posts ADD FULLTEXT KEY " . $prefix . "_posts_" . implode('_', config('larablog.search_fields')) . "_fulltext (`" . implode('`, `', config('larablog.search_fields')) . "`)");
 
-		Schema::create(config('larablog.table_tags'), function(Blueprint $t)
+		Schema::create($prefix . '_tags', function(Blueprint $t)
 		{
 			$t->increments('id')->unsigned();
 			$t->string('slug', 255)->unique()->index();
@@ -38,7 +41,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('updated_at');
 		});
 
-		Schema::create(config('larablog.table_post_tag'), function(Blueprint $t)
+		Schema::create($prefix . '_post_tag', function(Blueprint $t)
 		{
 			$t->integer('post_id')->unsigned()->index();
 			$t->integer('tag_id')->unsigned()->index();
@@ -47,8 +50,10 @@ class CreateLarablogBlogTable extends Migration
 
 	public function down()
 	{
-		Schema::drop(config('larablog.table_post_tag'));
-		Schema::drop(config('larablog.table_posts'));
-		Schema::drop(config('larablog.table_tags'));
+		$prefix = config('larablog.table.prefix');
+
+		Schema::drop($prefix . '_post_tag');
+		Schema::drop($prefix . '_posts');
+		Schema::drop($prefix . '_tags');
 	}
 }
