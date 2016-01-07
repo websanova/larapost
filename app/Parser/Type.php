@@ -38,18 +38,10 @@ class Type
             $post = Post::where('slug', $data['slug'])->first();
 
             if ($post) {
-                $post->fill($data);
-                $post->status = 'active';
-                $post->type = $this->type;
-
-                if ($post->isDirty()) {
-                    $post->save();
-                    echo 'Update ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
-                }
+                $post = $this->update($post, $data);
             }
             else {
-                $post = Post::create($data);
-                echo 'New ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
+                $post = $this->create($data);
             }
 
             array_push($identifiers, $post->identifier);
@@ -57,10 +49,32 @@ class Type
             Parser::handle($fields, $post);
         }
 
-        $this->remove($identifiers);
+        $this->delete($identifiers);
     }
 
-    public function remove($identifiers)
+    public function create($data)
+    {
+        $post = Post::create($data);
+        echo 'New ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
+
+        return $post;
+    }
+
+    public function update($post, $data)
+    {
+        $post->fill($data);
+        $post->status = 'active';
+        $post->type = $this->type;
+
+        if ($post->isDirty()) {
+            $post->save();
+            echo 'Update ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
+        }
+
+        return $post;
+    }
+
+    public function delete($identifiers)
     {
         $posts = Post::whereNotIn('identifier', $identifiers)
             ->where('type', $this->type)
