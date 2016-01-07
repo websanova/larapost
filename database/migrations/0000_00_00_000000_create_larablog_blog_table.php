@@ -12,7 +12,7 @@ class CreateLarablogBlogTable extends Migration
 		Schema::create($prefix . '_posts', function(Blueprint $t)
 		{
 			$t->increments('id')->unsigned();
-			$t->string('identifier', 255)->unique()->index();
+			$t->string('identifier', 255)->index();
 			$t->string('slug', 255)->unique()->index();
 			$t->string('title', 255);
 			$t->text('body');

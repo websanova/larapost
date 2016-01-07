@@ -2,13 +2,12 @@
 
 namespace Websanova\Larablog\Console;
 
-use Carbon\Carbon;
+//use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Websanova\Larablog\Models\Tag;
-use Websanova\Larablog\Models\Post;
-use Illuminate\Support\Facades\File;
-use Websanova\Larablog\Parser\Parser;
+use Websanova\Larablog\Parser\Type\Page;
+use Websanova\Larablog\Parser\Type\Post;
 
 class LarablogBuild extends Command
 {
@@ -34,59 +33,19 @@ class LarablogBuild extends Command
     public function handle()
     {
         $path = base_path(config('larablog.folder_path'));
+
+        (new Post($path))->handle();
+        (new Page($path))->handle();
+
         $prefix = config('larablog.table.prefix');
 
-        if (file_exists($path)) {
-            $files = File::files($path);
+        // TODO: Delete old redirects somehow.
 
-            $slugs = [];
+        // TODO: convert to eloquent?
+        DB::table($prefix . '_tags')->update([
+            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_post_tag WHERE {$prefix}_post_tag.tag_id = {$prefix}_tags.id)")
+        ]);
 
-            foreach ($files as $file) {
-                $fields = Parser::parse($file);
-
-                $data = Parser::process($fields);
-
-                $post = Post::where('slug', $data['slug'])->first();
-
-                if ($post) {
-                    $post->fill($data);
-                    $post->status = 'active';
-                    $post->type = @$data['type'] ?: 'post';
-
-                    if ($post->isDirty()) {
-                        $post->save();
-                        echo 'Update Post: ' . $data['slug'] . "\n";
-                    }
-                }
-                else {
-                    $post = Post::create($data);
-                    echo 'New Post: ' . $data['slug'] . "\n";
-                }
-
-                array_push($slugs, $post->slug);
-
-                Parser::handle($fields, $post);
-            }
-
-            // Update to deleted status.
-            Post::whereNotIn('slug', $slugs)->where(function ($q) {
-                $q->where('type', 'post')
-                  ->orWhere('type', 'page');
-            })->update([
-                'status' => 'deleted'
-            ]);
-
-            // TODO: Delete old redirects somehow.
-
-            // TODO: convert to eloquent?
-            DB::table($prefix . '_tags')->update([
-                'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_post_tag WHERE {$prefix}_post_tag.tag_id = {$prefix}_tags.id)")
-            ]);
-
-            Tag::where('posts_count', 0)->delete();
-        }
-        else {
-            echo "\nThe \"" . $path . "\" folder does not exist.\n\n";
-        }
+        Tag::where('posts_count', 0)->delete();
     }
 }
