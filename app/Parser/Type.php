@@ -57,12 +57,23 @@ class Type
             Parser::handle($fields, $post);
         }
 
-        // Update to deleted status.
-        Post::whereNotIn('slug', $slugs)
+        $this->remove($slugs);
+    }
+
+    public function remove($slugs)
+    {
+        $posts = Post::whereNotIn('slug', $slugs)
             ->where('type', $this->type)
-            ->update([
-                'status' => 'deleted'
-            ]);
+            ->where('status', '<>', 'deleted')
+            ->get();
+            
+        Post::whereIn('id', $posts->lists('id')->toArray())->update([
+            'status' => 'deleted'
+        ]);
+
+        foreach ($posts as $p) {
+            echo 'Removed ' . ucfirst($this->type) . ': ' . $p->slug . "\n";
+        }
     }
 
     public function getFullPath()
