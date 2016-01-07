@@ -24,7 +24,7 @@ class Type
 
         $files = File::files($path);
 
-        $slugs = [];
+        $identifiers = [];
 
         foreach ($files as $file) {
             $fields = Parser::parse($file);
@@ -44,25 +44,25 @@ class Type
 
                 if ($post->isDirty()) {
                     $post->save();
-                    echo 'Update ' . ucfirst($this->type) . ': ' . $data['slug'] . "\n";
+                    echo 'Update ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
                 }
             }
             else {
                 $post = Post::create($data);
-                echo 'New ' . ucfirst($this->type) . ': ' . $data['slug'] . "\n";
+                echo 'New ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
             }
 
-            array_push($slugs, $post->slug);
+            array_push($identifiers, $post->identifier);
 
             Parser::handle($fields, $post);
         }
 
-        $this->remove($slugs);
+        $this->remove($identifiers);
     }
 
-    public function remove($slugs)
+    public function remove($identifiers)
     {
-        $posts = Post::whereNotIn('slug', $slugs)
+        $posts = Post::whereNotIn('identifier', $identifiers)
             ->where('type', $this->type)
             ->where('status', '<>', 'deleted')
             ->get();
@@ -72,7 +72,7 @@ class Type
         ]);
 
         foreach ($posts as $p) {
-            echo 'Removed ' . ucfirst($this->type) . ': ' . $p->slug . "\n";
+            echo 'Removed ' . ucfirst($this->type) . ': ' . $p->identifier . "\n";
         }
     }
 
