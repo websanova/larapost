@@ -35,7 +35,7 @@ class Type
 
             $data = Parser::process($fields);
 
-            $post = Post::where('slug', $data['slug'])->first();
+            $post = Post::where('identifier', $data['identifier'])->first();
 
             if ($post) {
                 $post = $this->update($post, $data);
@@ -54,6 +54,8 @@ class Type
 
     public function create($data)
     {
+        $data['type'] = $this->type;
+
         $post = Post::create($data);
         echo 'New ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
 
