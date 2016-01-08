@@ -37,18 +37,20 @@ Also note that if you have a fresh install you will need to go to your routes fi
 
 ## Adding &amp; Updating Posts
 
-Posts should go in the folder specified by the config, by default `./blog` folder. You can the run the `larablog:build` command to add new posts and update existing ones.
+Posts, by default go in the `./blog/posts` and `./blog/pages` folders. You can the run the `larablog:build` command to add new posts and pages or update existing ones.
 
 ~~~
 > php artisan larablog:build
 ~~~
 
-The main key used for checking existing posts will be the `permalink` field.
+The main key used for checking existing posts will be the `identifier` field which by default uses the filename.
+
+The root folder name can also be changed in the config it something other than `./blog` is needed. But keep in mind the `larablog:build` command will always use the `posts` and `pages` sub folders.
 
 Note that the files are in markdown format and you can change the parser by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
 
 
-## Post Format &amp; Fields
+## Post &amp Page Format
 
 The post format should like like the following:
 
@@ -58,8 +60,8 @@ title: Larablog Package Released
 keywords: larablog, package, laravel, release
 description: Larablog package released for Laravel.
 date: Jan 1 2016
-permalink: /blog/laravel/larablog-package-released-for-laravel
 tags: Larablog, Laravel
+permalink: /blog/laravel/larablog-package-released-for-laravel
 redirect_from:
   - /some/old/url
   - /some/old/format.html
@@ -73,30 +75,14 @@ You can set any fields in the top section of the file. Any that DO NOT have a pa
 
 Current parsers that ship are:
 
-* Type (`page` or `post`)
+* Type (`page`, `post` and `redirect`)
 * Title
 * Body
 * Date (`published_at` date)
-* Meta
+* Meta (any field that doesn't have a parser)
 * Permalink (`slug`)
 * RedirectFrom
 * Tags
-
-
-## Pages
-
-Pages work the same way as posts do, but need to have the type field set to `page`.
-
-~~~
----
-type: page
-
-...
-
----
-~~~
-
-In there, the same fields can be set such as `keywords`, `img`, `redirect_from`. It can also be used simply as a redirect system for pages coded directly in Laravel that need a simple way to setup redirects.
 
 
 ## Config
@@ -128,7 +114,7 @@ If it needs to be run as part of the regular `php artisan migrate` use the `vend
 
 The theme works as one source view that is set. That view should then accept an argument for what view to load and assemble the page. The theme can be set through the config with the `larablog.theme` property.
 
-So for the currently supported themes are:
+So far the currently supported themes are:
 
 * default
 
@@ -212,9 +198,7 @@ This allows the inclusion of any ads or analytics tracking codes.
 
 ## Adding Parser
 
-If you want to add your own parsers you can create your own parser class with the name of the key. So `title` would look for `Websanova\Larablog\Parser\Title`. This allows you to easily add any additional fields you may need if you need to modify the table or perform some other operations.
-
-You can also overwrite parsers in this some way. Most of the time this should be ok. For now you can not extend parsers because there is no class mapping for the fields.
+To add a parser, create a class with the name of the key being parsed. So `title` would look for `Websanova\Larablog\Parser\Field\Title`. This way additional fields may be added or existing ones overridden.
 
 
 ## To Do
