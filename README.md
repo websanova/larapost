@@ -30,14 +30,14 @@ Migrate the LaraBlog tables.
 php artisan migrate --path=/vendor/websanova/larablog/database/migrations
 ~~~
 
-You can now navigate to `/blog` and see the default blog page. With no articles you will just see empty pages and 404 not found pages.
+Navigate to `/blog` and see the default blog page. With no articles there will just be empty pages and 404 not found pages.
 
-Also note that if you have a fresh install you will need to go to your routes file and remove the default `/` path for the `welcome` page.
+Note that with a fresh Laravel install the default `/` path for the `welcome` page should be removed.
 
 
 ## Adding &amp; Updating Posts
 
-Posts, by default go in the `./blog/posts` and `./blog/pages` folders. You can the run the `larablog:build` command to add new posts and pages or update existing ones.
+Posts, by default go in the `./blog/posts` and `./blog/pages` folders. Run the `larablog:build` command to add new posts and pages or update existing ones.
 
 ~~~
 > php artisan larablog:build
@@ -47,7 +47,7 @@ The main key used for checking existing posts will be the `identifier` field whi
 
 The root folder name can also be changed in the config it something other than `./blog` is needed. But keep in mind the `larablog:build` command will always use the `posts` and `pages` sub folders.
 
-Note that the files are in markdown format and you can change the parser by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
+Note that the files are in markdown format and that the parser can be changed by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
 
 
 ## Post &amp Page Format
@@ -121,7 +121,7 @@ So far the currently supported themes are:
 
 ## Customize
 
-If you want to customize things you may want to also use the `Larablog` facade.
+For customization the `Larablog` facade may be used.
 
 ~~~
 'aliases' => [
@@ -130,7 +130,7 @@ If you want to customize things you may want to also use the `Larablog` facade.
 ]
 ~~~
 
-This provides access to the following quick reference functions:
+The facade provides access to the following shortcut functions:
 
 * **`published()`** - Paginated list of posts.
 * **`search($q)`** - Paginated list of posts by search.
@@ -141,8 +141,6 @@ This provides access to the following quick reference functions:
 * **`top($amount)`** - Top posts (default 10).
 * **`tags()`** - All tags.
 * **`publishedWhereTag($tag)`** - Paginated list of posts by tag.
-
-You can overwrite the controller methods or write your own to get the functionality you like.
 
 
 ## Assets
