@@ -6,6 +6,6 @@
 	@forelse ($tags as $t)
 		<a href="{{ $t->url }}" class="label label-info">{{ $t->name }} ({{ $t->posts_count }})</a>
 	@empty
-		No tag(s) yet.
+		No tag(s) found.
 	@endforelse
 </div>

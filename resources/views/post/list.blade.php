@@ -18,7 +18,7 @@
 @empty
 	<br/>
 
-	No posts yet.
+	No posts found.
 @endforelse
 
 @if ($posts->total() > $posts->perPage())
