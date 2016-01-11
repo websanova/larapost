@@ -59,24 +59,25 @@
         <div class="col-xs-12">
             <div class="pull-left">
                 @if (config('larablog.footer.copy'))
+                    {{ config('larablog.site.name') }}
                     &copy {{ date('Y') }}
                     &nbsp;
                 @endif
 
-                <a href="{{ route('feed') }}" class="text-muted">
+                <a href="{{ route('feed') }}" class="">
                     <i class="fa fa-lg fa-rss-square"></i>
                 </a>
 
                 @if (config('larablog.social.twitter'))
                     &nbsp;
-                    <a href="https://twitter.com/{{ config('larablog.social.twitter') }}" class="text-muted">
+                    <a href="https://twitter.com/{{ config('larablog.social.twitter') }}" class="">
                         <i class="fa fa-lg fa-twitter-square"></i>
                     </a>
                 @endif
 
                 @if (config('larablog.social.facebook'))
                     &nbsp;
-                    <a href="https://facebook.com/{{ config('larablog.social.facebook') }}" class="text-muted">
+                    <a href="https://facebook.com/{{ config('larablog.social.facebook') }}" class="">
                         <i class="fa fa-lg fa-facebook-square"></i>
                     </a>
                 @endif
