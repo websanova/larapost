@@ -32,12 +32,14 @@ php artisan migrate --path=/vendor/websanova/larablog/database/migrations
 
 Navigate to `/blog` and see the default blog page. With no articles there will just be empty pages and 404 not found pages.
 
-Note that with a fresh Laravel install the default `/` path for the `welcome` page should be removed.
+**Note:** that with a fresh Laravel install the default `/` path for the `welcome` page should be removed.
 
 
 ## Adding &amp; Updating Posts
 
-Posts, by default go in the `./blog/posts` and `./blog/pages` folders. Run the `larablog:build` command to add new posts and pages or update existing ones.
+Out of the box any post or page should be written using markdown format. By default, post and page markdown files should go in the `./blog/posts` and `./blog/pages` folders respectively.
+
+Once a post or page is written the `larablog:build` command is used to add the new posts and pages or update existing ones.
 
 ~~~
 > php artisan larablog:build
@@ -47,7 +49,7 @@ The main key used for checking existing posts will be the `identifier` field whi
 
 The root folder name can also be changed in the config it something other than `./blog` is needed. But keep in mind the `larablog:build` command will always use the `posts` and `pages` sub folders.
 
-Note that the files are in markdown format and that the parser can be changed by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
+**Note:** that the files are in markdown format and that the parser can be changed by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
 
 
 ## Post &amp Page Format
