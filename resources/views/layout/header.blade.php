@@ -13,7 +13,7 @@
     
     <link type="application/opensearchdescription+xml" rel="search" title="{{ config('larablog.site_name') }}" href="{{ config('app.url') . config('larablog.opensearch_path') }" />
     
-    @include (config('larablog.site_meta'))
+    @include ('larablog::layout.meta')
 
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">

@@ -4,12 +4,12 @@
     xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
     xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   
-    @foreach (config('larablog.site_pages') as $k => $v)
+    @foreach (config('larablog.nav.links') as $k => $v)
         @if (substr($k, 0, 4) !== 'http')
             <url> 
-                <loc>{!! htmlspecialchars(config('app.url') . $k) !!}</loc>
+                <loc>{!! htmlspecialchars(route($k)) !!}</loc>
                 <image:image>
-                    <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.site_logo')) !!}</image:loc> 
+                    <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc> 
                 </image:image>
                 <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
                 <changefreq>daily</changefreq>
@@ -25,7 +25,7 @@
                 @if ($p->img)
                     <image:loc>{!! htmlspecialchars(config('app.url') . $p->meta->img) !!}</image:loc>
                 @else
-                    <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.site_logo')) !!}</image:loc>
+                    <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc>
                 @endif
             </image:image>
             <lastmod>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</lastmod>

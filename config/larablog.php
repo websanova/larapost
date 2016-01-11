@@ -2,67 +2,95 @@
 
 return [
 
-	'theme' => 'larablog::themes.default',
-	
-	'perpage' => 15,
+    'app' => [
+        'path' => 'blog',
+        'theme' => 'larablog::themes.default'
+    ],
 
-	'table' => [
-		'prefix' => 'lb'
-	],
+    'table' => [
+        'prefix' => 'lb'
+    ],
 
-	// 'table_posts' => 'blog_posts',
-	
-	// 'table_tags' => 'blog_tags',
+    'meta' => [
+        'description' => 'LaraBlog is an easy to use drop in blogging package that can be used on it\'s own or directly within any of your Laravel apps.',
+        'keywords' => 'laravel, blog, package',
+        'logo' => '/img/logo-200x200.png',
+        'title' => 'LaraBlog'
+    ],
 
-	// 'table_post_tag' => 'blog_post_tag',
+    'routes' => [
+        '/sitemap' => [
+            'as' => 'sitemap',
+            'uses' => '\Websanova\Larablog\Http\Controllers\BlogController@sitemap'
+        ],
+        
+        '/blog' => [
+            'as' => 'blog',
+            'uses' => '\Websanova\Larablog\Http\Controllers\PostController@index'
+        ],
 
-	'folder_path' => 'blog',
+        '/blog/feed' => [
+            'as' => 'feed',
+            'uses' => '\Websanova\Larablog\Http\Controllers\BlogController@feed'
+        ],
 
-	'catchall_path' => '',
-	
-	'site_pages' => [
-		'/' => 'Home',
-		'/blog/tags' => 'Tags',
-		'/blog' => 'Blog'
-	],
+        '/blog/search' => [
+            'as' => 'search',
+            'uses' => '\Websanova\Larablog\Http\Controllers\PostController@search'
+        ],
 
-	'site_logo' => '/img/logo-200x200.png',
+        '/blog/search.xml' => [
+            'as' => 'opensearch',
+            'uses' => '\Websanova\Larablog\Http\Controllers\BlogController@opensearch'
+        ],
 
-	'site_description' => 'LaraBlog is an easy to use drop in blogging package that can be used on it\'s own or directly within any of your Laravel apps.',
+        '/blog/tags' => [
+            'as' => 'tags',
+            'uses' => '\Websanova\Larablog\Http\Controllers\TagController@index'
+        ],
 
-	'site_keywords' => 'laravel, blog, package',
+        '/blog/tags/{slug}' => [
+            'uses' => '\Websanova\Larablog\Http\Controllers\TagController@show'
+        ],
 
-	'site_title' => 'LaraBlog',
+        '/{any}' => [
+            'uses' => '\Websanova\Larablog\Http\Controllers\PostController@post',
+            'where' => ['any' => '(.*)']
+        ]
+    ],
 
-	'site_author' => 'LaraBlog',
+    'nav' => [
+        'title' => 'LaraBlog',
+        'links' => [
+            'tags' => 'Tags',
+            'blog' => 'Blog'
+        ]
+    ],
 
-	'site_name' => 'LaraBlog',
+    'posts' => [
+        'perpage' => 15
+    ],
 
-	'site_path' => '/blog',
+    'site' => [
+        'author' => 'Websanova',
+        'name' => 'LaraBlog',
+    ],
 
-	'site_meta' => 'larablog::layout.meta',
+    'social' => [
+        'twitter' => 'websanova',
+        'facebook' => 'websanova',
+    ],
 
-	'search_path' => '/blog/search',
+    'footer' => [
+        'copy' => true,
+        'plug' => true,
+    ],
 
-	'opensearch_path' => '/blog/search.xml',
+    'site_headers' => [],
 
-	'search_fields' => ['title', 'body'],
+    'site_footers' => [],
 
-	'sitemap_path' => '/sitemap',
+    'post_headers' => [],
 
-	'feed_path' => '/blog/feed',
-
-	'twitter' => 'websanova',
-
-	'facebook' => 'websanova',
-
-	'tags_path' => '/blog/tags',
-
-	'site_headers' => [],
-
-	'site_footers' => [],
-
-	'post_headers' => [],
-
-	'post_footers' => [],
+    'post_footers' => [],
 ];

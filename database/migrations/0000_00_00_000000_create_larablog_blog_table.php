@@ -27,7 +27,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('updated_at');
 		});
 
-		\DB::statement("ALTER TABLE " . $prefix . "_posts ADD FULLTEXT KEY " . $prefix . "_posts_" . implode('_', config('larablog.search_fields')) . "_fulltext (`" . implode('`, `', config('larablog.search_fields')) . "`)");
+		\DB::statement("ALTER TABLE " . $prefix . "_posts ADD FULLTEXT KEY " . $prefix . "_posts_title_body_fulltext (`title`, `body`)");
 
 		Schema::create($prefix . '_tags', function(Blueprint $t)
 		{

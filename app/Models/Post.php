@@ -24,7 +24,7 @@ class Post extends Model
 
     public function scopeSearch($q, $search)
     {
-        return $q->whereRaw("MATCH (`" . implode('`, `', config('larablog.search_fields')) . "`) AGAINST (?)" , [$search]);
+        return $q->whereRaw("MATCH (`title`, `body`) AGAINST (?)" , [$search]);
     }
 
     public function getUrlAttribute()

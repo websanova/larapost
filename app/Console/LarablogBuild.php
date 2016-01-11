@@ -32,7 +32,7 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        $path = base_path(config('larablog.folder_path'));
+        $path = base_path(config('larablog.app.path'));
 
         (new Post($path))->handle();
         (new Page($path))->handle();

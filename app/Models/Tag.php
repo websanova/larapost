@@ -22,6 +22,6 @@ class Tag extends Model
 
     public function getUrlAttribute()
     {
-        return config('app.url') . config('larablog.tags_path') . '/' . $this->slug;
+        return route('tags') . '/' . $this->slug;
     }
 }

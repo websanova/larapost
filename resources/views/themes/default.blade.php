@@ -8,14 +8,14 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">{{ config('larablog.site_name') }}</a>
+            <a class="navbar-brand" href="{{ route('blog') }}">{{ config('larablog.nav.title') }}</a>
         </div>
 
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="visible-xs">
                     <a>
-                        <form action="{{ config('larablog.search_path') }}">
+                        <form action="{{ route('search') }}">
                             <div class="input-group">
                                 <input type="text" name="q" class="form-control" placeholder="Search"/>
                                 <span class="input-group-btn">
@@ -26,9 +26,9 @@
                     </a>
                 </li>
 
-                @foreach (config('larablog.site_pages') as $key => $val) 
-                    <li class="{{ ('/' . Request::path()) === $key ? 'active' : '' }}">
-                        <a href="{{ $key }}">{{ $val }}</a>
+                @foreach (config('larablog.nav.links') as $k => $v) 
+                    <li class="{{ Request::url() === route($k) ? 'active' : '' }}">
+                        <a href="{{ route($k) }}">{{ $v }}</a>
                     </li>
                 @endforeach
             </ul>
@@ -58,31 +58,34 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="pull-left">
-                &copy {{ date('Y') }}
+                @if (config('larablog.footer.copy'))
+                    &copy {{ date('Y') }}
+                    &nbsp;
+                @endif
 
-                &nbsp;
-
-                <a href="{{ config('larablog.feed_path') }}" class="text-muted">
+                <a href="{{ route('feed') }}" class="text-muted">
                     <i class="fa fa-lg fa-rss-square"></i>
                 </a>
 
-                @if (config('larablog.twitter'))
+                @if (config('larablog.social.twitter'))
                     &nbsp;
-                    <a href="https://twitter.com/{{ config('larablog.twitter') }}" class="text-muted">
+                    <a href="https://twitter.com/{{ config('larablog.social.twitter') }}" class="text-muted">
                         <i class="fa fa-lg fa-twitter-square"></i>
                     </a>
                 @endif
 
-                @if (config('larablog.facebook'))
+                @if (config('larablog.social.facebook'))
                     &nbsp;
-                    <a href="https://facebook.com/{{ config('larablog.facebook') }}" class="text-muted">
+                    <a href="https://facebook.com/{{ config('larablog.social.facebook') }}" class="text-muted">
                         <i class="fa fa-lg fa-facebook-square"></i>
                     </a>
                 @endif
             </div>
 
             <div class="pull-right">
-                Powered by <a href="https://github.com/websanova/larablog">LaraBlog</a>
+                @if (config('larablog.footer.plug'))
+                    Powered by <a href="https://github.com/websanova/larablog">LaraBlog</a>
+                @endif
             </div>
         </div>
     </div>

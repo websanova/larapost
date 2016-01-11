@@ -1,4 +1,4 @@
-<form class="hidden-xs" action="{{ config('larablog.search_path') }}">
+<form class="hidden-xs" action="{{ route('search') }}">
 	<div class="input-group">
 		<input type="text" name="q" class="form-control" placeholder="Search"/>
 		<span class="input-group-btn">
