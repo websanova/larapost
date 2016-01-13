@@ -35,7 +35,7 @@ Navigate to `/blog` and see the default blog page. With no articles there will j
 **Note:** that with a fresh Laravel install the default `/` path for the `welcome` page should be removed.
 
 
-## Adding &amp; Updating Posts
+## Adding & Updating Posts
 
 Out of the box any post or page should be written using markdown format. By default, post and page markdown files should go in the `./blog/posts` and `./blog/pages` folders respectively.
 
@@ -52,7 +52,7 @@ The root folder name can also be changed in the config it something other than `
 **Note:** that the files are in markdown format and that the parser can be changed by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
 
 
-## Post &amp Page Format
+## Post & Page Format
 
 The post format should like like the following:
 
@@ -189,7 +189,7 @@ function index() {
 Appropriate defaults are used already wherever possible so these shouldn't have to be set for the most part.
 
 
-## Headers &amp; Footers
+## Headers & Footers
 
 Each theme should also support a header and footer section (and perhaps more standard sections to follow). The idea is that a list of views can be provided and they will be included in that order.
 
