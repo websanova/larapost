@@ -23,9 +23,14 @@ class Larablog
         return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->paginate(config('larablog.posts.perpage'));
     }
 
-    public static function all()
+    public static function posts()
     {
         return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->get();
+    }
+
+    public static function pages()
+    {
+        return Post::where('type', 'page')->where('status', 'active')->orderBy('title', 'asc')->get();
     }
 
     public static function last()
