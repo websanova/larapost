@@ -3,23 +3,55 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
     xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" 
     xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
-  
-    @foreach (config('larablog.nav.links') as $k => $v)
-        @if (substr($k, 0, 4) !== 'http')
-            <url> 
-                <loc>{!! htmlspecialchars(route($k)) !!}</loc>
-                <image:image>
-                    <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc> 
-                </image:image>
-                <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
-                <changefreq>daily</changefreq>
-                <priority>1.0</priority>
-            </url>
-        @endif
+
+    <url>
+        <loc>{!! htmlspecialchars(route('feed')) !!}</loc>
+        <image:image>
+            <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc>
+        </image:image>
+        <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    <url>
+        <loc>{!! htmlspecialchars(route('tags')) !!}</loc>
+        <image:image>
+            <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc>
+        </image:image>
+        <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    @foreach ($tags as $t)
+        <url>
+            <loc>{!! htmlspecialchars($t->url) !!}</loc>
+            <image:image>
+                <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc>
+            </image:image>
+            <lastmod>{!! htmlspecialchars(date('c', strtotime($t->updated_at))) !!}</lastmod>
+            <priority>1.0</priority>
+        </url>
+    @endforeach
+
+    @foreach ($pages as $p)
+        <url>
+            <loc>{!! htmlspecialchars($p->url) !!}</loc>
+            <image:image>
+                @if ($p->img)
+                    <image:loc>{!! htmlspecialchars(config('app.url') . $p->meta->img) !!}</image:loc>
+                @else
+                    <image:loc>{!! htmlspecialchars(config('app.url') . config('larablog.meta.logo')) !!}</image:loc>
+                @endif
+            </image:image>
+            <lastmod>{!! htmlspecialchars(date('c', strtotime($p->updated_at))) !!}</lastmod>
+            <priority>1.0</priority>
+        </url>
     @endforeach
 
     @foreach ($posts as $p)
-        <url> 
+        <url>
             <loc>{!! htmlspecialchars($p->url) !!}</loc>
             <image:image>
                 @if ($p->img)
