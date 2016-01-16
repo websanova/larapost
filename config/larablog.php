@@ -62,8 +62,8 @@ return [
     'nav' => [
         'title' => 'LaraBlog',
         'links' => [
-            'blog' => 'Blog',
-            'tags' => 'Tags'
+            '/blog' => 'Blog',
+            '/blog/tags' => 'Tags'
         ]
     ],
 

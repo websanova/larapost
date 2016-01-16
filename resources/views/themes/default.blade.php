@@ -27,10 +27,8 @@
                 </li>
 
                 @foreach (config('larablog.nav.links') as $k => $v) 
-                    <?php $route = $k[0] === '/' ? config('app.url') . $k : route($k) ?>
-
-                    <li class="{{ Request::url() === $route ? 'active' : '' }}">
-                        <a href="{{ $route }}">{{ $v }}</a>
+                    <li class="{{ Request::path() === $k ? 'active' : '' }}">
+                        <a href="{{ $k }}">{{ $v }}</a>
                     </li>
                 @endforeach
             </ul>
