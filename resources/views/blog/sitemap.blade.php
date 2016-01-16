@@ -7,7 +7,7 @@
     <url>
         <loc>{!! htmlspecialchars(route('feed')) !!}</loc>
         <image:image>
-            <image:loc>{!! htmlspecialchars(url() . config('larablog.meta.logo')) !!}</image:loc>
+            <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
         </image:image>
         <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
         <changefreq>daily</changefreq>
@@ -17,7 +17,7 @@
     <url>
         <loc>{!! htmlspecialchars(route('tags')) !!}</loc>
         <image:image>
-            <image:loc>{!! htmlspecialchars(url() . config('larablog.meta.logo')) !!}</image:loc>
+            <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
         </image:image>
         <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
         <changefreq>daily</changefreq>
@@ -28,7 +28,7 @@
         <url>
             <loc>{!! htmlspecialchars($t->url) !!}</loc>
             <image:image>
-                <image:loc>{!! htmlspecialchars(url() . config('larablog.meta.logo')) !!}</image:loc>
+                <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
             </image:image>
             <lastmod>{!! htmlspecialchars(date('c', strtotime($t->updated_at))) !!}</lastmod>
             <priority>1.0</priority>
@@ -40,9 +40,9 @@
             <loc>{!! htmlspecialchars($p->url) !!}</loc>
             <image:image>
                 @if ($p->img)
-                    <image:loc>{!! htmlspecialchars(url() . $p->meta->img) !!}</image:loc>
+                    <image:loc>{!! htmlspecialchars(url('/') . $p->meta->img) !!}</image:loc>
                 @else
-                    <image:loc>{!! htmlspecialchars(url() . config('larablog.meta.logo')) !!}</image:loc>
+                    <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
                 @endif
             </image:image>
             <lastmod>{!! htmlspecialchars(date('c', strtotime($p->updated_at))) !!}</lastmod>
@@ -55,9 +55,9 @@
             <loc>{!! htmlspecialchars($p->url) !!}</loc>
             <image:image>
                 @if ($p->img)
-                    <image:loc>{!! htmlspecialchars(url() . $p->meta->img) !!}</image:loc>
+                    <image:loc>{!! htmlspecialchars(url('/') . $p->meta->img) !!}</image:loc>
                 @else
-                    <image:loc>{!! htmlspecialchars(url() . config('larablog.meta.logo')) !!}</image:loc>
+                    <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
                 @endif
             </image:image>
             <lastmod>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</lastmod>

@@ -29,7 +29,7 @@ class Post extends Model
 
     public function getUrlAttribute()
     {
-        return url() . $this->slug;
+        return url('/') . $this->slug;
     }
 
     public function getMetaAttribute($val)
