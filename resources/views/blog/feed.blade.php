@@ -3,8 +3,8 @@
     
     <title type="text" xml:lang="en">{!! config('larablog.site.name') !!}</title>
     <link type="application/atom+xml" href="{!! htmlspecialchars(route('feed')) !!}" rel="self"/>
-    <link type="text" href="{!! htmlspecialchars(config('app.url')) !!}" rel="alternate"/>
-    <updated>{!! htmlspecialchars(@$last->published_at) !!}</updated>
+    <link type="text" href="{!! htmlspecialchars(url()) !!}" rel="alternate"/>
+    <updated>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</updated>
     <id>{!! htmlspecialchars(route('blog')) !!}</id>
     <author>
         <name>{!! htmlspecialchars(config('larablog.site.author')) !!}</name>
