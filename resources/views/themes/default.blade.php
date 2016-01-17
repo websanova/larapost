@@ -50,10 +50,8 @@
     </div>
 </div>
 
-<br/>
-
 <div class="container">
-	<hr/>
+    <hr/>
 
     <div class="row">
         <div class="col-xs-12">
