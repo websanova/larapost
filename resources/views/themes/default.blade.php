@@ -61,29 +61,26 @@
                     &copy {{ date('Y') }}
                     &nbsp;
                 @endif
+            </div>
 
-                <a href="{{ route('feed') }}" class="">
-                    <i class="fa fa-lg fa-rss-square"></i>
-                </a>
+            <div class="pull-right text-right">
+                <a href="{{ route('feed') }}">
+                    <i class="fa fa-2x fa-rss-square"></i></a>
 
                 @if (config('larablog.social.twitter'))
                     &nbsp;
-                    <a href="https://twitter.com/{{ config('larablog.social.twitter') }}" class="">
-                        <i class="fa fa-lg fa-twitter-square"></i>
-                    </a>
+                    <a href="https://twitter.com/{{ config('larablog.social.twitter') }}">
+                        <i class="fa fa-2x fa-twitter-square"></i></a>
                 @endif
 
                 @if (config('larablog.social.facebook'))
                     &nbsp;
-                    <a href="https://facebook.com/{{ config('larablog.social.facebook') }}" class="">
-                        <i class="fa fa-lg fa-facebook-square"></i>
-                    </a>
+                    <a href="https://facebook.com/{{ config('larablog.social.facebook') }}">
+                        <i class="fa fa-2x fa-facebook-square"></i></a>
                 @endif
-            </div>
 
-            <div class="pull-right">
                 @if (config('larablog.footer.plug'))
-                    Powered by <a href="https://github.com/websanova/larablog">LaraBlog</a>
+                    <h6 class="text-muted">Powered by <a href="https://github.com/websanova/larablog">LaraBlog</a></h6>
                 @endif
             </div>
         </div>
