@@ -32,7 +32,6 @@
             </div>
         @endforeach
     </div>
-
 @endif
 
 @foreach(config('larablog.post_footers') as $page_footer)
