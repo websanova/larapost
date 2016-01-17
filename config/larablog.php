@@ -4,7 +4,8 @@ return [
 
     'app' => [
         'path' => 'blog',
-        'theme' => 'larablog::themes.default'
+        'theme' => 'larablog::themes.default',
+        'meta' => 'larablog::layout.meta'
     ],
 
     'table' => [
