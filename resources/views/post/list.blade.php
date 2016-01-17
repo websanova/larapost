@@ -24,5 +24,5 @@
 @if ($posts->total() > $posts->perPage())
 	<hr/>
 
-	{!! $posts->appends(Input::all())->render() !!}
+	{!! $posts->appends(request()->all())->render() !!}
 @endif
