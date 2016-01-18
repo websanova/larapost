@@ -24,13 +24,23 @@
         <priority>1.0</priority>
     </url>
 
-    @foreach ($tags as $t)
+    <url>
+        <loc>{!! htmlspecialchars(route('series')) !!}</loc>
+        <image:image>
+            <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
+        </image:image>
+        <lastmod>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+
+    @foreach ($series as $s)
         <url>
-            <loc>{!! htmlspecialchars($t->url) !!}</loc>
+            <loc>{!! htmlspecialchars($s->url) !!}</loc>
             <image:image>
                 <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
             </image:image>
-            <lastmod>{!! htmlspecialchars(date('c', strtotime($t->updated_at))) !!}</lastmod>
+            <lastmod>{!! htmlspecialchars(date('c', strtotime($s->updated_at))) !!}</lastmod>
             <priority>1.0</priority>
         </url>
     @endforeach
