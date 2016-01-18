@@ -22,6 +22,11 @@ class Post extends Model
         return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.table.prefix') . '_post_tag');
     }
 
+    public function series()
+    {
+        return $this->belongsTo('Websanova\Larablog\Models\Series');
+    }
+
     public function scopeSearch($q, $search)
     {
         return $q->whereRaw("MATCH (`title`, `body`) AGAINST (?)" , [$search]);

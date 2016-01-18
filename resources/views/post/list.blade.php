@@ -11,6 +11,10 @@
 		@foreach ($p->tags as $t)
 			<a href="{{ $t->url }}" class="label label-info">{{ $t->name }}</a>
 		@endforeach
+
+		@if ($p->series)
+			<a href="{{ $p->series->url }}" class="label label-warning">{{ $p->series->title }}</a>
+		@endif
 	</div>
 	<br/>
 

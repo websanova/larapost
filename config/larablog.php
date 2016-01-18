@@ -54,6 +54,15 @@ return [
             'uses' => '\Websanova\Larablog\Http\Controllers\TagController@show'
         ],
 
+        '/blog/series' => [
+            'as' => 'series',
+            'uses' => '\Websanova\Larablog\Http\Controllers\SeriesController@index'
+        ],
+
+        '/blog/series/{slug}' => [
+            'uses' => '\Websanova\Larablog\Http\Controllers\SeriesController@show'
+        ],
+
         '/{any}' => [
             'uses' => '\Websanova\Larablog\Http\Controllers\PostController@post',
             'where' => ['any' => '(.*)']
@@ -64,7 +73,8 @@ return [
         'title' => 'LaraBlog',
         'links' => [
             '/blog' => 'Blog',
-            '/blog/tags' => 'Tags'
+            '/blog/tags' => 'Tags',
+            '/blog/series' => 'Series'
         ]
     ],
 
