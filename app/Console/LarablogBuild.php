@@ -6,7 +6,7 @@ namespace Websanova\Larablog\Console;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Websanova\Larablog\Models\Tag;
-use Websanova\Larablog\Models\Series;
+use Websanova\Larablog\Models\Serie;
 use Websanova\Larablog\Parser\Type\Page;
 use Websanova\Larablog\Parser\Type\Post;
 
@@ -48,10 +48,10 @@ class LarablogBuild extends Command
         ]);
 
         DB::table($prefix . '_series')->update([
-            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_posts WHERE {$prefix}_posts.series_id = {$prefix}_series.id)")
+            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_posts WHERE {$prefix}_posts.serie_id = {$prefix}_series.id)")
         ]);
 
         Tag::where('posts_count', 0)->delete();
-        Series::where('posts_count', 0)->delete();
+        Serie::where('posts_count', 0)->delete();
     }
 }

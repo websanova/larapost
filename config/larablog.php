@@ -56,11 +56,11 @@ return [
 
         '/blog/series' => [
             'as' => 'series',
-            'uses' => '\Websanova\Larablog\Http\Controllers\SeriesController@index'
+            'uses' => '\Websanova\Larablog\Http\Controllers\SerieController@index'
         ],
 
         '/blog/series/{slug}' => [
-            'uses' => '\Websanova\Larablog\Http\Controllers\SeriesController@show'
+            'uses' => '\Websanova\Larablog\Http\Controllers\SerieController@show'
         ],
 
         '/{any}' => [

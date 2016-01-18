@@ -22,7 +22,7 @@ class UpdateLarablogAddSeriesTable extends Migration
         });
 
         Schema::table($prefix . '_posts', function(Blueprint $t) {
-            $t->integer('series_id')->unsigned()->default(0)->index()->after('id');
+            $t->integer('serie_id')->unsigned()->default(0)->index()->after('id');
         });
     }
 
@@ -31,7 +31,7 @@ class UpdateLarablogAddSeriesTable extends Migration
         $prefix = config('larablog.table.prefix');
 
         Schema::table($prefix . '_posts', function(Blueprint $t) {
-            $t->dropColumn('series_id');
+            $t->dropColumn('serie_id');
         });
 
         Schema::drop($prefix . '_series');

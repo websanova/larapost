@@ -2,7 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
-use Websanova\Larablog\Models\Series as SeriesModel;
+use Websanova\Larablog\Models\Serie;
 
 class Series
 {
@@ -10,10 +10,10 @@ class Series
     {
         $slug = str_slug($val);
 
-        $series = SeriesModel::where('slug', $slug)->first();
+        $serie = Serie::where('slug', $slug)->first();
 
-        if ( ! $series) {
-            $series = SeriesModel::create([
+        if ( ! $serie) {
+            $serie = Serie::create([
                 'slug' => $slug,
                 'title' => $val
             ]);
@@ -21,7 +21,7 @@ class Series
             echo 'New Series: ' . $val . "\n";
         }
 
-        $data['series_id'] = $series->id;
+        $data['serie_id'] = $serie->id;
 
         return $data;
     }

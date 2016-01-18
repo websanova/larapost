@@ -4,7 +4,7 @@ namespace Websanova\Larablog;
 
 use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Models\Post;
-use Websanova\Larablog\Models\Series;
+use Websanova\Larablog\Models\Serie;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Request;
 
@@ -12,7 +12,7 @@ class Larablog
 {
     public static function published()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'series')->paginate(config('larablog.posts.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
     }
 
     public static function search($q = '')
@@ -21,7 +21,7 @@ class Larablog
             $q = Input::get('q');
         }
 
-        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'series')->paginate(config('larablog.posts.perpage'));
+        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
     }
 
     public static function posts()
@@ -49,7 +49,7 @@ class Larablog
             $slug = '/' . $slug;
         }
 
-        $post = Post::where('slug', $slug)->with('tags', 'series')->first();
+        $post = Post::where('slug', $slug)->with('tags', 'serie')->first();
 
         if ($post && $post->type === 'post' && ($post->published_at === null || $post->status !== 'active') ) {
             return null;
@@ -75,16 +75,16 @@ class Larablog
 
     public static function publishedWhereTag($tag)
     {
-        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'series')->paginate(config('larablog.posts.perpage'));
+        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
     }
 
     public static function series()
     {
-        return Series::orderBy('slug', 'asc')->with('posts')->get();
+        return Serie::orderBy('slug', 'asc')->with('posts')->get();
     }
 
-    public static function publishedWhereSeries($series)
+    public static function publishedWhereSeries($serie)
     {
-        return $series->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'series')->paginate(config('larablog.posts.perpage'));
+        return $serie->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
     }
 }

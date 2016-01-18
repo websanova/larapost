@@ -22,9 +22,9 @@ class Post extends Model
         return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.table.prefix') . '_post_tag');
     }
 
-    public function series()
+    public function serie()
     {
-        return $this->belongsTo('Websanova\Larablog\Models\Series');
+        return $this->belongsTo('Websanova\Larablog\Models\Serie');
     }
 
     public function scopeSearch($q, $search)

@@ -12,8 +12,8 @@
 			<a href="{{ $t->url }}" class="label label-info">{{ $t->name }}</a>
 		@endforeach
 
-		@if ($p->series)
-			<a href="{{ $p->series->url }}" class="label label-warning">{{ $p->series->title }}</a>
+		@if ($p->serie)
+			<a href="{{ $p->serie->url }}" class="label label-warning">{{ $p->serie->title }}</a>
 		@endif
 	</div>
 	<br/>
