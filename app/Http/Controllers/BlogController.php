@@ -24,7 +24,8 @@ class BlogController extends BaseController
             'last' => Larablog::last(),
             'posts' => Larablog::posts(),
             'pages' => Larablog::pages(),
-            'tags' => Larablog::tags()
+            'tags' => Larablog::tags(),
+            'series' => Larablog::series()
         ]);
 
         return Response::make($content, '200')->header('Content-Type', 'text/xml');

@@ -13,6 +13,8 @@ class PostController extends BaseController
 		return view(config('larablog.app.theme'), [
             'view' => 'larablog::post.index',
             'posts' => Larablog::published(),
+            'series' => Larablog::series(),
+            'top' => Larablog::top()
         ]);
     }
 
@@ -37,6 +39,8 @@ class PostController extends BaseController
         return view(config('larablog.app.theme'), [
             'view' => 'larablog::post.show',
             'post' => $post,
+            'series' => Larablog::series(),
+            'top' => Larablog::top(),
             'related' => [
                    (object)[
                     'url' => 'plugins/rgbhex',
@@ -64,7 +68,9 @@ class PostController extends BaseController
         return view(config('larablog.app.theme'), [
             'view' => 'larablog::post.page',
             'type' => 'page',
-            'post' => $post
+            'post' => $post,
+            'series' => Larablog::series(),
+            'top' => Larablog::top()
         ]);
     }
 
@@ -72,14 +78,18 @@ class PostController extends BaseController
     {
         return view(config('larablog.app.theme'), [
             'view' => 'larablog::post.search',
-            'posts' => Larablog::search()
+            'posts' => Larablog::search(),
+            'series' => Larablog::series(),
+            'top' => Larablog::top()
         ]);
     }
 
     public function notfound()
     {
         return view(config('larablog.app.theme'), [
-            'view' => 'larablog::blog.404'
+            'view' => 'larablog::blog.404',
+            'series' => Larablog::series(),
+            'top' => Larablog::top()
         ]);
     }
 }
