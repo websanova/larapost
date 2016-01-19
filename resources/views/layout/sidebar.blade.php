@@ -30,7 +30,7 @@
 		<div class="col-xs-12">
 			<ul class="list-group text-muted">
 				@foreach ($top as $t)
-					<li><a href="{{ $t->url }}">{{ $t->title }}</a></li>
+					<li><a href="{{ $t->url }}">{{ $t->full_title }}</a></li>
 				@endforeach
 			</ul>
 		</div>

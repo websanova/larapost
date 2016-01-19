@@ -3,7 +3,7 @@
 		<hr/>
 	@endif
 
-	<h1><a href="{{ $p->url }}">{{ $p->title }}</a></h1>
+	<h1><a href="{{ $p->url }}">{{ $p->full_title }}</a></h1>
 
 	<div class="text-muted">{{ $p->published_at->format('M d Y') }}</div>
 	

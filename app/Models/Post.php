@@ -37,6 +37,11 @@ class Post extends Model
         return url('/') . $this->slug;
     }
 
+    public function getFullTitleAttribute()
+    {
+        return ($this->serie ? $this->serie->title . ' :: ' : '') . $this->title;
+    }
+
     public function getMetaAttribute($val)
     {
     	return json_decode($val);

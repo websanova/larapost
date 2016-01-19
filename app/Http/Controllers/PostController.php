@@ -44,19 +44,19 @@ class PostController extends BaseController
             'related' => [
                    (object)[
                     'url' => 'plugins/rgbhex',
-                    'title' => 'JavaScript RGB / HEX Converter',
+                    'full_title' => 'JavaScript RGB / HEX Converter',
                     'img' => '/img/intelligent-javascript-rgb-hex-converter.png'
                 ], (object)[
                     'url' => '/plugins/mousestop',
-                    'title' => 'JavaScript mousestop() Event Plugin',
+                    'full_title' => 'JavaScript mousestop() Event Plugin',
                     'img' => '/img/jquery-mouse-stop-event-plugin.png'
                 ], (object)[
                     'url' => '/plugins/wboiler',
-                    'title' => 'jQuery Plugin Development Boilerplate',
+                    'full_title' => 'jQuery Plugin Development Boilerplate',
                     'img' => '/img/jquery-plugin-development-boilerplate.png',
                 ], (object)[
                     'url' => '/blog/jquery/the-ultimate-guide-to-writing-jquery-plugins',
-                    'title' => 'The Ultimate Guide to Writing jQuery Plugins',
+                    'full_title' => 'The Ultimate Guide to Writing jQuery Plugins',
                     'img' => '/img/ultimate-guide-to-writing-jquery-plugins.png',
                 ]
             ]

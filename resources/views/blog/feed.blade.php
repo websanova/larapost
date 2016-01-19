@@ -12,7 +12,7 @@
     
     @foreach ($posts as $p)
         <entry>
-            <title>{!! htmlspecialchars($p->title) !!}</title>
+            <title>{!! htmlspecialchars($p->full_title) !!}</title>
             <link href="{!! htmlspecialchars($p->url) !!}"/>
             <updated>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</updated>
             <id>{!! htmlspecialchars($p->url) !!}</id>

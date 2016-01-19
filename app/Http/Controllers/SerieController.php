@@ -11,7 +11,7 @@ class SerieController extends BaseController
     public function index()
     {
         return view(config('larablog.app.theme'), [
-            'view' => 'larablog::series.index',
+            'view' => 'larablog::serie.index',
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);

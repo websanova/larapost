@@ -8,7 +8,7 @@
                     <img src="{{ $v->img }}" />
                 
                     <div class="caption">
-                        {{ $v->title }}
+                        {{ $v->full_title }}
                     </div>
                 </a>
             </div>
