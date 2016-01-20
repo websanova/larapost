@@ -4,4 +4,4 @@ Showing all posts with <a href="{{ $tag->url }}" class="label label-info">{{ $ta
 
 <hr/>
 
-@include ('larablog::post.list')
+@include ('larablog::themes.' . config('larablog.app.theme') . '.post.list')

@@ -10,8 +10,8 @@ class SerieController extends BaseController
 {
     public function index()
     {
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::serie.index',
+        return view('larablog::themes.master', [
+            'view' => 'serie.index',
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);
@@ -24,8 +24,8 @@ class SerieController extends BaseController
         if ( ! $serie) {
             return self::notfound();
         }
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::serie.show',
+        return view('larablog::themes.master', [
+            'view' => 'serie.show',
             'serie' => $serie,
             'posts' => Larablog::publishedWhereSeries($serie),
             'series' => Larablog::series(),
@@ -35,8 +35,8 @@ class SerieController extends BaseController
 
     public function notfound()
     {
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::blog.404',
+        return view('larablog::themes.master', [
+            'view' => 'error.404',
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);

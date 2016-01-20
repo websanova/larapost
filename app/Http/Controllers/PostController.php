@@ -10,8 +10,8 @@ class PostController extends BaseController
 {
     public function index()
     {
-		return view(config('larablog.app.theme'), [
-            'view' => 'larablog::post.index',
+		return view('larablog::themes.master', [
+            'view' => 'post.index',
             'posts' => Larablog::published(),
             'series' => Larablog::series(),
             'top' => Larablog::top()
@@ -36,8 +36,8 @@ class PostController extends BaseController
             return self::page($post);
         }
 
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::post.show',
+        return view('larablog::themes.master', [
+            'view' => 'post.show',
             'post' => $post,
             'series' => Larablog::series(),
             'top' => Larablog::top(),
@@ -65,8 +65,8 @@ class PostController extends BaseController
 
     public function page($post)
     {
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::post.page',
+        return view('larablog::themes.master', [
+            'view' => 'post.page',
             'type' => 'page',
             'post' => $post,
             'series' => Larablog::series(),
@@ -76,8 +76,8 @@ class PostController extends BaseController
 
     public function search()
     {
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::post.search',
+        return view('larablog::themes.master', [
+            'view' => 'post.search',
             'posts' => Larablog::search(),
             'series' => Larablog::series(),
             'top' => Larablog::top()
@@ -86,8 +86,8 @@ class PostController extends BaseController
 
     public function notfound()
     {
-        return view(config('larablog.app.theme'), [
-            'view' => 'larablog::blog.404',
+        return view('larablog::themes.master', [
+            'view' => 'error.404',
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);
