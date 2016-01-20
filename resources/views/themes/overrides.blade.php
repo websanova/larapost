@@ -1,7 +1,3 @@
-@extends ('larablog::themes.' . config('larablog.app.theme') . '.layout')
-
-@include ('larablog::themes.overrides')
-
 <!--
     Sections can be include here using section/stop format.
 
