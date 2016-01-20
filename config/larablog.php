@@ -4,8 +4,7 @@ return [
 
     'app' => [
         'path' => 'blog',
-        'theme' => 'default',
-        'meta' => 'larablog::layout.meta'
+        'theme' => 'default'
     ],
 
     'table' => [
@@ -95,13 +94,5 @@ return [
     'footer' => [
         'copy' => true,
         'plug' => true,
-    ],
-
-    'site_headers' => [],
-
-    'site_footers' => [],
-
-    'post_headers' => [],
-
-    'post_footers' => [],
+    ]
 ];
