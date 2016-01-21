@@ -40,26 +40,7 @@ class PostController extends BaseController
             'view' => 'post.show',
             'post' => $post,
             'series' => Larablog::series(),
-            'top' => Larablog::top(),
-            'related' => [
-                   (object)[
-                    'url' => 'plugins/rgbhex',
-                    'full_title' => 'JavaScript RGB / HEX Converter',
-                    'img' => '/img/intelligent-javascript-rgb-hex-converter.png'
-                ], (object)[
-                    'url' => '/plugins/mousestop',
-                    'full_title' => 'JavaScript mousestop() Event Plugin',
-                    'img' => '/img/jquery-mouse-stop-event-plugin.png'
-                ], (object)[
-                    'url' => '/plugins/wboiler',
-                    'full_title' => 'jQuery Plugin Development Boilerplate',
-                    'img' => '/img/jquery-plugin-development-boilerplate.png',
-                ], (object)[
-                    'url' => '/blog/jquery/the-ultimate-guide-to-writing-jquery-plugins',
-                    'full_title' => 'The Ultimate Guide to Writing jQuery Plugins',
-                    'img' => '/img/ultimate-guide-to-writing-jquery-plugins.png',
-                ]
-            ]
+            'top' => Larablog::top()
         ]);
     }
 
