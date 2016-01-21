@@ -25,6 +25,8 @@
 
 @section ('post.body')
     <div>{!! $post->body !!}</div>
+@show
 
+@section ('post.related')
     @include ('larablog::themes.' . config('larablog.app.theme') . '.components.related')
 @show
