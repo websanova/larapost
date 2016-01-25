@@ -52,7 +52,7 @@
 
     @section ('meta.styles')
         <style>
-            .callout {padding: 20px; margin: 20px 0; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px;}
+            .callout {padding: 20px; margin-bottom: 20px; border: 1px solid #eee; border-left-width: 5px; border-radius: 3px;}
             .callout h4 {margin-top: 0; margin-bottom: 5px;}
             .callout p:last-child {margin-bottom: 0;}
             .callout code {border-radius: 3px;}
@@ -93,8 +93,8 @@
                     </li>
 
                     @foreach (config('larablog.nav.links') as $k => $v) 
-                        <li class="{{ Request::path() === $k ? 'active' : '' }}">
-                            <a href="{{ $k }}">{{ $v }}</a>
+                        <li class="{{ Request::path() === $v ? 'active' : '' }}">
+                            <a href="{{ $v }}">{{ $k }}</a>
                         </li>
                     @endforeach
                 </ul>

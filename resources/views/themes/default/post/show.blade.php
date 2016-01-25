@@ -11,16 +11,17 @@
             <a href="{{ $post->serie->url }}" class="label label-warning">{{ $post->serie->title }}</a>
         @endif
     </div>
+
+    <br/>
 @show
 
-@section ('post.series')
-    @if ($post->serie)
-        <div class="callout">
-            @foreach ($post->serie->posts as $p)
-                <a href="{{ $p->url }}">{{ $p->title }}</a><br/>
-            @endforeach
-        </div>
-    @else
+
+@section ('post.buttons')
+    @if (@$post && @$post->meta->buttons)
+        @foreach ($post->meta->buttons as $k => $v)
+            <a href="{{ $v }}" class="btn btn-primary">{{ $k }}</a>
+        @endforeach
+
         <br/>
     @endif
 @show
