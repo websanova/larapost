@@ -66,7 +66,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="visible-xs">
                         <a>
-                            @include ('larablog::themes.' . config('larablog.app.theme') . '.components.search')
+                            @include (lb_view('components.search'))
                         </a>
                     </li>
 
@@ -86,13 +86,13 @@
         <div class="row">
             <div class="col-xs-12 col-sm-8 col-md-9 col-lg-9">
                 @section ('layout.view')
-                    @include ('larablog::themes.' . config('larablog.app.theme') . '.' . $view)
+                    @include ($view)
                 @show
             </div>
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
                 <br/>
                 <div class="hidden-xs">
-                    @include ('larablog::themes.' . config('larablog.app.theme') . '.components.search')
+                    @include (lb_view('.components.search'))
                 </div>
 
                 <hr/>

@@ -1,1 +1,1 @@
-@include ('larablog::themes.' . config('larablog.app.theme') . '.post.list')
+@include (lb_view('post.list'))

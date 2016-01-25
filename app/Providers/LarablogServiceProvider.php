@@ -23,7 +23,7 @@ class LarablogServiceProvider extends ServiceProvider
 
     public function boot()
     {
-         $this->publishes([
+        $this->publishes([
              __DIR__ . '/../../database/migrations' => $this->app->databasePath() . '/migrations'
         ], 'migrations');
 
@@ -39,6 +39,8 @@ class LarablogServiceProvider extends ServiceProvider
             __DIR__ . '/../../resources/assets' => public_path()
         ], 'assets');
         
+        require __DIR__ . '/../Support/helpers.php';
+
         require __DIR__ . '/../Http/routes.php';
 
 	    $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'larablog');

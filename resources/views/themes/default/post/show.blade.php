@@ -28,5 +28,5 @@
 @show
 
 @section ('post.related')
-    @include ('larablog::themes.' . config('larablog.app.theme') . '.components.related')
+    @include (lb_view('components.related'))
 @show

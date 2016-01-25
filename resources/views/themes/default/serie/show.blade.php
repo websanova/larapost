@@ -4,4 +4,4 @@ Showing all posts in <a href="{{ $serie->url }}" class="label label-warning">{{ 
 
 <hr/>
 
-@include ('larablog::themes.' . config('larablog.app.theme') . '.post.list')
+@include (lb_view('post.list'))
