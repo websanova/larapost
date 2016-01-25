@@ -15,6 +15,15 @@
     <br/>
 @show
 
+@section ('post.series')
+    @if ($post->serie)
+        <div class="callout">
+            @foreach ($post->serie->posts as $p)
+                <a href="{{ $p->url }}">{{ $p->title }}</a><br/>
+            @endforeach
+        </div>
+    @endif
+@show
 
 @section ('post.buttons')
     @if (@$post && @$post->meta->buttons)
