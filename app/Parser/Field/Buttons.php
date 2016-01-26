@@ -18,9 +18,7 @@ class Buttons
         }
 
         foreach ($val as $button) {
-            if (preg_match('/(.*?)\:(.*)/', $button, $m)) {
-                $data['meta']['buttons'][$m[1]] = $m[2];
-            }
+            array_push($data['meta']['buttons'], json_decode($button));
         }
 
         $data['meta'] = json_encode($data['meta']);

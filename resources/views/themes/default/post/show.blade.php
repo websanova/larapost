@@ -15,13 +15,13 @@
 
 @section ('post.series')
     @if ($post->serie)
-        <p class="lead">
-            <ul>
-                @foreach ($post->serie->posts as $p)
-                    <li><a href="{{ $p->url }}">{{ $p->title }}</a></li>
-                @endforeach
-            </ul>
-        </p>
+        <p class="lead"></p>
+
+        <ul>
+            @foreach ($post->serie->posts as $p)
+                <li><a href="{{ $p->url }}">{{ $p->title }}</a></li>
+            @endforeach
+        </ul>
     @endif
 @show
 
@@ -30,11 +30,16 @@
         <p class="lead"></p>
 
         <div>
-            @foreach ($post->meta->buttons as $k => $v)
-                <a href="{{ $v }}" class="btn btn-primary">{{ $k }}</a>
+            @foreach ($post->meta->buttons as $v)
+                <a href="{{ @$v->link }}" class="btn btn-primary">
+                    @if (@$v->icon)
+                        <li class="fa fa-{{ $v->icon }}"></li>
+                    @endif
+
+                    {{ @$v->text }}
+                </a>
             @endforeach
         </div>
-        
     @endif
 @show
 
