@@ -14,7 +14,7 @@
 @show
 
 @section ('post.series')
-    @if ($post->serie)
+    @if (@$post->serie)
         <p class="lead"></p>
 
         <ul>
