@@ -17,11 +17,11 @@
 
 @section ('post.series')
     @if ($post->serie)
-        <div class="callout">
-            @foreach ($post->serie->posts as $p)
-                <a href="{{ $p->url }}">{{ $p->title }}</a><br/>
-            @endforeach
-        </div>
+        @foreach ($post->serie->posts as $p)
+            &nbsp;&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a href="{{ $p->url }}">{{ $p->title }}</a><br/>
+        @endforeach
+        
+        <br/>
     @endif
 @show
 
