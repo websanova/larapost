@@ -46,4 +46,9 @@ class Post extends Model
     {
     	return json_decode($val);
     }
+
+    public function getButtonsAttribute()
+    {
+        return $this->meta->buttons;
+    }
 }

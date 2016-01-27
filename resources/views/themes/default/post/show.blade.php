@@ -11,36 +11,22 @@
             <a href="{{ $post->serie->url }}" class="label label-warning">{{ $post->serie->title }}</a>
         @endif
     </p>
+    <p class="lead"></p>
 @show
 
 @section ('post.series')
     @if (@$post->serie)
-        <p class="lead"></p>
-
         <ul>
             @foreach ($post->serie->posts as $p)
                 <li><a href="{{ $p->url }}">{{ $p->title }}</a></li>
             @endforeach
         </ul>
+        <p class="lead"></p>
     @endif
 @show
 
 @section ('post.buttons')
-    @if (@$post && @$post->meta->buttons)
-        <p class="lead"></p>
-
-        <div>
-            @foreach ($post->meta->buttons as $v)
-                <a href="{{ @$v->link }}" class="btn btn-primary">
-                    @if (@$v->icon)
-                        <li class="fa fa-{{ $v->icon }}"></li>
-                    @endif
-
-                    {{ @$v->text }}
-                </a>
-            @endforeach
-        </div>
-    @endif
+    @include (lb_view('components.buttons'))
 @show
 
 @section ('post.body')
