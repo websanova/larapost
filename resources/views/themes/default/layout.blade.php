@@ -96,7 +96,7 @@
                 </div>
 
                 @section ('sidebar.series')
-                    @if ( ! $series->isEmpty())
+                    @if (@$series && ! $series->isEmpty())
                         <h4 class="page-header">Series</h4>
 
                         @foreach ($series as $s)
@@ -113,7 +113,7 @@
                 @show
 
                 @section ('sidebar.popular')
-                    @if ( ! $top->isEmpty())
+                    @if (@$top ! $top->isEmpty())
                         <h4 class="page-header">Popular</h4>
 
                         @foreach ($top as $t)
