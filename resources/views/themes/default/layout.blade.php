@@ -113,7 +113,7 @@
                 @show
 
                 @section ('sidebar.popular')
-                    @if (@$top ! $top->isEmpty())
+                    @if (@$top && ! $top->isEmpty())
                         <h4 class="page-header">Popular</h4>
 
                         @foreach ($top as $t)
