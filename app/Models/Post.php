@@ -51,4 +51,9 @@ class Post extends Model
     {
         return $this->meta->buttons;
     }
+
+    public function getImgAttribute()
+    {
+        return url('/') . (@$this->meta->img ?: config('larablog.meta.logo'));
+    }
 }

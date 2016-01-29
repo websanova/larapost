@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="www.w3.org/2005/Atom">
-    
-    <title type="text" xml:lang="en">{!! config('larablog.site.name') !!}</title>
-    <link type="application/atom+xml" href="{!! htmlspecialchars(route('feed')) !!}" rel="self"/>
-    <link type="text" href="{!! htmlspecialchars(url('/')) !!}" rel="alternate"/>
-    <updated>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</updated>
-    <id>{!! htmlspecialchars(route('blog')) !!}</id>
-    <author>
-        <name>{!! htmlspecialchars(config('larablog.site.author')) !!}</name>
-    </author>
-    
+<rss version="2.0">
+<channel>
+    <title>{!! config('larablog.site.name') !!}</title>
+    <link>{!! htmlspecialchars(url('/')) !!}</link>
+    <description>{!! htmlspecialchars(config('larablog.meta.description')) !!}</description>
+    <lastBuildDate>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastBuildDate>
+    <language>en-us</language>
+
     @foreach ($posts as $p)
-        <entry>
+        <item>
             <title>{!! htmlspecialchars($p->full_title) !!}</title>
-            <link href="{!! htmlspecialchars($p->url) !!}"/>
-            <updated>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</updated>
-            <id>{!! htmlspecialchars($p->url) !!}</id>
-            <content type="html">{!! htmlspecialchars($p->meta->description) !!}</content>
-        </entry>
+            <link>{!! htmlspecialchars($p->url) !!}</link>
+            <guid>{!! htmlspecialchars($p->url) !!}</guid>
+            <pubDate>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</pubDate>
+            <description>[CDATA[ {!! htmlspecialchars($p->meta->description) !!} ]]</description>
+            <image>
+            <url>{!! htmlspecialchars($p->img) !!}</url>
+            </image>
+        </item>
     @endforeach
-</feed>
+</channel>
+</rss>
