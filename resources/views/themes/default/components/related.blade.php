@@ -2,7 +2,7 @@
     @if (@$related)
         <?php $count = 0; ?>
 
-        <h2 class="page-header">Related</h2>
+        <h2>Related</h2>
 
         <div class="row">
             @foreach (@$related as $v)
