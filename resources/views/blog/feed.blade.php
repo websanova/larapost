@@ -13,7 +13,7 @@
             <link>{!! htmlspecialchars($p->url) !!}</link>
             <guid>{!! htmlspecialchars($p->url) !!}</guid>
             <pubDate>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</pubDate>
-            <description>[CDATA[ {!! htmlspecialchars($p->meta->description) !!} ]]</description>
+            <description>[CDATA[{!! htmlspecialchars($p->meta->description) !!}]]</description>
             <image>
             <url>{!! htmlspecialchars($p->img) !!}</url>
             </image>
