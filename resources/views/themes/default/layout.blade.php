@@ -90,8 +90,8 @@
                 @show
             </div>
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                <br/>
                 <div class="hidden-xs">
+                    <br/>
                     @include (lb_view('.components.search'))
                 </div>
 
