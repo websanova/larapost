@@ -1,4 +1,4 @@
-<h3>Search results for "{{ request('q') }}".</h3>
+<h3 class="media-heading">Search results for "{{ request('q') }}".</h3>
 
 <br/>
 

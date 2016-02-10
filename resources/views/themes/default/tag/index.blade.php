@@ -1,4 +1,4 @@
-<h1>Tags</h1>
+<h1 class="media-heading">Tags</h1>
 
 <br/>
 
