@@ -1,5 +1,7 @@
 @section ('post.head')
-    <h1 class="media-heading"><a href="{{ $post->url }}">{{ $post->full_title }}</a></h1>
+    <h1 class="first">
+        <a href="{{ $post->url }}">{{ $post->full_title }}</a>
+    </h1>
     <div class="text-muted">{{ $post->published_at->format('M d Y') }}</div>
 
     <p>

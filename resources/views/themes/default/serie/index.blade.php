@@ -1,4 +1,4 @@
-<h1 class="media-heading">Series</h1>
+<h1 class="first">Series</h1>
 
 @forelse ($series as $k => $v)
     @if ($k > 0)

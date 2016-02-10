@@ -1,5 +1,5 @@
-<h3 class="media-heading">Search results for "{{ request('q') }}".</h3>
+<div>Search results for "{{ request('q') }}".</div>
 
-<br/>
+<hr/>
 
 @include (lb_view('post.list'))
