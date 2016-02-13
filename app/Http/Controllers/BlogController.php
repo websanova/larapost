@@ -18,6 +18,16 @@ class BlogController extends BaseController
         return Response::make($content, '200')->header('Content-Type', 'text/xml');
     }
 
+    public function atom()
+    {
+        $content = view('larablog::blog.atom', [
+            'last' => Larablog::last(),
+            'posts' => Larablog::posts()
+        ]);
+
+        return Response::make($content, '200')->header('Content-Type', 'text/xml');
+    }
+
     public function sitemap()
     {
         $content = view('larablog::blog.sitemap', [

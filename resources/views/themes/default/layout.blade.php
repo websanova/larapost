@@ -10,6 +10,9 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     
+    <link rel="alternate" type="application/rss+xml" title="{{ config('larablog.site.name') }} RSS Feed" href="{{ route('feed') }}">
+    <link rel="alternate" type="application/atom+xml" title="{{ config('larablog.site.name') }} Atom Feed" href="{{ route('atom') }}">
+
     @section ('meta.opensearch')
         <link type="application/opensearchdescription+xml" rel="search" title="{{ config('larablog.site.name') }}" href="{{ route('opensearch') }}" />
     @show

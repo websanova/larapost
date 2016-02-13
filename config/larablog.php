@@ -34,6 +34,11 @@ return [
             'uses' => '\Websanova\Larablog\Http\Controllers\BlogController@feed'
         ],
 
+        '/blog/feed/atom' => [
+            'as' => 'atom',
+            'uses' => '\Websanova\Larablog\Http\Controllers\BlogController@atom'
+        ],
+
         '/blog/search' => [
             'as' => 'search',
             'uses' => '\Websanova\Larablog\Http\Controllers\PostController@search'
