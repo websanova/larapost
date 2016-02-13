@@ -76,7 +76,7 @@ return [
     'nav' => [
         'title' => 'LaraBlog',
         'links' => [
-            'Blog' => '/blog',
+            'Home' => '/blog',
             'Tags' => '/blog/tags',
             'Series' => '/blog/series'
         ]
