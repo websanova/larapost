@@ -9,6 +9,6 @@ if (! function_exists('lb_view')) {
      */
     function lb_view($view)
     {
-        return 'larablog::themes.' . config('larablog.app.theme') . '.' . $view;
+        return config('larablog.app.theme') . '.' . $view;
     }
 }
