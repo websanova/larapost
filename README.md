@@ -47,7 +47,7 @@ Once a post or page is written the `larablog:build` command is used to add the n
 
 The main key used for checking existing posts will be the `identifier` field which by default uses the filename.
 
-The root folder name can also be changed in the config it something other than `./blog` is needed. But keep in mind the `larablog:build` command will always use the `posts` and `pages` sub folders.
+The root folder name can also be changed in the config if something other than `./blog` is needed. But keep in mind the `larablog:build` command will always use the `posts` and `pages` sub folders.
 
 **Note:** that the files are in markdown format and that the parser can be changed by overwriting the `Websanova\Larablog\Parser\Field\Body` parser.
 
@@ -73,7 +73,7 @@ redirect_from:
 
 ~~~
 
-You can set any fields in the top section of the file. Any that DO NOT have a parser will just get tossed into a default `meta` field. Otherwise if a parser is found it will run. The parsers can manipulate a `data` object which ultimately get's passed into the `create` method for the the `posts` table.
+You can set any fields in the top section of the file. Any that DO NOT have a parser will just get tossed into a default `meta` field. Otherwise if a parser is found it will run. The parsers can manipulate a `data` object which ultimately get's passed into the `create` method for the `posts` table.
 
 Current parsers that ship are:
 
@@ -85,11 +85,13 @@ Current parsers that ship are:
 * Permalink (`slug`)
 * RedirectFrom
 * Tags
+* Buttons
+* Identifier
 
 
 ## Config
 
-Best way to get a sense of the options is to just publish the config and take a look.
+The best way to get a sense of the config options is to just publish the config and take a look.
 
 ~~~
 > php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
@@ -114,11 +116,55 @@ If it needs to be run as part of the regular `php artisan migrate` use the `vend
 
 ## Themes
 
-The theme works as one source view that is set. That view should then accept an argument for what view to load and assemble the page. The theme can be set through the config with the `larablog.theme` property.
+To set a theme set the 'larablog.theme' property in the config. To simplify things ALL views should simply use `larablog::theme.master` as the main view. Then a `view` is set as part of the data sent to the view.
+
+```
+return view('larablog::themes.master', [
+    'view' => lb_view('post.show'),
+]);
+```
+
+The `lb_view` is a shortcut helper to use to avoid having to set the full path with the theme each time. This allows easy swapping of themes by only having to change the config parameter.
 
 So far the currently supported themes are:
 
 * default
+
+
+## Overriding Layouts
+
+In many cases you will want to add some customization to the layout to include some analytics tracking or ads for instance. To allow this the themes include many section blocks that can replace or modify existing layout.
+
+To start, create an `overrides` file in the views directory.
+
+```
+> /resources/views/vendor/larablog/themes/overrides.blade.php
+```
+
+From there the following section blocks can be used which hopefully are self explanatory.
+
+* `meta.opensearch`
+* `meta.title`
+* `meta.keywords`
+* `meta.description`
+* `meta.og`
+* `head.files`
+* `head.styles`
+* `sidebar.series`
+* `sidebar.popular`
+* `component.search`
+* `component.related`
+* `footer-nav.left`
+* `footer-nav.right`
+* `post.list`
+* `post.head`
+* `post.series`
+* `post.body`
+* `post.related`
+* `page.head`
+* `page.body`
+* `layout.view`
+* `layout.end`
 
 
 ## Customize
