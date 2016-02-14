@@ -79,8 +79,8 @@
                         </a>
                     </li>
 
-                    @foreach (config('larablog.nav.links') as $k => $v) 
-                        <li class="{{ Request::path() === $v ? 'active' : '' }}">
+                    @foreach (config('larablog.nav.links') as $k => $v)
+                        <li class="{{ '/' . preg_replace('/\/\{.*\}/', '', request()->route()->getPath()) === $v ? 'active' : '' }}">
                             <a href="{{ $v }}">{{ $k }}</a>
                         </li>
                     @endforeach
