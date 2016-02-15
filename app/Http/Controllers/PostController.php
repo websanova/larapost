@@ -40,7 +40,8 @@ class PostController extends BaseController
             'view' => lb_view('post.show'),
             'post' => $post,
             'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'top' => Larablog::top(),
+            'related' => Larablog::related($post)
         ]);
     }
 

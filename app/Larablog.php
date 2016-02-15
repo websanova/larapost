@@ -24,6 +24,11 @@ class Larablog
         return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
     }
 
+    public static function related(Post $post, $limit = 6)
+    {
+        return Post::selectRaw("*, MATCH(title, body) AGAINST(?) AS score", [$post->title])->where('published_at', '<>', 'NULL')->search($post->title)->where('type', 'post')->where('status', 'active')->orderBy('score', 'desc')->with('tags', 'serie')->limit($limit)->get();
+    }
+
     public static function posts()
     {
         return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->get();
