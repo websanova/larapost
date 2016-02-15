@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Parser\Field;
 
 use Websanova\Larablog\Larablog;
+use Illuminate\Support\Facades\DB;
 use Websanova\Larablog\Models\Tag;
 
 class Tags
@@ -49,5 +50,20 @@ class Tags
 		if (count($diff) > 0) {
 			echo 'Updated Tags: ' . $val . "\n";
 		}
+	}
+
+	public function cleanup()
+	{
+		$prefix = config('larablog.table.prefix');
+
+        // Clean out any old pivot data.
+        DB::statement("DELETE {$prefix}_post_tag FROM {$prefix}_post_tag LEFT JOIN {$prefix}_posts ON {$prefix}_post_tag.post_id = {$prefix}_posts.id WHERE NOT({$prefix}_post_tag.post_id = {$prefix}_posts.id AND {$prefix}_posts.status = 'active' AND {$prefix}_posts.type='post')");
+
+        // TODO: convert to eloquent?
+        DB::table($prefix . '_tags')->update([
+            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_post_tag WHERE {$prefix}_post_tag.tag_id = {$prefix}_tags.id)")
+        ]);
+        
+        Tag::where('posts_count', 0)->delete();
 	}
 }

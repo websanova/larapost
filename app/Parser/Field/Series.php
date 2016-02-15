@@ -2,6 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
+use Illuminate\Support\Facades\DB;
 use Websanova\Larablog\Models\Serie;
 
 class Series
@@ -24,5 +25,16 @@ class Series
         $data['serie_id'] = $serie->id;
 
         return $data;
+    }
+
+    public function cleanup()
+    {
+        $prefix = config('larablog.table.prefix');
+
+        DB::table($prefix . '_series')->update([
+            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_posts WHERE {$prefix}_posts.serie_id = {$prefix}_series.id)")
+        ]);
+
+        Serie::where('posts_count', 0)->delete();
     }
 }
