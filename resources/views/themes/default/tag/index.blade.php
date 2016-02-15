@@ -2,7 +2,7 @@
 
 <br/>
 
-<div>
+<div class="text-lg">
    @forelse ($tags as $t)
        <a href="{{ $t->url }}" class="label label-info">{{ $t->name }} ({{ $t->posts_count }})</a>
    @empty

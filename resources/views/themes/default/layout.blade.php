@@ -56,6 +56,7 @@
     @section ('head.styles')
         <style>
             h1.first {margin-top: 0px;}
+            .text-lg {font-size: 20px; line-height: 30px;}
         </style>
     @show
 </head>
