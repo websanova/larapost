@@ -26,7 +26,13 @@ class Larablog
 
     public static function related(Post $post, $limit = 6)
     {
-        return Post::selectRaw("*, MATCH(title, body) AGAINST(?) AS score", [$post->title])->where('published_at', '<>', 'NULL')->search($post->title)->where('type', 'post')->where('status', 'active')->orderBy('score', 'desc')->with('tags', 'serie')->limit($limit)->get();
+        $q = Post::selectRaw("*, MATCH(title, body) AGAINST(?) AS score", [$post->title])->where('published_at', '<>', 'NULL')->search($post->title)->where('type', 'post')->where('status', 'active')->where('id', '<>', $post->id)->orderBy('score', 'desc')->with('tags', 'serie')->limit($limit);
+
+        if ((int)$post->serie_id > 0) {
+            $q->where('serie_id', '<>', $post->serie_id);
+        }
+
+        return $q->get();
     }
 
     public static function posts()
