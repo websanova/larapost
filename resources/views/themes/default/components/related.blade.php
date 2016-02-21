@@ -20,14 +20,14 @@
                     </a>
                 </div>
 
-                @if (++$count % 2 === 0)
-                    <div class="clearfix visible-xs-block"></div>
-                @elseif ($count % 3 === 0)
-                    <div class="clearfix visible-sm-block"></div>
+                @if (++$count % 6 === 0)
+                    <div class="clearfix visible-lg-block"></div>
                 @elseif ($count % 4 === 0)
                     <div class="clearfix visible-md-block"></div>
-                @elseif ($count % 6 === 0)
-                    <div class="clearfix visible-lg-block"></div>
+                @elseif ($count % 3 === 0)
+                    <div class="clearfix visible-sm-block"></div>
+                @elseif ($count % 2 === 0)
+                    <div class="clearfix visible-xs-block"></div>
                 @endif
             @endforeach
         </div>
