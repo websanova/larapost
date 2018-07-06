@@ -86,7 +86,7 @@ class Larablog
 
     public static function publishedWhereTag($tag)
     {
-        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->orderBy('created_at', 'desc')->paginate(config('larablog.posts.perpage'));
+        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->orderBy('published_at', 'desc')->paginate(config('larablog.posts.perpage'));
     }
 
     public static function series()
@@ -96,6 +96,6 @@ class Larablog
 
     public static function publishedWhereSeries($serie)
     {
-        return $serie->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->orderBy('created_at', 'desc')->paginate(config('larablog.posts.perpage'));
+        return $serie->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
     }
 }
