@@ -2,13 +2,26 @@
 
 return [
 
-    'app' => [
-        'path' => 'blog',
-        'theme' => 'larablog::themes.default'
+    'path' => 'blog',
+    
+    'name' => 'LaraBlog',
+    
+    'author' => 'Websanova',
+    
+    'posts' => [
+        'src' => resource_path('larablog/posts'),
+
+        'per_page' => 15
     ],
 
-    'table' => [
-        'prefix' => 'lb'
+    'pages' => [
+        'src' => resource_path('larablog/pages')
+    ],
+
+    'assets' => [
+        'src' => resource_path('larablog/assets'),
+
+        'dest' => public_path('larablog')
     ],
 
     'meta' => [
@@ -16,6 +29,38 @@ return [
         'keywords' => 'laravel, blog, package',
         'logo' => '/img/logo-200x200.png',
         'title' => 'LaraBlog'
+    ],
+
+    'layout' => [
+        'theme' => 'larablog::themes.default',
+
+        'nav' => [
+            'title' => 'LaraBlog',
+            
+            'links' => [
+                'Home' => '/blog',
+                'Tags' => '/blog/tags',
+                'Series' => '/blog/series'
+            ]
+        ],
+
+        'social' => [
+            'twitter' => 'websanova',
+            
+            'facebook' => 'websanova',
+        ],
+
+        'footer' => [
+            'title' => 'LaraBlog',
+
+            'copy' => true,
+            
+            'plug' => true,
+        ]
+    ],
+
+    'table' => [
+        'prefix' => ''
     ],
 
     'routes' => [
@@ -73,31 +118,7 @@ return [
         ]
     ],
 
-    'nav' => [
-        'title' => 'LaraBlog',
-        'links' => [
-            'Home' => '/blog',
-            'Tags' => '/blog/tags',
-            'Series' => '/blog/series'
-        ]
-    ],
-
-    'posts' => [
-        'perpage' => 15
-    ],
-
-    'site' => [
-        'author' => 'Websanova',
-        'name' => 'LaraBlog',
-    ],
-
-    'social' => [
-        'twitter' => 'websanova',
-        'facebook' => 'websanova',
-    ],
-
-    'footer' => [
-        'copy' => true,
-        'plug' => true,
+    'docs' => [
+        'path' => 'docs'
     ]
 ];

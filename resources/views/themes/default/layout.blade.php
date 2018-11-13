@@ -10,11 +10,11 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="icon" href="/favicon.ico" type="image/x-icon" />
     
-    <link rel="alternate" type="application/rss+xml" title="{{ config('larablog.site.name') }} RSS Feed" href="{{ route('feed') }}">
-    <link rel="alternate" type="application/atom+xml" title="{{ config('larablog.site.name') }} Atom Feed" href="{{ route('atom') }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ config('larablog.name') }} RSS Feed" href="{{ route('feed') }}">
+    <link rel="alternate" type="application/atom+xml" title="{{ config('larablog.name') }} Atom Feed" href="{{ route('atom') }}">
 
     @section ('meta.opensearch')
-        <link type="application/opensearchdescription+xml" rel="search" title="{{ config('larablog.site.name') }}" href="{{ route('opensearch') }}" />
+        <link type="application/opensearchdescription+xml" rel="search" title="{{ config('larablog.name') }}" href="{{ route('opensearch') }}" />
     @show
     
     @section ('meta.title')
@@ -35,7 +35,7 @@
         <meta property="og:url" content="{{ url('/') }}{{ @$slug ?: (@$post->slug ?: '/' . Request::path()) }}" />
         <meta property="og:description" content="{{ @$description ?: (@$post->meta->description ?: config('larablog.meta.description')) }}" />
         <meta property="og:locale" content="{{ config('app.locale') }}" />
-        <meta property="og:site_name" content="{{ config('larablog.site.name') }}" />
+        <meta property="og:site_name" content="{{ config('larablog.name') }}" />
         <meta property="og:image" content="{{ url('/') }}{{ @$img ?: (@$post->meta->img ?: config('larablog.meta.logo')) }}" />
     @show
 
@@ -69,19 +69,19 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('blog') }}">{{ config('larablog.nav.title') }}</a>
+                <a class="navbar-brand" href="{{ route('blog') }}">{{ config('larablog.layout.nav.title') }}</a>
             </div>
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li class="visible-xs">
                         <a>
-                            @include (lb_view('components.search'))
+                            @include (larablog_view('components.search'))
                         </a>
                     </li>
 
-                    @foreach (config('larablog.nav.links') as $k => $v)
-                        <li class="{{ '/' . preg_replace('/\/\{.*\}/', '', request()->route()->getPath()) === $v ? 'active' : '' }}">
+                    @foreach (config('larablog.layout.nav.links') as $k => $v)
+                        <li class="{{ '/' . preg_replace('/\/\{.*\}/', '', request()->path()) === $v ? 'active' : '' }}">
                             <a href="{{ $v }}">{{ $k }}</a>
                         </li>
                     @endforeach
@@ -101,7 +101,7 @@
             </div>
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
                 <div class="hidden-xs">
-                    @include (lb_view('.components.search'))
+                    @include (larablog_view('.components.search'))
                 </div>
 
                 @section ('sidebar.series')
@@ -148,8 +148,8 @@
             <div class="col-xs-12">
                 @section ('footer-nav.left')
                     <div class="pull-left">
-                        @if (config('larablog.footer.copy'))
-                            {{ config('larablog.site.name') }}
+                        @if (config('larablog.layout.footer.copy'))
+                            {{ config('larablog.layout.footer.title') }}
                             &copy {{ date('Y') }}
                             &nbsp;
                         @endif
@@ -161,15 +161,15 @@
                         <a href="{{ route('feed') }}">
                             <i class="fa fa-2x fa-rss-square"></i></a>
 
-                        @if (config('larablog.social.twitter'))
+                        @if (config('larablog.layout.social.twitter'))
                             &nbsp;
-                            <a href="https://twitter.com/{{ config('larablog.social.twitter') }}">
+                            <a href="https://twitter.com/{{ config('larablog.layout.social.twitter') }}">
                                 <i class="fa fa-2x fa-twitter-square"></i></a>
                         @endif
 
-                        @if (config('larablog.social.facebook'))
+                        @if (config('larablog.layout.social.facebook'))
                             &nbsp;
-                            <a href="https://facebook.com/{{ config('larablog.social.facebook') }}">
+                            <a href="https://facebook.com/{{ config('larablog.layout.social.facebook') }}">
                                 <i class="fa fa-2x fa-facebook-square"></i></a>
                         @endif
 

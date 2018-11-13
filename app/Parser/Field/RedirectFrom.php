@@ -66,7 +66,7 @@ class RedirectFrom
             ->get();
 
         if ( ! $posts->isEmpty()) {
-            Post::whereIn('id', $posts->lists('id')->toArray())->delete();
+            Post::whereIn('id', $posts->pluck('id')->toArray())->delete();
 
             foreach ($posts as $p) {
                 echo 'Removed Redirect: ' . $p->slug . "\n";

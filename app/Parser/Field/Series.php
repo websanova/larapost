@@ -31,8 +31,8 @@ class Series
     {
         $prefix = config('larablog.table.prefix');
 
-        DB::table($prefix . '_series')->update([
-            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_posts WHERE {$prefix}_posts.serie_id = {$prefix}_series.id)")
+        DB::table($prefix . 'series')->update([
+            'posts_count' => DB::raw("(SELECT COUNT(*) FROM {$prefix}posts WHERE {$prefix}posts.serie_id = {$prefix}series.id)")
         ]);
 
         Serie::where('posts_count', 0)->delete();

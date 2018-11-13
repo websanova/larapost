@@ -2,4 +2,4 @@ Showing all posts with <a href="{{ $tag->url }}" class="label label-info">{{ $ta
 
 <hr/>
 
-@include (lb_view('post.list'))
+@include (larablog_view('post.list'))

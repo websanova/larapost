@@ -1,3 +1,3 @@
-@extends (lb_view('layout'))
+@extends (larablog_view('layout'))
 
 @include ('larablog::themes.overrides')

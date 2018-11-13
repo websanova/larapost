@@ -12,12 +12,12 @@ class Tag extends Model
     {
         parent::__construct($attributes);
         
-        $this->table = config('larablog.table.prefix') . '_tags';
+        $this->table = config('larablog.table.prefix') . 'tags';
     }
 
     public function posts()
     {
-        return $this->belongsToMany('Websanova\Larablog\Models\Post', config('larablog.table.prefix') . '_post_tag');
+        return $this->belongsToMany('Websanova\Larablog\Models\Post', config('larablog.table.prefix') . 'post_tag');
     }
 
     public function getUrlAttribute()

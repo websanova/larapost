@@ -40,7 +40,7 @@ class Tags
 			array_push($tags, $tag);
 		}
 		
-		$tags_old = $post->tags->lists('id')->toArray();
+		$tags_old = $post->tags->pluck('id')->toArray();
 		$tags_new = array_map(function ($v) { return $v->id; }, $tags);
 
 		$diff = array_merge(array_diff($tags_old, $tags_new), array_diff($tags_new, $tags_old));
@@ -57,11 +57,11 @@ class Tags
 		$prefix = config('larablog.table.prefix');
 
         // Clean out any old pivot data.
-        DB::statement("DELETE {$prefix}_post_tag FROM {$prefix}_post_tag LEFT JOIN {$prefix}_posts ON {$prefix}_post_tag.post_id = {$prefix}_posts.id WHERE NOT({$prefix}_post_tag.post_id = {$prefix}_posts.id AND {$prefix}_posts.status = 'active' AND {$prefix}_posts.type='post')");
+        DB::statement("DELETE {$prefix}post_tag FROM {$prefix}post_tag LEFT JOIN {$prefix}posts ON {$prefix}post_tag.post_id = {$prefix}posts.id WHERE NOT({$prefix}post_tag.post_id = {$prefix}posts.id AND {$prefix}posts.status = 'active' AND {$prefix}posts.type='post')");
 
         // TODO: convert to eloquent?
-        DB::table($prefix . '_tags')->update([
-            'posts_count' => DB::Raw("(SELECT COUNT(*) FROM {$prefix}_post_tag WHERE {$prefix}_post_tag.tag_id = {$prefix}_tags.id)")
+        DB::table($prefix . 'tags')->update([
+            'posts_count' => DB::raw("(SELECT COUNT(*) FROM {$prefix}post_tag WHERE {$prefix}post_tag.tag_id = {$prefix}tags.id)")
         ]);
         
         Tag::where('posts_count', 0)->delete();

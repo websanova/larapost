@@ -9,7 +9,7 @@ class CreateLarablogBlogTable extends Migration
 	{
 		$prefix = config('larablog.table.prefix');
 
-		Schema::create($prefix . '_posts', function(Blueprint $t)
+		Schema::create($prefix . 'posts', function(Blueprint $t)
 		{
 			$t->increments('id')->unsigned();
 			$t->string('identifier', 255)->index();
@@ -17,7 +17,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->string('title', 255);
 			$t->text('body');
 			$t->text('meta');
-			$t->enum('type', ['page', 'post', 'redirect'])->default('post');
+			$t->string('type', 255)->index();
 			$t->enum('status', ['active', 'deleted'])->default('active')->index();
 			$t->integer('views_count')->unsigned()->default(0)->index();
 			$t->datetime('published_at')->index()->nullable();
@@ -27,9 +27,9 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('updated_at');
 		});
 
-		\DB::statement("ALTER TABLE " . $prefix . "_posts ADD FULLTEXT KEY " . $prefix . "_posts_title_body_fulltext (`title`, `body`)");
+		\DB::statement("ALTER TABLE " . $prefix . "posts ADD FULLTEXT KEY " . $prefix . "posts_title_body_fulltext (`title`, `body`)");
 
-		Schema::create($prefix . '_tags', function(Blueprint $t)
+		Schema::create($prefix . 'tags', function(Blueprint $t)
 		{
 			$t->increments('id')->unsigned();
 			$t->string('slug', 255)->unique()->index();
@@ -41,7 +41,7 @@ class CreateLarablogBlogTable extends Migration
 			$t->index('updated_at');
 		});
 
-		Schema::create($prefix . '_post_tag', function(Blueprint $t)
+		Schema::create($prefix . 'post_tag', function(Blueprint $t)
 		{
 			$t->integer('post_id')->unsigned()->index();
 			$t->integer('tag_id')->unsigned()->index();
@@ -52,8 +52,8 @@ class CreateLarablogBlogTable extends Migration
 	{
 		$prefix = config('larablog.table.prefix');
 
-		Schema::drop($prefix . '_post_tag');
-		Schema::drop($prefix . '_posts');
-		Schema::drop($prefix . '_tags');
+		Schema::drop($prefix . 'post_tag');
+		Schema::drop($prefix . 'posts');
+		Schema::drop($prefix . 'tags');
 	}
 }

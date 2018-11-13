@@ -11,7 +11,7 @@ class SerieController extends BaseController
     public function index()
     {
         return view('larablog::themes.master', [
-            'view' => lb_view('serie.index'),
+            'view' => larablog_view('serie.index'),
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);
@@ -25,7 +25,7 @@ class SerieController extends BaseController
             return self::notfound();
         }
         return view('larablog::themes.master', [
-            'view' => lb_view('serie.show'),
+            'view' => larablog_view('serie.show'),
             'serie' => $serie,
             'posts' => Larablog::publishedWhereSeries($serie),
             'series' => Larablog::series(),
@@ -36,7 +36,7 @@ class SerieController extends BaseController
     public function notfound()
     {
         return view('larablog::themes.master', [
-            'view' => lb_view('error.404'),
+            'view' => larablog_view('error.404'),
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);

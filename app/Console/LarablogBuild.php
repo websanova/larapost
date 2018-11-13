@@ -6,8 +6,6 @@ namespace Websanova\Larablog\Console;
 use Illuminate\Console\Command;
 use Websanova\Larablog\Parser\Type\Page;
 use Websanova\Larablog\Parser\Type\Post;
-use Websanova\Larablog\Parser\Field\Tags;
-use Websanova\Larablog\Parser\Field\Series;
 
 class LarablogBuild extends Command
 {
@@ -35,10 +33,7 @@ class LarablogBuild extends Command
         $path = base_path(config('larablog.app.path'));
 
         (new Post($path))->handle();
+        
         (new Page($path))->handle();
-
-        // TODO: Where to register these cleanup functions?
-        (new Tags)->cleanup();
-        (new Series)->cleanup();
     }
 }

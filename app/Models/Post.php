@@ -14,12 +14,12 @@ class Post extends Model
     {
         parent::__construct($attributes);
         
-        $this->table = config('larablog.table.prefix') . '_posts';
+        $this->table = config('larablog.table.prefix') . 'posts';
     }
 
     public function tags()
     {
-        return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.table.prefix') . '_post_tag');
+        return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.table.prefix') . 'post_tag');
     }
 
     public function serie()

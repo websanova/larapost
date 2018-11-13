@@ -17,7 +17,8 @@ class LarablogServiceProvider extends ServiceProvider
         );
 
         $this->commands([
-            'Websanova\Larablog\Console\LarablogBuild'
+            'Websanova\Larablog\Console\LarablogBuild',
+            'Websanova\Larablog\Console\LarablogPublish'
         ]);
     }
 

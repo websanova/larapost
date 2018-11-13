@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rss version="2.0">
 <channel>
-    <title>{!! config('larablog.site.name') !!}</title>
+    <title>{!! config('larablog.name') !!}</title>
     <link>{!! htmlspecialchars(url('/')) !!}</link>
     <description>{!! htmlspecialchars(config('larablog.meta.description')) !!}</description>
     <lastBuildDate>{!! htmlspecialchars(date('c', strtotime(@$last->published_at))) !!}</lastBuildDate>

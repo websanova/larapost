@@ -11,7 +11,7 @@ class TagController extends BaseController
     public function index()
     {
         return view('larablog::themes.master', [
-            'view' => lb_view('tag.index'),
+            'view' => larablog_view('tag.index'),
             'tags' => Larablog::tags(),
             'series' => Larablog::series(),
             'top' => Larablog::top()
@@ -27,7 +27,7 @@ class TagController extends BaseController
         }
         
         return view('larablog::themes.master', [
-            'view' => lb_view('tag.show'),
+            'view' => larablog_view('tag.show'),
             'tag' => $tag,
             'posts' => Larablog::publishedWhereTag($tag),
             'series' => Larablog::series(),
@@ -38,7 +38,7 @@ class TagController extends BaseController
     public function notfound()
     {
         return view('larablog::themes.master', [
-            'view' => lb_view('error.404'),
+            'view' => larablog_view('error.404'),
             'series' => Larablog::series(),
             'top' => Larablog::top()
         ]);

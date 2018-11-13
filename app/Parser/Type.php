@@ -6,14 +6,36 @@ use Exception;
 use Websanova\Larablog\Models\Post;
 use Illuminate\Support\Facades\File;
 use Websanova\Larablog\Parser\Parser;
+use Websanova\Larablog\Parser\Field\Tags;
+use Websanova\Larablog\Parser\Field\Series;
 
 class Type
 {
     protected $path = null;
 
+    protected $new_count = 0;
+
+    protected $update_count = 0;
+
     public function __construct($path)
     {
         $this->path = $path;
+    }
+
+    protected function getSingular()
+    {
+        $class = explode('\\', strtolower(get_class($this)));
+
+        return end($class);
+    }
+
+    protected function getPlural()
+    {
+        if (isset($this->type)) {
+            return strtolower($this->type);
+        }
+
+        return $this->getSingular() . 's';
     }
 
     public function handle()
@@ -35,7 +57,9 @@ class Type
 
             $data = Parser::process($fields);
 
-            $post = Post::where('identifier', $data['identifier'])->first();
+            $post = Post::query()
+                ->where('identifier', $data['identifier'])
+                ->first();
 
             if ($post) {
                 $post = $this->update($post, $data);
@@ -50,14 +74,23 @@ class Type
         }
 
         $this->delete($identifiers);
+
+        $this->cleanup();
+
+        echo 'New ' . $this->getPlural() . ': ' . $this->new_count . "\n";
+
+        echo 'Updated ' . $this->getPlural() . ': ' . $this->new_count . "\n";
     }
 
     public function create($data)
     {
-        $data['type'] = $this->type;
+        $data['type'] = $this->getSingular();
 
         $post = Post::create($data);
-        echo 'New ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
+        
+        echo 'New ' . ucfirst($this->getSingular()) . ': ' . $data['identifier'] . "\n";
+
+        $this->new_count++;
 
         return $post;
     }
@@ -66,11 +99,14 @@ class Type
     {
         $post->fill($data);
         $post->status = 'active';
-        $post->type = $this->type;
+        $post->type = $this->getSingular();
 
         if ($post->isDirty()) {
             $post->save();
-            echo 'Update ' . ucfirst($this->type) . ': ' . $data['identifier'] . "\n";
+
+            $this->update_count++;
+            
+            echo 'Update ' . ucfirst($this->getSingular()) . ': ' . $data['identifier'] . "\n";
         }
 
         return $post;
@@ -78,23 +114,26 @@ class Type
 
     public function delete($identifiers)
     {
-        $posts = Post::whereNotIn('identifier', $identifiers)
-            ->where('type', $this->type)
+        $posts = Post::query()
+            ->whereNotIn('identifier', $identifiers)
+            ->where('type', $this->getSingular())
             ->where('status', '<>', 'deleted')
             ->get();
-            
-        Post::whereIn('id', $posts->lists('id')->toArray())->update([
-            'status' => 'deleted'
-        ]);
+
+        Post::query()
+            ->whereIn('id', $posts->pluck('id')->toArray())
+            ->update([
+                'status' => 'deleted'
+            ]);
 
         foreach ($posts as $p) {
-            echo 'Removed ' . ucfirst($this->type) . ': ' . $p->identifier . "\n";
+            echo 'Removed ' . ucfirst($this->getSingular()) . ': ' . $p->identifier . "\n";
         }
     }
 
     public function getFullPath()
     {
-        return $this->path . '/' . $this->folder;
+        return config('larablog.' . $this->getPlural() . '.src');
     }
 
     public function folderExists()
@@ -106,5 +145,12 @@ class Type
         }
 
         return $path;
+    }
+
+    public function cleanup()
+    {
+        (new Tags)->cleanup();
+        
+        (new Series)->cleanup();
     }
 }

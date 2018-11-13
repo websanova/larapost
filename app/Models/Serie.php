@@ -12,7 +12,7 @@ class Serie extends Model
     {
         parent::__construct($attributes);
         
-        $this->table = config('larablog.table.prefix') . '_series';
+        $this->table = config('larablog.table.prefix') . 'series';
     }
 
     public function posts()

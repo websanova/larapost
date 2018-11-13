@@ -35,6 +35,26 @@ Navigate to `/blog` and see the default blog page. With no articles there will j
 **Note:** that with a fresh Laravel install the default `/` path for the `welcome` page should be removed.
 
 
+## Folders
+
+You will need to have a couple folders setup for the `build` command to function. The folders will be based on the path set in the config.
+
+By default there will be three.
+
+~~~
+resources/larablog/pages
+resources/larablog/posts
+resources/larablog/assets
+~~~
+
+
+## Assets
+
+The contents of the `assets` folder, if exists will automatically copy over to the target public directory set in the config.
+
+By default the target directory is named `larablog`.
+
+
 ## Adding & Updating Posts
 
 Out of the box any post or page should be written using markdown format. By default, post and page markdown files should go in the `./blog/posts` and `./blog/pages` folders respectively.
@@ -94,7 +114,7 @@ Current parsers that ship are:
 The best way to get a sense of the config options is to just publish the config and take a look.
 
 ~~~
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
+> php artisan larablog:publish --tag=config
 ~~~
 
 
@@ -110,7 +130,7 @@ The migration can be run directly from the packages `migrations` folder.
 If it needs to be run as part of the regular `php artisan migrate` use the `vendor:publish` command.
 
 ~~~
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=migrations
+> php artisan larablog:publish --tag=migrations
 ~~~
 
 
@@ -120,11 +140,11 @@ To set a theme set the 'larablog.theme' property in the config. To simplify thin
 
 ```
 return view('larablog::themes.master', [
-    'view' => lb_view('post.show'),
+    'view' => larablog_view('post.show'),
 ]);
 ```
 
-The `lb_view` is a shortcut helper to use to avoid having to set the full path with the theme each time. This allows easy swapping of themes by only having to change the config parameter.
+The `larablog_view` is a shortcut helper to use to avoid having to set the full path with the theme each time. This allows easy swapping of themes by only having to change the config parameter.
 
 So far the currently supported themes are:
 
@@ -196,16 +216,16 @@ The facade provides access to the following shortcut functions:
 Publish all files from the package.
 
 ~~~
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider"
+> php artisan larablog:publish
 ~~~
 
 Or publish separately.
 
 ~~~
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=migrations
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=views
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=config
-> php artisan vendor:publish --provider="Websanova\Larablog\Providers\LarablogServiceProvider" --tag=assets
+> php artisan larablog:publish --tag=migrations
+> php artisan larablog:publish --tag=views
+> php artisan larablog:publish --tag=config
+> php artisan larablog:publish --tag=assets
 ~~~
 
 

@@ -28,7 +28,7 @@
 @show
 
 @section ('post.buttons')
-    @include (lb_view('components.buttons'))
+    @include (larablog_view('components.buttons'))
 @show
 
 @section ('post.body')
@@ -36,5 +36,5 @@
 @show
 
 @section ('post.related')
-    @include (lb_view('components.related'))
+    @include (larablog_view('components.related'))
 @show

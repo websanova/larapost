@@ -2,4 +2,4 @@
 
 <hr/>
 
-@include (lb_view('post.list'))
+@include (larablog_view('post.list'))

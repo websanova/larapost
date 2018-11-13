@@ -9,7 +9,7 @@ class UpdateLarablogAddSeriesTable extends Migration
     {
         $prefix = config('larablog.table.prefix');
 
-        Schema::create($prefix . '_series', function(Blueprint $t)
+        Schema::create($prefix . 'series', function(Blueprint $t)
         {
             $t->increments('id')->unsigned();
             $t->string('slug', 255)->unique()->index();
@@ -21,7 +21,7 @@ class UpdateLarablogAddSeriesTable extends Migration
             $t->index('updated_at');
         });
 
-        Schema::table($prefix . '_posts', function(Blueprint $t) {
+        Schema::table($prefix . 'posts', function(Blueprint $t) {
             $t->integer('serie_id')->unsigned()->default(0)->index()->after('id');
         });
     }
@@ -30,10 +30,10 @@ class UpdateLarablogAddSeriesTable extends Migration
     {
         $prefix = config('larablog.table.prefix');
 
-        Schema::table($prefix . '_posts', function(Blueprint $t) {
+        Schema::table($prefix . 'posts', function(Blueprint $t) {
             $t->dropColumn('serie_id');
         });
 
-        Schema::drop($prefix . '_series');
+        Schema::drop($prefix . 'series');
     }
 }
