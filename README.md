@@ -127,7 +127,7 @@ The migration can be run directly from the packages `migrations` folder.
 > php artisan migrate:rollback
 ~~~
 
-If it needs to be run as part of the regular `php artisan migrate` use the `vendor:publish` command.
+If it needs to be run as part of the regular `php artisan migrate` use the `larablog:publish` shortcut.
 
 ~~~
 > php artisan larablog:publish --tag=migrations

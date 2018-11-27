@@ -12,7 +12,13 @@ class Larablog
 {
     public static function published()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
+        return Post::query()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->with('tags', 'serie')
+            ->orderBy('published_at', 'desc')
+            ->paginate(config('larablog.posts.perpage'));
     }
 
     public static function search($q = '')
@@ -21,12 +27,28 @@ class Larablog
             $q = Input::get('q');
         }
 
-        return Post::where('published_at', '<>', 'NULL')->search($q)->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
+        return Post::query()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->search($q)
+            ->with('tags', 'serie')
+            ->orderBy('published_at', 'desc')
+            ->paginate(config('larablog.posts.perpage'));
     }
 
     public static function related(Post $post, $limit = 6)
     {
-        $q = Post::selectRaw("*, MATCH(title, body) AGAINST(?) AS score", [$post->title])->where('published_at', '<>', 'NULL')->search($post->title)->where('type', 'post')->where('status', 'active')->where('id', '<>', $post->id)->orderBy('score', 'desc')->with('tags', 'serie')->limit($limit);
+        $q = Post::query()
+            ->selectRaw("*, MATCH(title, body) AGAINST(?) AS score", [$post->title])
+            ->where('published_at', '<>', 'NULL')
+            ->search($post->title)
+            ->where('type', 'post')
+            ->where('status', 'active')
+            ->where('id', '<>', $post->id)
+            ->with('tags', 'serie')
+            ->orderBy('score', 'desc')
+            ->limit($limit);
 
         if ((int)$post->serie_id > 0) {
             $q->where('serie_id', '<>', $post->serie_id);
@@ -37,17 +59,32 @@ class Larablog
 
     public static function posts()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->with('tags')->get();
+        return Post::query()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->with('tags', 'serie')
+            ->orderBy('published_at', 'desc')
+            ->get();
     }
 
     public static function pages()
     {
-        return Post::where('type', 'page')->where('status', 'active')->orderBy('title', 'asc')->get();
+        return Post::query()
+            ->where('type', 'page')
+            ->whereNull('deleted_at')
+            ->orderBy('title', 'asc')
+            ->get();
     }
 
     public static function last()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('published_at', 'desc')->first();
+        return Post::query()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->orderBy('published_at', 'desc')
+            ->first();
     }
 
     public static function post($slug = '')
@@ -71,31 +108,66 @@ class Larablog
 
     public static function top($amount = 10)
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->orderBy('views_count', 'desc')->limit(10)->get();
+        return Post::query()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->orderBy('views_count', 'desc')
+            ->limit(10)
+            ->get();
     }
 
     public static function count()
     {
-        return Post::where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->count();
+        return Post::query()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->count();
     }
 
     public static function tags()
     {
-        return Tag::orderBy('slug', 'asc')->get();
+        return Tag::query()
+            ->orderBy('slug', 'asc')
+            ->get();
     }
 
     public static function publishedWhereTag($tag)
     {
-        return $tag->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->orderBy('published_at', 'desc')->paginate(config('larablog.posts.perpage'));
+        return $tag
+            ->posts()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->with('tags', 'serie')
+            ->orderBy('published_at', 'desc')
+            ->paginate(config('larablog.posts.perpage'));
     }
 
     public static function series()
     {
-        return Serie::orderBy('slug', 'asc')->with('posts')->get();
+        return Serie::query()
+            ->orderBy('slug', 'asc')
+            ->with('posts.tags', 'posts.serie')
+            ->get();
     }
 
     public static function publishedWhereSeries($serie)
     {
-        return $serie->posts()->where('published_at', '<>', 'NULL')->where('type', 'post')->where('status', 'active')->with('tags', 'serie')->paginate(config('larablog.posts.perpage'));
+        return $serie
+            ->posts()
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
+            ->where('type', 'post')
+            ->with('tags', 'serie')
+            ->paginate(config('larablog.posts.perpage'));
+    }
+
+    public static function docs()
+    {
+        return Doc::query()
+            ->orderBy('slug', 'asc')
+            ->get();
     }
 }

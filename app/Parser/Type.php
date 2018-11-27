@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Parser;
 
 use Exception;
+use Carbon\Carbon;
 use Websanova\Larablog\Models\Post;
 use Illuminate\Support\Facades\File;
 use Websanova\Larablog\Parser\Parser;
@@ -98,7 +99,7 @@ class Type
     public function update($post, $data)
     {
         $post->fill($data);
-        $post->status = 'active';
+        $post->deleted_at = null;
         $post->type = $this->getSingular();
 
         if ($post->isDirty()) {
@@ -117,13 +118,13 @@ class Type
         $posts = Post::query()
             ->whereNotIn('identifier', $identifiers)
             ->where('type', $this->getSingular())
-            ->where('status', '<>', 'deleted')
+            ->whereNull('deleted_at')
             ->get();
 
         Post::query()
             ->whereIn('id', $posts->pluck('id')->toArray())
             ->update([
-                'status' => 'deleted'
+                'deleted_at' => Carbon::now()
             ]);
 
         foreach ($posts as $p) {

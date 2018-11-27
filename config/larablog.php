@@ -100,6 +100,7 @@ return [
         ],
 
         '/blog/tags/{slug}' => [
+            'as' => 'tag',
             'uses' => '\Websanova\Larablog\Http\Controllers\TagController@show'
         ],
 
@@ -109,7 +110,23 @@ return [
         ],
 
         '/blog/series/{slug}' => [
+            'as' => 'serie',
             'uses' => '\Websanova\Larablog\Http\Controllers\SerieController@show'
+        ],
+
+        '/docs' => [
+            'as' => 'docs',
+            'uses' => '\Websanova\Larablog\Http\Controllers\DocController@index'
+        ],
+
+        '/docs/{doc}' => [
+            'as' => 'doc',
+            'uses' => '\Websanova\Larablog\Http\Controllers\DocController@show'
+        ],
+
+        '/docs/{doc}/{slug}' => [
+            'as' => 'section',
+            'uses' => '\Websanova\Larablog\Http\Controllers\DocController@section'
         ],
 
         '/{any}' => [
@@ -119,6 +136,6 @@ return [
     ],
 
     'docs' => [
-        'path' => 'docs'
+        'src' => resource_path('larablog/docs')
     ]
 ];
