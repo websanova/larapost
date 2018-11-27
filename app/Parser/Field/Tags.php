@@ -57,7 +57,7 @@ class Tags
 		$prefix = config('larablog.table.prefix');
 
         // Clean out any old pivot data.
-        DB::statement("DELETE {$prefix}post_tag FROM {$prefix}post_tag LEFT JOIN {$prefix}posts ON {$prefix}post_tag.post_id = {$prefix}posts.id WHERE NOT({$prefix}post_tag.post_id = {$prefix}posts.id AND {$prefix}posts.status = 'active' AND {$prefix}posts.type='post')");
+        DB::statement("DELETE {$prefix}post_tag FROM {$prefix}post_tag LEFT JOIN {$prefix}posts ON {$prefix}post_tag.post_id = {$prefix}posts.id WHERE NOT({$prefix}post_tag.post_id = {$prefix}posts.id AND {$prefix}posts.deleted_at = NULL AND {$prefix}posts.type='post')");
 
         // TODO: convert to eloquent?
         DB::table($prefix . 'tags')->update([

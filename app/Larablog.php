@@ -41,10 +41,10 @@ class Larablog
     {
         $q = Post::query()
             ->selectRaw("*, MATCH(title, body) AGAINST(?) AS score", [$post->title])
-            ->where('published_at', '<>', 'NULL')
+            ->whereNull('deleted_at')
+            ->whereNotNull('published_at')
             ->search($post->title)
             ->where('type', 'post')
-            ->where('status', 'active')
             ->where('id', '<>', $post->id)
             ->with('tags', 'serie')
             ->orderBy('score', 'desc')
@@ -97,9 +97,12 @@ class Larablog
             $slug = '/' . $slug;
         }
 
-        $post = Post::where('slug', $slug)->with('tags', 'serie')->first();
+        $post = Post::query()
+            ->where('slug', $slug)
+            ->with('tags', 'serie')
+            ->first();
 
-        if ($post && $post->type === 'post' && ($post->published_at === null || $post->status !== 'active') ) {
+        if ($post && $post->type === 'post' && ($post->published_at === null || $post->deleted_at !== null) ) {
             return null;
         }
 
