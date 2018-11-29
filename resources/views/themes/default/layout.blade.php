@@ -81,13 +81,15 @@
                     <span class="icon-bar"></span>
                 </button>
 
-                <i
-                    class="navbar-toggle collapsed fa fa-lg fa-th-list visible-xs"
-                    data-toggle="collapse"
-                    data-target="#chapters"
-                    aria-expanded="false"
-                    aria-controls="chapters"
-                ></i>
+                @if (@$chapters)
+                    <i
+                        class="navbar-toggle chapters-toggle collapsed fa fa-lg fa-th-list visible-xs"
+                        data-toggle="collapse"
+                        data-target="#chapters"
+                        aria-expanded="false"
+                        aria-controls="chapters"
+                    ></i>
+                @endif
             </div>
 
             <div id="navbar" class="navbar-collapse collapse">
@@ -106,23 +108,25 @@
                 </ul>
             </div>
 
-            <div id="chapters" class="navbar-collapse collapse">
-                <div class="visible-xs">
-                    <ul class="nav navbar-nav navbar-right">
-                        @foreach ($chapters as $c)
-                            <li>
-                                <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a></li>
-                            </li>
-
-                            @foreach ($c->sections as $s)
+            @if (@$chapters)
+                <div id="chapters" class="navbar-collapse collapse">
+                    <div class="visible-xs">
+                        <ul class="nav navbar-nav navbar-right">
+                            @foreach ($chapters as $c)
                                 <li>
-                                    <a href="#{{ $s->slug }}">{{ $s->title }}</a>
+                                    <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a></li>
                                 </li>
+
+                                @foreach (@$c->sections as $s)
+                                    <li onclick="$('.chapters-toggle').click()">
+                                        <a href="#{{ $s->slug }}">{{ $s->title }}</a>
+                                    </li>
+                                @endforeach
                             @endforeach
-                        @endforeach
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </nav>
 
@@ -136,7 +140,7 @@
                 @show
             </div>
             
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 {{ $post->type === 'doc' ? 'hidden-xs': '' }}">
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 {{ @$post->type === 'doc' ? 'hidden-xs': '' }}">
                 @section ('sidebar.search')
                     @if (!isset($search) || $search !== false)
                         <div class="hidden-xs">
@@ -156,7 +160,7 @@
                                 <div class="media-body">
                                     <a href="{{ $c->url }}"><b>{{ $c->title }}</b></a>
 
-                                    @foreach ($c->sections as $s)
+                                    @foreach (@$c->sections as $s)
                                         <div>
                                             <a href="#{{ $s->slug }}">{{ $s->title }}</a>
                                         </div>
