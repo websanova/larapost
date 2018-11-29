@@ -43,14 +43,16 @@ class DocController extends BaseController
             'title' => 'Vue Upload'
         ];
 
-        $chapter = (object)[
-
-        ];
+        // $chapter = (object)[
+        //     'title' => 'Chapter One'
+        // ];
 
         $chapters = Larablog::chapters($doc);
 
         $post = (object)[
             'identifier' => $slug,
+            'title' => $slug,
+            'type' => 'chapter',
             'body' => \Websanova\Larablog\Markdown\Markdown::extra(file_get_contents(resource_path('larablog/docs/vue-upload/' . $slug . '.md')))
         ];
 

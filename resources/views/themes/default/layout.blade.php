@@ -57,10 +57,11 @@
         <style>
             h1.first {margin-top: 0px;}
             .text-lg {font-size: 20px; line-height: 30px;}
+            a.anchor {display:block; position:relative; top:-50px; visibility:hidden;}
         </style>
     @show
 </head>
-<body>
+<body style="padding-top:70px;">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -90,7 +91,7 @@
         </div>
     </nav>
 
-    <br/><br/><br/><br/>
+    {{-- <br/><br/><br/><br/> --}}
 
     <div id="container" class="container">
         <div class="row">

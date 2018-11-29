@@ -1,4 +1,5 @@
-{{-- @include (larablog_view('doc.vue-upload-' . $post->identifier)) --}}
-
+<h1 class="first">
+    {{ $post->title }}
+</h1>
 
 {!! $post->body !!}
