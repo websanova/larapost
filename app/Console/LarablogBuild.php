@@ -2,8 +2,8 @@
 
 namespace Websanova\Larablog\Console;
 
-//use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Websanova\Larablog\Parser\Type\Doc;
 use Websanova\Larablog\Parser\Type\Page;
 use Websanova\Larablog\Parser\Type\Post;
 
@@ -30,12 +30,10 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        // $path = base_path(config('larablog.app.path'));
-
         (new Post)->handle();
         
         (new Page)->handle();
 
-        // (new Doc)->handle();
+        (new Doc)->handle();
     }
 }
