@@ -5,7 +5,7 @@
         <hr/>
     @endif
 
-    <h1><a href="{{ $v->url }}">{{ $v->title }}</a></h1>
+    <h2><a href="{{ $v->url }}">{{ $v->title }}</a></h2>
 
     <div class="text-muted">{{ $v->posts_count }} Part Series</div>
 

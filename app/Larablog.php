@@ -2,6 +2,7 @@
 
 namespace Websanova\Larablog;
 
+use Websanova\Larablog\Models\Doc;
 use Websanova\Larablog\Models\Tag;
 use Websanova\Larablog\Models\Post;
 use Websanova\Larablog\Models\Serie;
@@ -169,8 +170,101 @@ class Larablog
 
     public static function docs()
     {
+        return new \Illuminate\Database\Eloquent\Collection([
+            (object)[
+                'slug' => '/docs/vue-upload',
+                'url' => route('docs') . '/vue-upload',
+                'title' => 'Vue Upload'
+            ]
+        ]);
+
         return Doc::query()
             ->orderBy('slug', 'asc')
             ->get();
+    }
+
+    public static function chapters($doc)
+    {
+        return new \Illuminate\Database\Eloquent\Collection([
+            (object)[
+                'slug' => '/docs/vue-upload/chapter-one',
+                'url' => route('docs') . '/vue-upload/chapter-one',
+                'title' => 'Chapter One',
+                'sections' => new \Illuminate\Database\Eloquent\Collection([
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/chapter-one#section-one',
+                        'title' => 'Section One',
+                        'slug' => 'section-one'
+                    ],
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/chapter-one#section-two',
+                        'title' => 'Section Two',
+                        'slug' => 'section-two'
+                    ],
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/chapter-one#section-three',
+                        'title' => 'Section Three',
+                        'slug' => 'section-three'
+                    ],
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/chapter-one#section-four',
+                        'title' => 'Section Four',
+                        'slug' => 'section-four'
+                    ],
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/chapter-one#section-five',
+                        'title' => 'Section Five',
+                        'slug' => 'section-five'
+                    ]
+                ])
+            ],
+            (object) [
+                'slug' => '/docs/vue-upload/chapter-two',
+                'url' => route('docs') . '/vue-upload/chapter-two',
+                'title' => 'Chapter Two',
+                'sections' => new \Illuminate\Database\Eloquent\Collection([
+                    (object)[
+                        // 'slug' => '/docs/vue-upload/chapter-one',
+                        'url' => route('docs') . '/vue-upload/chapter-two#section-one',
+                        'title' => 'Section One',
+                        'slug' => 'section-one'
+                    ]
+                ])
+            ],
+            (object) [
+                'slug' => '/docs/vue-upload/methods',
+                'url' => route('docs') . '/vue-upload/methods',
+                'title' => 'Methods',
+                'sections' => new \Illuminate\Database\Eloquent\Collection([
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/methods#on',
+                        'title' => 'on()',
+                        'slug' => 'on'
+                    ],
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/methods#reset',
+                        'title' => 'reset()',
+                        'slug' => 'reset'
+                    ]
+                ])
+            ],
+            (object) [
+                'slug' => '/docs/vue-upload/options',
+                'url' => route('docs') . '/vue-upload/options',
+                'title' => 'Options',
+                'sections' => new \Illuminate\Database\Eloquent\Collection([
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/options#multiple',
+                        'title' => 'multiple',
+                        'slug' => 'multiple'
+                    ],
+                    (object)[
+                        'url' => route('docs') . '/vue-upload/options#something',
+                        'title' => 'something',
+                        'slug' => 'something'
+                    ]
+                ])
+            ]
+        ]);
     }
 }

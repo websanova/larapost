@@ -13,39 +13,47 @@ class DocController extends BaseController
         return view('larablog::themes.master', [
             'view' => larablog_view('doc.index'),
             'docs' => Larablog::docs(),
-            'top' => Larablog::top()
+            // 'top' => Larablog::top()
         ]);
     }
 
-    public function show($slug)
+    public function show($doc)
     {
-        $serie = Serie::where('slug', $slug)->first();
-
-        if ( ! $serie) {
+        if ($doc !== 'vue-upload') {
             return self::notfound();
         }
-        return view('larablog::themes.master', [
-            'view' => larablog_view('serie.show'),
-            'serie' => $serie,
-            'posts' => Larablog::publishedWhereSeries($serie),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
-        ]);
+
+        return redirect('/docs/vue-upload/chapter-one');
     }
 
-    public function section($slug)
+    public function chapter($doc, $slug)
     {
-        $serie = Serie::where('slug', $slug)->first();
-
-        if ( ! $serie) {
+        if ($doc !== 'vue-upload') {
             return self::notfound();
         }
+
+        if (!in_array($slug, ['chapter-one', 'chapter-two', 'methods', 'options'])) {
+            return self::notfound();
+        }
+
+        $doc = (object)[
+            'slug' => '/docs/vue-upload',
+            'url' => route('docs') . '/vue-upload',
+            'title' => 'Vue Upload'
+        ];
+
+        $chapters = Larablog::chapters($doc);
+
+        $post = (object)[
+            'identifier' => $slug,
+            'body' => \Websanova\Larablog\Markdown\Markdown::extra(file_get_contents(resource_path('larablog/docs/vue-upload/' . $slug . '.md')))
+        ];
+
         return view('larablog::themes.master', [
-            'view' => larablog_view('serie.show'),
-            'serie' => $serie,
-            'posts' => Larablog::publishedWhereSeries($serie),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'view' => larablog_view('doc.chapter'),
+            'doc' => $doc,
+            'chapters' => $chapters,
+            'post' => $post
         ]);
     }
 
@@ -54,7 +62,7 @@ class DocController extends BaseController
         return view('larablog::themes.master', [
             'view' => larablog_view('error.404'),
             'docs' => Larablog::docs(),
-            'top' => Larablog::top()
+            // 'top' => Larablog::top()
         ]);
     }
 }

@@ -99,10 +99,35 @@
                     @include ($view)
                 @show
             </div>
+            
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
                 <div class="hidden-xs">
-                    @include (larablog_view('.components.search'))
+                    @include (larablog_view('components.search'))
                 </div>
+
+                @section ('sidebar.sections')
+                    @if (@$chapters && ! $chapters->isEmpty())
+                        {{-- <h4 class="page-header">Series</h4> --}}
+
+                        @foreach ($chapters as $c)
+                            <div class="media">
+                                <div class="media-left">
+                                    <div class="bg-info">&nbsp;</div>
+                                </div>
+                                
+                                <div class="media-body">
+                                    <a href="{{ $c->url }}">{{ $c->title }}</a></li>
+
+                                    @foreach ($c->sections as $s)
+                                        <div>
+                                            <a href="#{{ $s->slug }}">{{ $s->title }}</a>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    @endif
+                @show
 
                 @section ('sidebar.series')
                     @if (@$series && ! $series->isEmpty())
@@ -110,7 +135,7 @@
 
                         @foreach ($series as $s)
                             <div class="media">
-                                <div class="media-left media-middle">
+                                <div class="media-left">
                                     <div class="bg-info">&nbsp;</div>
                                 </div>
                                 <div class="media-body">
@@ -127,7 +152,7 @@
 
                         @foreach ($top as $t)
                             <div class="media">
-                                <div class="media-left media-middle">
+                                <div class="media-left">
                                     <div class="bg-info">&nbsp;</div>
                                 </div>
                                 <div class="media-body">

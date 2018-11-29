@@ -72,7 +72,7 @@ class CreateLarablogTables extends Migration
 	        {
 	            $t->increments('id')->unsigned();
 	            $t->string('slug', 255)->unique()->index();
-	            $t->string('name', 255);
+	            $t->string('title', 255);
 	            $t->integer('chapters_count')->unsigned()->default(0)->index();
 	            $t->integer('sections_count')->unsigned()->default(0)->index();
 	            $t->timestamp('updated_at')->nullable()->index();
@@ -87,7 +87,7 @@ class CreateLarablogTables extends Migration
 	            $t->increments('id')->unsigned();
 	            $t->integer('chapter_id')->unsigned()->index();
 	            $t->string('slug', 255)->unique()->index();
-	            $t->string('name', 255);
+	            $t->string('title', 255);
 	            $t->string('type', 255);
 	            $t->integer('sections_count')->unsigned()->default(0)->index();
 	            $t->timestamp('updated_at')->nullable()->index();

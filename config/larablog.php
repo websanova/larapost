@@ -38,7 +38,8 @@ return [
             'title' => 'LaraBlog',
             
             'links' => [
-                'Home' => '/blog',
+                'Blog' => '/blog',
+                'Docs' => '/docs',
                 'Tags' => '/blog/tags',
                 'Series' => '/blog/series'
             ]
@@ -125,8 +126,8 @@ return [
         ],
 
         '/docs/{doc}/{slug}' => [
-            'as' => 'section',
-            'uses' => '\Websanova\Larablog\Http\Controllers\DocController@section'
+            'as' => 'chapter',
+            'uses' => '\Websanova\Larablog\Http\Controllers\DocController@chapter'
         ],
 
         '/{any}' => [
