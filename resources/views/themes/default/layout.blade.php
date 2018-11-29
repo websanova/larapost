@@ -56,6 +56,7 @@
     @section ('head.styles')
         <style>
             h1.first {margin-top: 0px;}
+            .text-md {font-size: 16px; line-height: 24px;}
             .text-lg {font-size: 20px; line-height: 30px;}
             a.anchor {display:block; position:relative; top:-50px; visibility:hidden;}
         </style>
@@ -105,12 +106,12 @@
                 </ul>
             </div>
 
-            <div class="visible-xs">
-                <div id="chapters" class="navbar-collapse collapse">
+            <div id="chapters" class="navbar-collapse collapse">
+                <div class="visible-xs">
                     <ul class="nav navbar-nav navbar-right">
                         @foreach ($chapters as $c)
                             <li>
-                                <a href="{{ $c->url }}" class="text-lg"><b>{{ $c->title }}</b></a></li>
+                                <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a></li>
                             </li>
 
                             @foreach ($c->sections as $s)
