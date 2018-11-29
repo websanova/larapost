@@ -7,8 +7,6 @@ use Carbon\Carbon;
 use Websanova\Larablog\Models\Post;
 use Illuminate\Support\Facades\File;
 use Websanova\Larablog\Parser\Parser;
-use Websanova\Larablog\Parser\Field\Tags;
-use Websanova\Larablog\Parser\Field\Series;
 
 class Type
 {
@@ -143,8 +141,6 @@ class Type
 
     public function cleanup()
     {
-        (new Tags)->cleanup();
-        
-        (new Series)->cleanup();
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
-use Illuminate\Support\Facades\DB;
+use DB;
 use Websanova\Larablog\Models\Serie;
 
 class Series

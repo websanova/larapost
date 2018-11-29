@@ -4,6 +4,7 @@ namespace Websanova\Larablog\Parser\Type;
 
 use Websanova\Larablog\Parser\Type;
 use Illuminate\Support\Facades\File;
+use Websanova\Larablog\Parser\Field\Docs;
 
 class Doc extends Type
 {
@@ -23,6 +24,8 @@ class Doc extends Type
             $this->sub_folder = str_replace($path . '/', '', $dir);
         }
 
+
+
         parent::handle();
     }
 
@@ -34,5 +37,10 @@ class Doc extends Type
     public function getSubPath()
     {
          return !empty($this->sub_folder) ? '/' . $this->sub_folder : '';
+    }
+
+    public function cleanup()
+    {
+        (new Docs)->cleanup();
     }
 }
