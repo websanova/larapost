@@ -2,7 +2,7 @@
 
 return [
 
-    'path' => 'blog',
+    // 'path' => 'blog',
     
     'name' => 'LaraBlog',
     

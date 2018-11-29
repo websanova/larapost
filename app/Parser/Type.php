@@ -12,16 +12,9 @@ use Websanova\Larablog\Parser\Field\Series;
 
 class Type
 {
-    protected $path = null;
-
     protected $new_count = 0;
 
     protected $update_count = 0;
-
-    public function __construct($path)
-    {
-        $this->path = $path;
-    }
 
     protected function getSingular()
     {
