@@ -61,16 +61,32 @@
         </style>
     @show
 </head>
-<body style="padding-top:70px;">
+<body>
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <a class="navbar-brand" href="{{ route('blog') }}">{{ config('larablog.layout.nav.title') }}</a>
+                
+                <button
+                    type="button"
+                    class="navbar-toggle collapsed"
+                    data-toggle="collapse"
+                    data-target="#navbar"
+                    aria-expanded="false"
+                    aria-controls="navbar"
+                >
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('blog') }}">{{ config('larablog.layout.nav.title') }}</a>
+
+                <i
+                    class="navbar-toggle collapsed fa fa-lg fa-th-list visible-xs"
+                    data-toggle="collapse"
+                    data-target="#chapters"
+                    aria-expanded="false"
+                    aria-controls="chapters"
+                ></i>
             </div>
 
             <div id="navbar" class="navbar-collapse collapse">
@@ -88,10 +104,28 @@
                     @endforeach
                 </ul>
             </div>
+
+            <div class="visible-xs">
+                <div id="chapters" class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        @foreach ($chapters as $c)
+                            <li>
+                                <a href="{{ $c->url }}" class="text-lg"><b>{{ $c->title }}</b></a></li>
+                            </li>
+
+                            @foreach ($c->sections as $s)
+                                <li>
+                                    <a href="#{{ $s->slug }}">{{ $s->title }}</a>
+                                </li>
+                            @endforeach
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
 
-    {{-- <br/><br/><br/><br/> --}}
+    <br/><br/><br/><br/>
 
     <div id="container" class="container">
         <div class="row">
@@ -101,7 +135,7 @@
                 @show
             </div>
             
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 {{ $post->type === 'doc' ? 'hidden-xs': '' }}">
                 @section ('sidebar.search')
                     @if (!isset($search) || $search !== false)
                         <div class="hidden-xs">
@@ -112,8 +146,6 @@
 
                 @section ('sidebar.chapters')
                     @if (@$chapters && ! $chapters->isEmpty())
-                        {{-- <h4 class="page-header">Series</h4> --}}
-
                         @foreach ($chapters as $c)
                             <div class="media">
                                 <div class="media-left">
@@ -121,7 +153,7 @@
                                 </div>
                                 
                                 <div class="media-body">
-                                    <a href="{{ $c->url }}">{{ $c->title }}</a></li>
+                                    <a href="{{ $c->url }}"><b>{{ $c->title }}</b></a>
 
                                     @foreach ($c->sections as $s)
                                         <div>

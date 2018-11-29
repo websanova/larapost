@@ -52,7 +52,7 @@ class DocController extends BaseController
         $post = (object)[
             'identifier' => $slug,
             'title' => $slug,
-            'type' => 'chapter',
+            'type' => 'doc',
             'body' => \Websanova\Larablog\Markdown\Markdown::extra(file_get_contents(resource_path('larablog/docs/vue-upload/' . $slug . '.md')))
         ];
 
