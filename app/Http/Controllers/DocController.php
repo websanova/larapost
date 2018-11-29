@@ -13,6 +13,7 @@ class DocController extends BaseController
         return view('larablog::themes.master', [
             'view' => larablog_view('doc.index'),
             'docs' => Larablog::docs(),
+            'search' => false
             // 'top' => Larablog::top()
         ]);
     }
@@ -42,6 +43,10 @@ class DocController extends BaseController
             'title' => 'Vue Upload'
         ];
 
+        $chapter = (object)[
+
+        ];
+
         $chapters = Larablog::chapters($doc);
 
         $post = (object)[
@@ -51,6 +56,7 @@ class DocController extends BaseController
 
         return view('larablog::themes.master', [
             'view' => larablog_view('doc.chapter'),
+            'search' => false,
             'doc' => $doc,
             'chapters' => $chapters,
             'post' => $post

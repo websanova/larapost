@@ -101,11 +101,15 @@
             </div>
             
             <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                <div class="hidden-xs">
-                    @include (larablog_view('components.search'))
-                </div>
+                @section ('sidebar.search')
+                    @if (!isset($search) || $search !== false)
+                        <div class="hidden-xs">
+                            @include (larablog_view('components.search'))
+                        </div>
+                    @endif
+                @show
 
-                @section ('sidebar.sections')
+                @section ('sidebar.chapters')
                     @if (@$chapters && ! $chapters->isEmpty())
                         {{-- <h4 class="page-header">Series</h4> --}}
 
