@@ -3,7 +3,8 @@
 namespace Websanova\Larablog\Http\Controllers;
 
 use Websanova\Larablog\Larablog;
-use Websanova\Larablog\Models\Doc;
+use Websanova\Larablog\Models\Post;
+use Websanova\Larablog\Models\Serie;
 use Illuminate\Routing\Controller as BaseController;
 
 class DocController extends BaseController
@@ -14,47 +15,41 @@ class DocController extends BaseController
             'view' => larablog_view('doc.index'),
             'docs' => Larablog::docs(),
             'search' => false
-            // 'top' => Larablog::top()
         ]);
     }
 
-    public function show($doc)
+    public function show($slug)
     {
-        if ($doc !== 'vue-upload') {
+        $doc = Serie::where('slug', $slug)->where('type', 'docs')->first();
+
+        if (!$doc) {
             return self::notfound();
         }
 
-        return redirect('/docs/vue-upload/chapter-one');
+        $post = Post::where('serie_id', $doc->id)->orderBy('order', 'asc')->first();
+
+        if (!$post) {
+            return self::notfound();
+        }
+
+        return redirect('/docs/' . $doc->slug . '/' . $post->identifier);
     }
 
     public function chapter($doc, $slug)
     {
-        if ($doc !== 'vue-upload') {
+        $doc = Serie::where('slug', $doc)->where('type', 'docs')->first();
+
+        if ( ! $doc) {
             return self::notfound();
         }
-
-        if (!in_array($slug, ['chapter-one', 'chapter-two', 'methods', 'options'])) {
-            return self::notfound();
-        }
-
-        $doc = (object)[
-            'slug' => '/docs/vue-upload',
-            'url' => route('docs') . '/vue-upload',
-            'title' => 'Vue Upload'
-        ];
-
-        // $chapter = (object)[
-        //     'title' => 'Chapter One'
-        // ];
 
         $chapters = Larablog::chapters($doc);
 
-        $post = (object)[
-            'identifier' => $slug,
-            'title' => $slug,
-            'type' => 'doc',
-            'body' => \Websanova\Larablog\Markdown\Markdown::extra(file_get_contents(resource_path('larablog/docs/vue-upload/' . $slug . '.md')))
-        ];
+        $post = Post::where('identifier', $slug)->first();
+
+        if (!$post) {
+            return self::notfound();
+        }
 
         return view('larablog::themes.master', [
             'view' => larablog_view('doc.chapter'),
@@ -70,7 +65,6 @@ class DocController extends BaseController
         return view('larablog::themes.master', [
             'view' => larablog_view('error.404'),
             'docs' => Larablog::docs(),
-            // 'top' => Larablog::top()
         ]);
     }
 }

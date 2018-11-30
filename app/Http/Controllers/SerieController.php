@@ -19,11 +19,12 @@ class SerieController extends BaseController
 
     public function show($slug)
     {
-        $serie = Serie::where('slug', $slug)->first();
+        $serie = Serie::where('slug', $slug)->type('series')->first();
 
         if ( ! $serie) {
             return self::notfound();
         }
+
         return view('larablog::themes.master', [
             'view' => larablog_view('serie.show'),
             'serie' => $serie,
