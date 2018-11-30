@@ -24,8 +24,6 @@ class Doc extends Type
             $this->sub_folder = str_replace($path . '/', '', $dir);
         }
 
-
-
         parent::handle();
     }
 

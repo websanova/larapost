@@ -22,6 +22,6 @@ class Serie extends Model
 
     public function getUrlAttribute()
     {
-        return route('series') . '/' . $this->slug;
+        return route($this->type) . '/' . $this->slug;
     }
 }

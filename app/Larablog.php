@@ -152,6 +152,7 @@ class Larablog
     public static function series()
     {
         return Serie::query()
+            ->where('type', 'series')
             ->orderBy('slug', 'asc')
             ->with('posts.tags', 'posts.serie')
             ->get();
@@ -170,15 +171,8 @@ class Larablog
 
     public static function docs()
     {
-        return new \Illuminate\Database\Eloquent\Collection([
-            (object)[
-                'slug' => '/docs/vue-upload',
-                'url' => route('docs') . '/vue-upload',
-                'title' => 'Vue Upload'
-            ]
-        ]);
-
-        return Doc::query()
+        return Serie::query()
+            ->where('type', 'docs')
             ->orderBy('slug', 'asc')
             ->get();
     }
