@@ -30,7 +30,7 @@ class Serie extends Model
 
         if ($this->relationLoaded('posts')) {
             foreach ($this->posts as $post) {
-                preg_match_all('/\<h2\>(.*)\<\/h2\>/', $post->body, $matches);
+                preg_match_all('/\<h2\>(.*)\<\/h2\>/msU', $post->body, $matches);
         
                 if (isset($matches[1]) && is_array($matches[1])) {
                     $sections = [];
