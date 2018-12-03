@@ -24,4 +24,29 @@ class Serie extends Model
     {
         return route($this->type) . '/' . $this->slug;
     }
+
+    public function getChaptersAttribute()
+    {
+
+        if ($this->relationLoaded('posts')) {
+            foreach ($this->posts as $post) {
+                preg_match_all('/\<h2\>(.*)\<\/h2\>/', $post->body, $matches);
+        
+                if (isset($matches[1]) && is_array($matches[1])) {
+                    $sections = [];
+
+                    foreach ($matches[1] as $match) {
+                        $sections[]= (object)[
+                            'title' => $match,
+                            'slug' => str_slug($match)
+                        ];
+                    }
+
+                    $post->sections = new \Illuminate\Database\Eloquent\Collection($sections);
+                }
+            }
+
+            return $this->posts;
+        }
+    }
 }

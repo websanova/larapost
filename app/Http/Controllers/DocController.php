@@ -37,13 +37,15 @@ class DocController extends BaseController
 
     public function chapter($doc, $slug)
     {
-        $doc = Serie::where('slug', $doc)->where('type', 'docs')->first();
+        $doc = Serie::query()
+            ->where('slug', $doc)
+            ->where('type', 'docs')
+            ->with('posts')
+            ->first();
 
         if ( ! $doc) {
             return self::notfound();
         }
-
-        $chapters = Larablog::chapters($doc);
 
         $post = Post::where('identifier', $slug)->first();
 
@@ -55,7 +57,7 @@ class DocController extends BaseController
             'view' => larablog_view('doc.chapter'),
             'search' => false,
             'doc' => $doc,
-            'chapters' => $chapters,
+            'chapters' => $doc->chapters,
             'post' => $post
         ]);
     }

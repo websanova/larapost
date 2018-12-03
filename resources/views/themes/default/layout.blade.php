@@ -108,20 +108,26 @@
                 </ul>
             </div>
 
-            @if (@$chapters)
+            @if (@$chapters && !$chapters->isEmpty())
                 <div id="chapters" class="navbar-collapse collapse">
                     <div class="visible-xs">
                         <ul class="nav navbar-nav navbar-right">
                             @foreach ($chapters as $c)
                                 <li>
-                                    <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a></li>
+                                    <a href="{{ $c->url }}" class="text-md">
+                                        <b>{{ $c->title }}</b>
+                                    </a>
                                 </li>
 
-                                @foreach (@$c->sections as $s)
-                                    <li onclick="$('.chapters-toggle').click()">
-                                        <a href="#{{ $s->slug }}">{{ $s->title }}</a>
-                                    </li>
-                                @endforeach
+                                @if (@$c->sections && !$c->sections->isEmpty())
+                                    @foreach (@$c->sections as $s)
+                                        <li onclick="$('.chapters-toggle').click()">
+                                            <a href="{{ $c->slug }}#{{ $s->slug }}">
+                                                {{ $s->title }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                @endif
                             @endforeach
                         </ul>
                     </div>
@@ -150,7 +156,7 @@
                 @show
 
                 @section ('sidebar.chapters')
-                    @if (@$chapters && ! $chapters->isEmpty())
+                    @if (@$chapters && !$chapters->isEmpty())
                         @foreach ($chapters as $c)
                             <div class="media">
                                 <div class="media-left">
@@ -158,13 +164,19 @@
                                 </div>
                                 
                                 <div class="media-body">
-                                    <a href="{{ $c->url }}"><b>{{ $c->title }}</b></a>
+                                    <a href="{{ $c->url }}">
+                                        <b>{{ $c->title }}</b>
+                                    </a>
 
-                                    @foreach (@$c->sections as $s)
-                                        <div>
-                                            <a href="#{{ $s->slug }}">{{ $s->title }}</a>
-                                        </div>
-                                    @endforeach
+                                    @if (@$c->sections && !$c->sections->isEmpty())
+                                        @foreach (@$c->sections as $s)
+                                            <div>
+                                                <a href="{{ $c->slug }}#{{ $s->slug }}">
+                                                    {{ $s->title }}
+                                                </a>
+                                            </div>
+                                        @endforeach
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
