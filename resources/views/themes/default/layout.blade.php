@@ -58,6 +58,7 @@
             h1.first {margin-top: 0px;}
             .text-md {font-size: 16px; line-height: 24px;}
             .text-lg {font-size: 20px; line-height: 30px;}
+            .text-underline {text-decoration: underline;}
             a.anchor {display:block; position:relative; top:-50px; visibility:hidden;}
         </style>
     @show
@@ -164,7 +165,7 @@
                                 </div>
                                 
                                 <div class="media-body">
-                                    <a href="{{ $c->url }}">
+                                    <a href="{{ $c->url }}" class="{{ $c->url === url()->full() ? 'text-underline' : '' }}">
                                         <b>{{ $c->title }}</b>
                                     </a>
 
