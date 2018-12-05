@@ -2,7 +2,7 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
-class Doc extends Series
+class Docs extends Series
 {
     public static function process($key, $data, $fields)
     {
