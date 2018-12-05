@@ -13,6 +13,8 @@ class Permalink
 
             $data['permalink'] =
                 ( ! empty($prefix) ? '/' . $prefix : '') . 
+                ( ! empty($fields['series']) ? '/' . str_slug($fields['series']) : '') .
+                ( ! empty($fields['docs']) ? '/' . str_slug($fields['docs']) : '') .
                 '/' . $slug
             ;
         }

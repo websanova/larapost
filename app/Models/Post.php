@@ -34,17 +34,19 @@ class Post extends Model
 
     public function getUrlAttribute()
     {
-        if ($this->type === 'doc') {
-            $url = route('docs') . (isset($this->serie->slug) ? '/' . $this->serie->slug : '');
-        }
-        elseif ($this->type === 'post') {
-            $url = route('blog');
-        }
-        else {
-            $url = url();
-        }
+        // if ($this->type === 'doc') {
+        //     $url = route('docs') . (isset($this->serie->slug) ? '/' . $this->serie->slug : '');
+        // }
+        // elseif ($this->type === 'post') {
+        //     $url = route('blog');
+        // }
+        // else {
+        //     $url = url();
+        // }
 
-        return $url . '/' . $this->slug;
+        // dd(url());
+
+        return url('/') . $this->permalink;
     }
 
     public function getFullTitleAttribute()
