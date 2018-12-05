@@ -7,10 +7,10 @@ use Carbon\Carbon;
 
 class Date
 {
-	public static function process($key, $val, $data)
+	public static function process($key, $data, $fields)
 	{
 		try {
-			$data['published_at'] = Carbon::createFromFormat('M d Y H:i:s', $val . ' 00:00:00');
+			$data['published_at'] = Carbon::createFromFormat('M d Y H:i:s', $fields['date'] . ' 00:00:00');
 		}
 		catch (Exception $e) {
 			$data['published_at'] = null;

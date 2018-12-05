@@ -19,7 +19,7 @@ class SerieController extends BaseController
 
     public function show($slug)
     {
-        $serie = Serie::where('slug', $slug)->type('series')->first();
+        $serie = Serie::where('slug', $slug)->where('type', 'series')->first();
 
         if ( ! $serie) {
             return self::notfound();

@@ -1,17 +1,23 @@
 <?php
 
 return [
-
-    // 'path' => 'blog',
     
     'name' => 'LaraBlog',
     
     'author' => 'Websanova',
     
     'posts' => [
+        'uri' => 'blog',
+
         'src' => resource_path('larablog/posts'),
 
         'per_page' => 15
+    ],
+
+    'docs' => [
+        'uri' => 'docs',
+
+        'src' => resource_path('larablog/docs')
     ],
 
     'pages' => [
@@ -60,7 +66,7 @@ return [
         ]
     ],
 
-    'table' => [
+    'tables' => [
         'prefix' => ''
     ],
 
@@ -134,9 +140,5 @@ return [
             'uses' => '\Websanova\Larablog\Http\Controllers\PostController@post',
             'where' => ['any' => '(.*)']
         ]
-    ],
-
-    'docs' => [
-        'src' => resource_path('larablog/docs')
     ]
 ];

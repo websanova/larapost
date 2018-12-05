@@ -6,9 +6,14 @@ use Websanova\Larablog\Markdown\Markdown;
 
 class Identifier
 {
-    public static function process($key, $val, $data)
+    public static function process($key, $data, $fields)
     {
-        $data['identifier'] = $val;
+        if ( ! empty($fields['identifier'])) {
+            $data['identifier'] = $fields['identifier'];
+        }
+        elseif ( ! empty($fields['file'])) {
+            $data['identifier'] = $fields['file'];
+        }
 
         return $data;
     }

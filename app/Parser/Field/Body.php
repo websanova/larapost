@@ -6,9 +6,9 @@ use Websanova\Larablog\Markdown\Markdown;
 
 class Body
 {
-	public static function process($key, $val, $data)
+	public static function process($key, $data, $fields)
 	{
-        $data['body'] = Markdown::extra($val);
+        $data['body'] = Markdown::extra($fields['body']);
 
         preg_match_all('/\<h2\>(.*)\<\/h2\>/', $data['body'], $matches, PREG_OFFSET_CAPTURE);
         

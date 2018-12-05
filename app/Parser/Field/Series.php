@@ -7,20 +7,20 @@ use Websanova\Larablog\Models\Serie;
 
 class Series
 {
-    public static function process($key, $val, $data, $type = 'series')
+    public static function process($key, $data, $fields)
     {
-        $slug = str_slug($val);
+        $slug = str_slug($fields[$key]);
 
-        $serie = Serie::where('slug', $slug)->where('type', $type)->first();
+        $serie = Serie::where('slug', $slug)->where('type', $key)->first();
 
         if ( ! $serie) {
             $serie = Serie::create([
                 'slug' => $slug,
-                'title' => $val,
-                'type' => $type
+                'title' => $fields[$key],
+                'type' => $key
             ]);
 
-            echo 'New Series: ' . $val . "\n";
+            echo 'New Series: ' . $fields[$key] . "\n";
         }
 
         $data['serie_id'] = $serie->id;
@@ -28,14 +28,14 @@ class Series
         return $data;
     }
 
-    public function cleanup($type = 'series')
+    public function cleanup($key = 'series')
     {
-        $prefix = config('larablog.table.prefix');
+        $prefix = config('larablog.tables.prefix');
 
         DB::table($prefix . 'series')->update([
             'posts_count' => DB::raw("(SELECT COUNT(*) FROM {$prefix}posts WHERE {$prefix}posts.serie_id = {$prefix}series.id)")
         ]);
 
-        Serie::where('type', $type)->where('posts_count', 0)->delete();
+        Serie::where('type', $key)->where('posts_count', 0)->delete();
     }
 }

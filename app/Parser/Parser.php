@@ -10,7 +10,10 @@ class Parser
         
         // Parse the head first
         $data = [
-            'body' => $m[2]
+            'body' => $m[2],
+            'type' => null,
+            'permalink' => null,
+            'identifier' => null,
         ];
         
         $last = '';
@@ -49,10 +52,10 @@ class Parser
 
             // Call class or default to Meta.
             if (class_exists($class) && method_exists($class, 'process')) {
-                $data = $class::process($key, $val, $data);
+                $data = $class::process($key, $data, $fields);
             }
             else {
-                $data = \Websanova\Larablog\Parser\Field\Meta::process($key, $val, $data);
+                $data = \Websanova\Larablog\Parser\Field\Meta::process($key, $data, $fields);
             }
         }
 
@@ -65,7 +68,7 @@ class Parser
             $class = 'Websanova\Larablog\Parser\Field\\' . ucfirst(camel_case($key));
 
             if (class_exists($class) && method_exists($class, 'handle')) {
-                $class::handle($key, $val, $post);
+                $class::handle($key, $post, $fields);
             }
         }
     }

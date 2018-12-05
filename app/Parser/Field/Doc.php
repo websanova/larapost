@@ -4,13 +4,13 @@ namespace Websanova\Larablog\Parser\Field;
 
 class Doc extends Series
 {
-    public static function process($key, $val, $data, $type = 'docs')
+    public static function process($key, $data, $fields)
     {
-        return parent::process($key, $val, $data, $type);
+        return parent::process($key, $data, $fields);
     }
 
-    public function cleanup($type = 'docs')
+    public function cleanup($key = 'docs')
     {
-        return parent::cleanup($type);
+        return parent::cleanup($key);
     }
 }

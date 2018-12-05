@@ -8,14 +8,14 @@ use Websanova\Larablog\Models\Tag;
 
 class Tags
 {
-	public static function process($key, $val, $data)
+	public static function process($key, $data, $fields)
 	{
         return $data;
 	}
 
-	public static function handle($key, $val, $post)
+	public static function handle($key, $post, $fields)
 	{
-		$tag_list = explode(',', $val);
+		$tag_list = explode(',', $fields['tags']);
 		
 		$tags = [];
 
@@ -48,13 +48,13 @@ class Tags
 		$post->tags()->sync($tags_new);
 
 		if (count($diff) > 0) {
-			echo 'Updated Tags: ' . $val . "\n";
+			echo 'Updated Tags: ' . $fields['tags'] . "\n";
 		}
 	}
 
 	public function cleanup()
 	{
-		$prefix = config('larablog.table.prefix');
+		$prefix = config('larablog.tables.prefix');
 
         // Clean out any old pivot data.
         DB::statement("DELETE {$prefix}post_tag FROM {$prefix}post_tag LEFT JOIN {$prefix}posts ON {$prefix}post_tag.post_id = {$prefix}posts.id WHERE NOT({$prefix}post_tag.post_id = {$prefix}posts.id AND {$prefix}posts.deleted_at = NULL AND {$prefix}posts.type='post')");

@@ -2,13 +2,11 @@
 
 namespace Websanova\Larablog\Parser\Field;
 
-use Websanova\Larablog\Markdown\Markdown;
-
 class Order
 {
-    public static function process($key, $val, $data)
+    public static function process($key, $data, $fields)
     {
-        $data['order'] = $val;
+        $data['order'] = !empty($fields['order']) ? $fields['order'] : 0 ;
 
         return $data;
     }

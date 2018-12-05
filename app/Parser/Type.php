@@ -43,11 +43,13 @@ class Type
         foreach ($files as $file) {
             $fields = Parser::parse($file);
 
-            if ( ! isset($fields['identifier'])) {
-                $fields['identifier'] = explode('.', basename($file))[0];
-            }
-
+            $fields['type'] = $this->getSingular();
+            $fields['type_plural'] = $this->getPlural();
+            $fields['file'] = explode('.', basename($file))[0];
+            
             $data = Parser::process($fields);
+            
+            // print_r($data);
 
             $post = Post::query()
                 ->where('identifier', $data['identifier'])
@@ -76,7 +78,7 @@ class Type
 
     public function create($data)
     {
-        $data['type'] = $this->getSingular();
+        // $data['type'] = $this->getSingular();
 
         $post = Post::create($data);
         
@@ -91,7 +93,7 @@ class Type
     {
         $post->fill($data);
         $post->deleted_at = null;
-        $post->type = $this->getSingular();
+        // $post->type = $this->getSingular();
 
         if ($post->isDirty()) {
             $post->save();

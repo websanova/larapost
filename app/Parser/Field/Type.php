@@ -4,9 +4,9 @@ namespace Websanova\Larablog\Parser\Field;
 
 class Type
 {
-	public static function process($key, $val, $data)
+	public static function process($key, $data, $fields)
 	{
-        $data['type'] = $val;
+        $data['type'] = $fields['type'];
 
         return $data;
 	}

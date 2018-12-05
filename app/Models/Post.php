@@ -14,12 +14,12 @@ class Post extends Model
     {
         parent::__construct($attributes);
         
-        $this->table = config('larablog.table.prefix') . 'posts';
+        $this->table = config('larablog.tables.prefix') . 'posts';
     }
 
     public function tags()
     {
-        return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.table.prefix') . 'post_tag');
+        return $this->belongsToMany('Websanova\Larablog\Models\Tag', config('larablog.tables.prefix') . 'post_tag');
     }
 
     public function serie()
@@ -34,7 +34,17 @@ class Post extends Model
 
     public function getUrlAttribute()
     {
-        return url('/') . $this->slug;
+        if ($this->type === 'doc') {
+            $url = route('docs') . (isset($this->serie->slug) ? '/' . $this->serie->slug : '');
+        }
+        elseif ($this->type === 'post') {
+            $url = route('blog');
+        }
+        else {
+            $url = url();
+        }
+
+        return $url . '/' . $this->slug;
     }
 
     public function getFullTitleAttribute()

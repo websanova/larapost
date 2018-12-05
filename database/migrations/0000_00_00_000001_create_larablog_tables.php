@@ -7,7 +7,7 @@ class CreateLarablogTables extends Migration
 {
 	public function up()
 	{
-		$prefix = config('larablog.table.prefix');
+		$prefix = config('larablog.tables.prefix');
 
 		if (!Schema::hasTable($prefix . 'posts'))
 		{
@@ -15,11 +15,10 @@ class CreateLarablogTables extends Migration
 			{
 				$t->increments('id')->unsigned();
 				$t->integer('serie_id')->unsigned()->default(0)->index();
-				$t->integer('doc_id')->unsigned()->default(0)->index();
+				$t->string('identifier', 255)->unique()->index();
 				$t->string('type', 255)->index();
 				$t->integer('order')->unsigned()->default(0)->index();
-				$t->string('identifier', 255)->index();
-				$t->string('slug', 255)->unique()->index();
+				$t->string('permalink', 255)->unique()->index();
 				$t->string('title', 255);
 				$t->text('body');
 				$t->text('meta');
@@ -100,7 +99,7 @@ class CreateLarablogTables extends Migration
 
 	public function down()
 	{
-		$prefix = config('larablog.table.prefix');
+		$prefix = config('larablog.tables.prefix');
 
 		Schema::dropIfExists($prefix . 'post_tag');
 		Schema::dropIfExists($prefix . 'posts');

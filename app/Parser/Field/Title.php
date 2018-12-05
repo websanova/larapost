@@ -4,10 +4,15 @@ namespace Websanova\Larablog\Parser\Field;
 
 class Title
 {
-	public static function process($key, $val, $data)
+	public static function process($key, $data, $fields)
 	{
-		$data['title'] = $val;
+        if ( ! empty($fields['title'])) {
+            $data['title'] = $fields['title'];
+        }
+        elseif ( ! empty($fields['file'])) {
+            $data['title'] = $fields['file'];
+        }
 
-		return $data;
+        return $data;
 	}
 }

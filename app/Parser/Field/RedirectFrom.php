@@ -6,15 +6,15 @@ use Websanova\Larablog\Models\Post;
 
 class RedirectFrom
 {
-    public static function process($key, $val, $data)
+    public static function process($key, $data, $fields)
     {
         return $data;
     }
 
-    public static function handle($key, $val, $post)
+    public static function handle($key, $post, $fields)
     {
-        if ( ! is_array($val)) {
-            $val = [$val];
+        if ( ! is_array($fields['redirect_from'])) {
+            $fields['redirect_from'] = [$fields['redirect_from']];
         }
 
         $redirects = [];
@@ -34,7 +34,7 @@ class RedirectFrom
                 'body' => '',
                 'type' => 'redirect',
                 'meta' => json_encode([
-                    'redirect_to' => $post->slug
+                    'redirect_to' => $post->permalink
                 ])
             ];
 
