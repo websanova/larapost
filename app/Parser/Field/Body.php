@@ -20,8 +20,6 @@ class Body
                 $data['body'] = substr_replace($data['body'], '<a name="' . str_slug($matches[1][$index][0]) . '" class="anchor"></a>', $match[1], 0);
             }
         }
-
-        $data['body'] = str_replace("\n", '', $data['body']);
         
         return $data;
 	}
