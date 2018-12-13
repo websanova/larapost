@@ -116,9 +116,7 @@ class Type
 
         Post::query()
             ->whereIn('id', $posts->pluck('id')->toArray())
-            ->update([
-                'deleted_at' => Carbon::now()
-            ]);
+            ->delete();
 
         foreach ($posts as $p) {
             echo 'Removed ' . ucfirst($this->getSingular()) . ': ' . $p->identifier . "\n";
