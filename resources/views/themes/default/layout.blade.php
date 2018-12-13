@@ -115,17 +115,13 @@
                         <ul class="nav navbar-nav navbar-right">
                             @foreach ($chapters as $c)
                                 <li>
-                                    <a href="{{ $c->url }}" class="text-md">
-                                        <b>{{ $c->title }}</b>
-                                    </a>
+                                    <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a>
                                 </li>
 
                                 @if (@$c->sections && !$c->sections->isEmpty())
                                     @foreach (@$c->sections as $s)
                                         <li onclick="$('.chapters-toggle').click()">
-                                            <a href="{{ $c->url }}#{{ $s->slug }}">
-                                                &nbsp; {{ $s->title }}
-                                            </a>
+                                            &nbsp; <a href="{{ $c->url }}#{{ $s->slug }}">{{ $s->title }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -165,16 +161,12 @@
                                 </div>
                                 
                                 <div class="media-body">
-                                    <a href="{{ $c->url }}" class="text-md">
-                                        <b>{{ $c->title }}</b>
-                                    </a>
+                                    <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a>
 
                                     @if (@$c->sections && !$c->sections->isEmpty())
                                         @foreach (@$c->sections as $s)
                                             <div>
-                                                <a href="{{ $c->url }}#{{ $s->slug }}">
-                                                    &nbsp; {{ $s->title }}
-                                                </a>
+                                                &nbsp; <a href="{{ $c->url }}#{{ $s->slug }}">{{ $s->title }}</a>
                                             </div>
                                         @endforeach
                                     @endif
@@ -193,6 +185,7 @@
                                 <div class="media-left">
                                     <div class="bg-info">&nbsp;</div>
                                 </div>
+
                                 <div class="media-body">
                                     <a href="{{ $s->url }}">{{ $s->title }} ({{ $s->posts_count}} Parts)</a></li>
                                 </div>
@@ -210,6 +203,7 @@
                                 <div class="media-left">
                                     <div class="bg-info">&nbsp;</div>
                                 </div>
+
                                 <div class="media-body">
                                     <a href="{{ $t->url }}">{{ $t->full_title }}</a>
                                 </div>
