@@ -58,7 +58,7 @@
             h1.first {margin-top: 0px;}
             .text-md {font-size: 16px; line-height: 24px;}
             .text-lg {font-size: 20px; line-height: 30px;}
-            .text-underline {text-decoration: underline;}
+            a.active {font-weight: bold;}
             a.anchor {display:block; position:relative; top:-50px; visibility:hidden;}
         </style>
     @show
@@ -123,8 +123,8 @@
                                 @if (@$c->sections && !$c->sections->isEmpty())
                                     @foreach (@$c->sections as $s)
                                         <li onclick="$('.chapters-toggle').click()">
-                                            <a href="{{ $c->slug }}#{{ $s->slug }}">
-                                                {{ $s->title }}
+                                            <a href="{{ $c->url }}#{{ $s->slug }}">
+                                                &nbsp; {{ $s->title }}
                                             </a>
                                         </li>
                                     @endforeach
@@ -165,15 +165,15 @@
                                 </div>
                                 
                                 <div class="media-body">
-                                    <a href="{{ $c->url }}" class="{{ $c->url === url()->full() ? 'text-underline' : '' }}">
+                                    <a href="{{ $c->url }}" class="text-md">
                                         <b>{{ $c->title }}</b>
                                     </a>
 
                                     @if (@$c->sections && !$c->sections->isEmpty())
                                         @foreach (@$c->sections as $s)
                                             <div>
-                                                <a href="{{ $c->slug }}#{{ $s->slug }}">
-                                                    {{ $s->title }}
+                                                <a href="{{ $c->url }}#{{ $s->slug }}">
+                                                    &nbsp; {{ $s->title }}
                                                 </a>
                                             </div>
                                         @endforeach
