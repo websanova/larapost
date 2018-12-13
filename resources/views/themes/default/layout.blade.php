@@ -55,10 +55,15 @@
 
     @section ('head.styles')
         <style>
-            h1.first {margin-top: 0px;}
-            .text-md {font-size: 16px; line-height: 24px;}
-            .text-lg {font-size: 20px; line-height: 30px;}
-            a.active {font-weight: bold;}
+            h1.first {margin-top:0px;}
+            
+            .nav .chapter {font-weight:bold; font-size:1.2em;}
+            .sidebar .chapter {font-weight:bold; font-size:1.2em;}
+            
+            .nav .section {margin-left:5px;}
+            .nav .section > a {padding-top:5px; padding-bottom:5px;}
+            .sidebar .section {margin-left:5px;}
+
             a.anchor {display:block; position:relative; top:-50px; visibility:hidden;}
         </style>
     @show
@@ -71,11 +76,12 @@
                 
                 <button
                     type="button"
-                    class="navbar-toggle collapsed"
+                    class="navbar-toggle menu-toggle collapsed"
                     data-toggle="collapse"
                     data-target="#navbar"
                     aria-expanded="false"
                     aria-controls="navbar"
+                    onclick="$('.chapters-toggle').hasClass('collapsed') ? null : $('.chapters-toggle').click()"
                 >
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
@@ -89,6 +95,7 @@
                         data-target="#chapters"
                         aria-expanded="false"
                         aria-controls="chapters"
+                        onclick="$('.menu-toggle').hasClass('collapsed') ? null : $('.menu-toggle').click()"
                     ></i>
                 @endif
             </div>
@@ -114,14 +121,14 @@
                     <div class="visible-xs">
                         <ul class="nav navbar-nav navbar-right">
                             @foreach ($chapters as $c)
-                                <li>
-                                    <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a>
+                                <li class="chapter">
+                                    <a href="{{ $c->url }}">{{ $c->title }}</a>
                                 </li>
 
                                 @if (@$c->sections && !$c->sections->isEmpty())
                                     @foreach (@$c->sections as $s)
-                                        <li onclick="$('.chapters-toggle').click()">
-                                            &nbsp; <a href="{{ $c->url }}#{{ $s->slug }}">{{ $s->title }}</a>
+                                        <li onclick="$('.chapters-toggle').click()" class="section">
+                                            <a href="{{ $c->url }}#{{ $s->slug }}">{{ $s->title }}</a>
                                         </li>
                                     @endforeach
                                 @endif
@@ -143,7 +150,7 @@
                 @show
             </div>
             
-            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 {{ @$post->type === 'doc' ? 'hidden-xs': '' }}">
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3 sidebar {{ @$post->type === 'doc' ? 'hidden-xs': '' }}">
                 @section ('sidebar.search')
                     @if (!isset($search) || $search !== false)
                         <div class="hidden-xs">
@@ -161,12 +168,14 @@
                                 </div>
                                 
                                 <div class="media-body">
-                                    <a href="{{ $c->url }}" class="text-md"><b>{{ $c->title }}</b></a>
+                                    <div class="chapter">
+                                        <a href="{{ $c->url }}">{{ $c->title }}</a>
+                                    </div>
 
                                     @if (@$c->sections && !$c->sections->isEmpty())
                                         @foreach (@$c->sections as $s)
-                                            <div>
-                                                &nbsp; <a href="{{ $c->url }}#{{ $s->slug }}">{{ $s->title }}</a>
+                                            <div class="section">
+                                                <a href="{{ $c->url }}#{{ $s->slug }}">{{ $s->title }}</a>
                                             </div>
                                         @endforeach
                                     @endif

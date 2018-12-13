@@ -58,7 +58,12 @@ class Larablog
         return $q->get();
     }
 
-    public static function posts()
+    public static function allPosts()
+    {
+        return self::posts(10000);
+    }
+
+    public static function posts($limit = null)
     {
         return Post::query()
             ->whereNull('deleted_at')
@@ -66,7 +71,7 @@ class Larablog
             ->where('type', 'post')
             ->with('tags', 'serie')
             ->orderBy('published_at', 'desc')
-            ->get();
+            ->paginate($limit);
     }
 
     public static function pages()
@@ -99,7 +104,7 @@ class Larablog
         }
 
         $post = Post::query()
-            ->where('slug', $slug)
+            ->where('permalink', $slug)
             ->with('tags', 'serie')
             ->first();
 

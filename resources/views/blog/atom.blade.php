@@ -14,7 +14,7 @@
             <title>{!! htmlspecialchars($p->full_title) !!}</title>
             <link href="{!! htmlspecialchars($p->url) !!}"/>
             <updated>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</updated>
-            <id>{!! htmlspecialchars($p->url) !!}</id>
+            <id>{!! htmlspecialchars($p->identifier) !!}</id>
             <content type="html">{!! htmlspecialchars($p->meta->description) !!}</content>
         </entry>
     @endforeach

@@ -60,7 +60,7 @@
         <url>
             <loc>{!! htmlspecialchars($p->url) !!}</loc>
             <image:image>
-                @if ($p->img)
+                @if (@$p->meta->img)
                     <image:loc>{!! htmlspecialchars(url('/') . $p->meta->img) !!}</image:loc>
                 @else
                     <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
@@ -75,7 +75,7 @@
         <url>
             <loc>{!! htmlspecialchars($p->url) !!}</loc>
             <image:image>
-                @if ($p->img)
+                @if (@$p->meta->img)
                     <image:loc>{!! htmlspecialchars(url('/') . $p->meta->img) !!}</image:loc>
                 @else
                     <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>

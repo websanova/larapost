@@ -12,7 +12,7 @@ class BlogController extends BaseController
     {
         $content = view('larablog::blog.feed', [
             'last' => Larablog::last(),
-            'posts' => Larablog::posts()
+            'posts' => Larablog::allPosts()
         ]);
 
         return Response::make($content, '200')->header('Content-Type', 'text/xml');
@@ -22,7 +22,7 @@ class BlogController extends BaseController
     {
         $content = view('larablog::blog.atom', [
             'last' => Larablog::last(),
-            'posts' => Larablog::posts()
+            'posts' => Larablog::allPosts()
         ]);
 
         return Response::make($content, '200')->header('Content-Type', 'text/xml');
@@ -32,7 +32,7 @@ class BlogController extends BaseController
     {
         $content = view('larablog::blog.sitemap', [
             'last' => Larablog::last(),
-            'posts' => Larablog::posts(),
+            'posts' => Larablog::allPosts(),
             'pages' => Larablog::pages(),
             'tags' => Larablog::tags(),
             'series' => Larablog::series()

@@ -11,11 +11,15 @@
         <item>
             <title>{!! htmlspecialchars($p->full_title) !!}</title>
             <link>{!! htmlspecialchars($p->url) !!}</link>
-            <guid>{!! htmlspecialchars($p->url) !!}</guid>
+            <guid>{!! htmlspecialchars($p->identifier) !!}</guid>
             <pubDate>{!! htmlspecialchars(date('c', strtotime($p->published_at))) !!}</pubDate>
-            <description>[CDATA[{!! htmlspecialchars($p->meta->description) !!}]]</description>
+            <description>[CDATA[{!! htmlspecialchars(@$p->meta->description) !!}]]</description>
             <image>
-            <url>{!! htmlspecialchars($p->img) !!}</url>
+                @if (@$p->meta->img)
+                    <url>{!! htmlspecialchars($p->meta->img) !!}</url>
+                @else
+                    <url>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</url>
+                @endif
             </image>
         </item>
     @endforeach
