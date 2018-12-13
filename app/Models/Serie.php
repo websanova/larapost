@@ -27,9 +27,10 @@ class Serie extends Model
 
     public function getChaptersAttribute()
     {
-
         if ($this->relationLoaded('posts')) {
-            foreach ($this->posts as $post) {
+            $posts = $this->posts->sortBy('order');
+
+            foreach ($posts as $post) {
                 preg_match_all('/\<h2\>(.*)\<\/h2\>/msU', $post->body, $matches);
         
                 if (isset($matches[1]) && is_array($matches[1])) {
@@ -46,7 +47,7 @@ class Serie extends Model
                 }
             }
 
-            return $this->posts;
+            return $posts;
         }
     }
 }
