@@ -19,17 +19,20 @@ class RedirectFrom
 
         $redirects = [];
 
-        foreach ($val as $redirect_from) {
-            $redirect = Post::where('slug', $redirect_from)->first();
+        foreach ($fields['redirect_from'] as $redirect_from) {
+            
+            $redirect = Post::query()
+                ->where('permalink', $redirect_from)
+                ->first();
 
             if ($redirect && $redirect->type !== 'redirect') {
                 echo '***********************************************************************' . "\n";
-                echo '* WARNING: Slug exists: ' . $redirect->slug . "\n";
+                echo '* WARNING: Slug exists: ' . $redirect->permalink . "\n";
                 echo '***********************************************************************' . "\n";
             }
 
             $data = [
-                'slug' => $redirect_from,
+                'permalink' => $redirect_from,
                 'title' => '',
                 'body' => '',
                 'type' => 'redirect',
@@ -43,6 +46,7 @@ class RedirectFrom
 
                 if ($redirect->isDirty()) {
                     $redirect->save();
+                    
                     echo 'Update Redirect: ' . $redirect_from . "\n";
                 }
             }
@@ -52,7 +56,7 @@ class RedirectFrom
                 echo 'New Redirect: ' . $redirect_from . "\n";
             }
 
-            array_push($redirects, $redirect->slug);
+            array_push($redirects, $redirect->permalink);
         }
 
         self::delete($redirects, $post);
@@ -60,9 +64,10 @@ class RedirectFrom
 
     public static function delete($redirects, $post)
     {
-        $posts = Post::whereNotIn('slug', $redirects)
+        $posts = Post::query()
             ->where('type', 'redirect')
-            ->where('meta', 'LIKE', '%"redirect_to":"' . str_replace('/', "\\\/", $post->slug) . '"%')
+            ->whereNotIn('permalink', $redirects)   
+            ->where('meta', 'LIKE', '%"redirect_to":"' . str_replace('/', "\\\/", $post->permalink) . '"%')
             ->get();
 
         if ( ! $posts->isEmpty()) {

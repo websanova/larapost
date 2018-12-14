@@ -46,10 +46,8 @@ class Type
             $fields['type'] = $this->getSingular();
             $fields['type_plural'] = $this->getPlural();
             $fields['file'] = explode('.', basename($file))[0];
-            
+
             $data = Parser::process($fields);
-            
-            // print_r($data);
 
             $post = Post::query()
                 ->where('identifier', $data['identifier'])

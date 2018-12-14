@@ -15,7 +15,7 @@ class CreateLarablogTables extends Migration
 			{
 				$t->increments('id')->unsigned();
 				$t->integer('serie_id')->unsigned()->default(0)->index();
-				$t->string('identifier', 255)->unique()->index();
+				$t->string('identifier', 255)->unique()->nullable()->index();
 				$t->string('type', 255)->index();
 				$t->integer('order')->unsigned()->default(0)->index();
 				$t->string('permalink', 255)->unique()->index();

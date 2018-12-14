@@ -12,7 +12,7 @@ class Identifier
             $data['identifier'] = $fields['identifier'];
         }
         elseif ( ! empty($fields['file'])) {
-            $data['identifier'] = $fields['file'];
+            $data['identifier'] = str_slug($fields['file']);
         }
 
         return $data;

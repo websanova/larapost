@@ -59,17 +59,17 @@ class Larablog
     public static function post($slug = '')
     {
         if (empty($slug)) {
-            $slug = '/' . request()->path();
+            $slug = request()->path();
+        }
+
+        if ($slug[0] !== '/') {
+            $slug = '/' . $slug;    
         }
 
         $post = Post::query()
             ->where('permalink', $slug)
             ->with('tags', 'serie')
             ->first();
-
-        // if ($post && $post->type === 'post' && ($post->published_at === null || $post->deleted_at !== null) ) {
-        //     return null;
-        // }
 
         return $post;
     }
