@@ -13,41 +13,37 @@ class DocController extends BaseController
     {
         return view('larablog::themes.master', [
             'view' => larablog_view('doc.index'),
-            'docs' => Larablog::docs(),
+            'docs' => Larablog::allDocs(),
             'search' => false
         ]);
     }
 
-    public function show($slug)
+    public function show()
     {
-        $doc = Serie::where('slug', $slug)->where('type', 'docs')->first();
+        $doc = Larablog::doc();
 
         if (!$doc) {
             return self::notfound();
         }
 
-        $post = Post::where('serie_id', $doc->id)->orderBy('order', 'asc')->first();
+        $post = Larablog::firstPost($doc);
 
         if (!$post) {
             return self::notfound();
         }
 
-        return redirect('/docs/' . $doc->slug . '/' . $post->identifier);
+        return redirect($post->permalink);
     }
 
-    public function chapter($doc, $slug)
+    public function chapter()
     {
-        $doc = Serie::query()
-            ->where('slug', $doc)
-            ->where('type', 'docs')
-            ->with('posts')
-            ->first();
+        $doc = Larablog::doc();
 
         if ( ! $doc) {
             return self::notfound();
         }
 
-        $post = Post::where('identifier', $slug)->first();
+        $post = Larablog::post();
 
         if (!$post) {
             return self::notfound();
@@ -66,7 +62,7 @@ class DocController extends BaseController
     {
         return view('larablog::themes.master', [
             'view' => larablog_view('error.404'),
-            'docs' => Larablog::docs(),
+            'docs' => Larablog::allDocs(),
         ]);
     }
 }

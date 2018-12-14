@@ -29,23 +29,13 @@ class Post extends Model
 
     public function scopeSearch($q, $search)
     {
-        return $q->whereRaw("MATCH (`title`, `body`) AGAINST (?)" , [$search]);
+        if ( ! empty($search)) {
+            return $q->whereRaw("MATCH (`title`, `body`) AGAINST (?)" , [$search]);
+        }
     }
 
     public function getUrlAttribute()
     {
-        // if ($this->type === 'doc') {
-        //     $url = route('docs') . (isset($this->serie->slug) ? '/' . $this->serie->slug : '');
-        // }
-        // elseif ($this->type === 'post') {
-        //     $url = route('blog');
-        // }
-        // else {
-        //     $url = url();
-        // }
-
-        // dd(url());
-
         return url('/') . $this->permalink;
     }
 

@@ -126,12 +126,12 @@ return [
             'uses' => '\Websanova\Larablog\Http\Controllers\DocController@index'
         ],
 
-        '/docs/{doc}' => [
+        '/docs/{slug}' => [
             'as' => 'doc',
             'uses' => '\Websanova\Larablog\Http\Controllers\DocController@show'
         ],
 
-        '/docs/{doc}/{slug}' => [
+        '/docs/{slug}/{post_slug}' => [
             'as' => 'chapter',
             'uses' => '\Websanova\Larablog\Http\Controllers\DocController@chapter'
         ],

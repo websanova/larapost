@@ -45,6 +45,17 @@
         </url>
     @endforeach
 
+    @foreach ($docs as $d)
+        <url>
+            <loc>{!! htmlspecialchars($d->url) !!}</loc>
+            <image:image>
+                <image:loc>{!! htmlspecialchars(url('/') . config('larablog.meta.logo')) !!}</image:loc>
+            </image:image>
+            <lastmod>{!! htmlspecialchars(date('c', strtotime($d->updated_at))) !!}</lastmod>
+            <priority>1.0</priority>
+        </url>
+    @endforeach
+
     @foreach ($tags as $t)
         <url>
             <loc>{!! htmlspecialchars($t->url) !!}</loc>

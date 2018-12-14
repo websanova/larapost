@@ -11,7 +11,7 @@ class BlogController extends BaseController
     public function feed()
     {
         $content = view('larablog::blog.feed', [
-            'last' => Larablog::last(),
+            'last' => Larablog::lastPost(),
             'posts' => Larablog::allPosts()
         ]);
 
@@ -21,7 +21,7 @@ class BlogController extends BaseController
     public function atom()
     {
         $content = view('larablog::blog.atom', [
-            'last' => Larablog::last(),
+            'last' => Larablog::lastPost(),
             'posts' => Larablog::allPosts()
         ]);
 
@@ -31,11 +31,12 @@ class BlogController extends BaseController
     public function sitemap()
     {
         $content = view('larablog::blog.sitemap', [
-            'last' => Larablog::last(),
+            'last' => Larablog::lastPost(),
             'posts' => Larablog::allPosts(),
-            'pages' => Larablog::pages(),
-            'tags' => Larablog::tags(),
-            'series' => Larablog::series()
+            'pages' => Larablog::allPages(),
+            'tags' => Larablog::allTags(),
+            'docs' => Larablog::allDocs(),
+            'series' => Larablog::allSeries()
         ]);
 
         return Response::make($content, '200')->header('Content-Type', 'text/xml');

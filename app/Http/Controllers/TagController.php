@@ -12,15 +12,15 @@ class TagController extends BaseController
     {
         return view('larablog::themes.master', [
             'view' => larablog_view('tag.index'),
-            'tags' => Larablog::tags(),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'tags' => Larablog::allTags(),
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts()
         ]);
     }
 
-    public function show($slug)
+    public function show()
     {
-        $tag = Tag::where('slug', $slug)->first();
+        $tag = Larablog::tag();
 
         if ( ! $tag) {
             return self::notfound();
@@ -29,9 +29,9 @@ class TagController extends BaseController
         return view('larablog::themes.master', [
             'view' => larablog_view('tag.show'),
             'tag' => $tag,
-            'posts' => Larablog::publishedWhereTag($tag),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'posts' => Larablog::tagPosts($tag),
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts()
         ]);
     }
 

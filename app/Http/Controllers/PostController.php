@@ -12,9 +12,9 @@ class PostController extends BaseController
     {
 		return view('larablog::themes.master', [
             'view' => larablog_view('post.index'),
-            'posts' => Larablog::published(),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'posts' => Larablog::posts(),
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts()
         ]);
     }
 
@@ -39,9 +39,9 @@ class PostController extends BaseController
         return view('larablog::themes.master', [
             'view' => larablog_view('post.show'),
             'post' => $post,
-            'series' => Larablog::series(),
-            'top' => Larablog::top(),
-            'related' => Larablog::related($post)
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts(),
+            'related' => Larablog::relatedPosts($post)
         ]);
     }
 
@@ -51,8 +51,8 @@ class PostController extends BaseController
             'view' => larablog_view('post.page'),
             'type' => 'page',
             'post' => $post,
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts()
         ]);
     }
 
@@ -60,9 +60,9 @@ class PostController extends BaseController
     {
         return view('larablog::themes.master', [
             'view' => larablog_view('post.search'),
-            'posts' => Larablog::search(),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'posts' => Larablog::searchPosts(),
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts()
         ]);
     }
 
@@ -70,8 +70,8 @@ class PostController extends BaseController
     {
         return view('larablog::themes.master', [
             'view' => larablog_view('error.404'),
-            'series' => Larablog::series(),
-            'top' => Larablog::top()
+            'series' => Larablog::allSeries(),
+            'top' => Larablog::topPosts()
         ]);
     }
 }
