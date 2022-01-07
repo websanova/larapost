@@ -1,36 +1,14 @@
 {
     "name": "websanova/larablog",
-    "type": "package",
-    "description": "Drop in blogging solution for Laravel 5.x",
-    "keywords": ["laravel", "5", "5.0", "5.1", "blog", "larablog", "markdown"],
-    "homepage": "https://github.com/websanova/larablog",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "websanova",
-            "email": "rob@websanova.com",
-            "homepage": "http://websanova.com"
-        }
-    ],
-    "autoload-dev": {
-        "classmap": [
-            "tests/LarablogTest.php"
-        ]
+    "description": "Larablog package generator for docs and blog posts.",
+    "authors": {
+        "name": "Websanova",
+        "email": "rob@websanova.com"
     },
     "autoload": {
         "psr-4": {
-            "Websanova\\Larablog\\": "app/"
-        },
-        "files": [
-            "app/Support/helpers.php"
-        ]
+            "Websanova\\Larablog\\": "src/app/"
+        }
     },
-    "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "~5",
-        "michelf/php-markdown": "1.8.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.0"
-    }
+    "minimum-stability": "dev"
 }
