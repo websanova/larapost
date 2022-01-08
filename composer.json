@@ -1,14 +1,20 @@
 {
     "name": "websanova/larablog",
-    "description": "Larablog package generator for docs and blog posts.",
-    "authors": {
-        "name": "Websanova",
-        "email": "rob@websanova.com"
-    },
+    "type": "package",
+    "description": "Drop in blog, docs, tagging solution for Laravel",
+    "keywords": ["laravel", "blog", "larablog", "markdown", "docs", "documentation", "posts", "tag", "tagging", "tags"],
+    "homepage": "https://github.com/websanova/larablog",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "websanova",
+            "email": "rob@websanova.com",
+            "homepage": "http://websanova.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "Websanova\\Larablog\\": "src/app/"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }

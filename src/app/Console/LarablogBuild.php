@@ -3,9 +3,11 @@
 namespace Websanova\Larablog\Console;
 
 use Illuminate\Console\Command;
-use Websanova\Larablog\Parser\Type\Doc;
-use Websanova\Larablog\Parser\Type\Page;
-use Websanova\Larablog\Parser\Type\Post;
+use Websanova\Larablog\Larablog;
+
+// use Websanova\Larablog\Parser\Type\Doc;
+// use Websanova\Larablog\Parser\Type\Page;
+// use Websanova\Larablog\Parser\Type\Post;
 
 class LarablogBuild extends Command
 {
@@ -21,7 +23,7 @@ class LarablogBuild extends Command
     *
     * @var string
     */
-    protected $description = 'Add and update blog posts.';
+    protected $description = 'Update docs and posts.';
 
     /**
     * Execute the console command.
@@ -30,10 +32,29 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        (new Post)->handle();
+        // Larablog::doc()->build();
 
-        (new Page)->handle();
+        Larablog::post()->build();
 
-        (new Doc)->handle();
+        Larablog::post()->paginate();
+
+        $doc = Larablog::doc();
+
+        // $doc->parse();
+        $doc->build();
+
+        $doc->paginate();
+        $doc->find(0);
+
+
+        // (new Larablog)->post()->build();
+
+
+
+        // (new Post)->handle();
+
+        // (new Page)->handle();
+
+        // (new Doc)->handle();
     }
 }
