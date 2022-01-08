@@ -7,6 +7,11 @@ use Websanova\Larablog\Parsers\DocParser;
 
 class Doc extends Model
 {
+    public function posts()
+    {
+        return $this->morphMany(Post::class, 'postable');
+    }
+
     public function build()
     {
         (new DocParser)->handle();
