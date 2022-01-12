@@ -6,6 +6,8 @@ class PostParser extends Parser
 {
     public function handle()
     {
-        echo 'post parser';
+        $files = $this->getFilesInPaths(config('larablog.post.paths'));
+
+        print_r($files);
     }
 }

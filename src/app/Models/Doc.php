@@ -14,6 +14,10 @@ class Doc extends Model
 
     public function build()
     {
-        (new DocParser)->handle();
+        $parser = new DocParser;
+
+        $parser->handle();
+
+        return $parser;
     }
 }

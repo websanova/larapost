@@ -16,7 +16,7 @@ class LarablogPublish extends Command
     *
     * @var string
     */
-    protected $signature = 'larablog:publish {--tag=}';
+    protected $signature = 'larablog:publish {--force} {--tag=}';
 
     /**
     * The console command description.
@@ -34,7 +34,7 @@ class LarablogPublish extends Command
     {
         Artisan::call('vendor:publish', [
             '--provider' => 'Websanova\\Larablog\\Providers\\LarablogServiceProvider',
-            '--force' => true,
+            '--force' => $this->option('force', false),
             '--tag' => $this->option('tag')
         ]);
 

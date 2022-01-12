@@ -2,12 +2,20 @@
 
 return [
 
-    'docs' => [
-        'path' => base_path('larablog/docs'),
+    'doc' => [
+        'renderer' => \Websanova\Larablog\Renderers\LarablogMarkdown::class,
+
+        'paths' => [
+            //
+        ],
     ],
 
-    'posts' => [
-        'path' => base_path('larablog/posts'),
+    'post' => [
+        'renderer' => '',
+
+        'paths' => [
+            //
+        ],
 
         'per_page' => 10,
     ],

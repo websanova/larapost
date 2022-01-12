@@ -32,19 +32,27 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        // Larablog::doc()->build();
+        $this->info('Larablog: posts');
 
         Larablog::post()->build();
 
-        Larablog::post()->paginate();
+        $this->info('Larablog: docs');
 
-        $doc = Larablog::doc();
+        Larablog::doc()->build();
 
-        // $doc->parse();
-        $doc->build();
+        // Larablog::post()->build();
 
-        $doc->paginate();
-        $doc->find(0);
+        // Larablog::post()->paginate();
+
+        // $doc = Larablog::doc();
+
+        // // $doc->parse();
+        // $parser = $doc->build();
+
+        // $parser->errors();
+
+        // $doc->paginate();
+        // $doc->find(0);
 
 
         // (new Larablog)->post()->build();

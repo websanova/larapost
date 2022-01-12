@@ -14,7 +14,11 @@ class Post extends Model
 
     public function build()
     {
-        (new PostParser)->handle();
+        $parser = new PostParser;
+
+        $parser->handle();
+
+        return $parser;
     }
 
     public function next()
