@@ -12,14 +12,14 @@ class Post extends Model
         return $this->morphTo();
     }
 
-    public function build()
-    {
-        $parser = new PostParser;
+    // public function build()
+    // {
+    //     $parser = new PostParser;
 
-        $parser->handle();
+    //     $parser->handle();
 
-        return $parser;
-    }
+    //     return $parser;
+    // }
 
     public function next()
     {

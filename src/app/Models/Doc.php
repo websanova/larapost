@@ -12,12 +12,12 @@ class Doc extends Model
         return $this->morphMany(Post::class, 'postable');
     }
 
-    public function build()
-    {
-        $parser = new DocParser;
+    // public function build()
+    // {
+    //     $parser = new DocParser;
 
-        $parser->handle();
+    //     $parser->handle();
 
-        return $parser;
-    }
+    //     return $parser;
+    // }
 }

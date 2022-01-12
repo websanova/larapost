@@ -2,31 +2,35 @@
 
 namespace Websanova\Larablog\Parsers;
 
+use Exception;
+use Websanova\Larablog\Renderers\LarablogMarkdown;
+
 class Parser
 {
-    private $output = [];
-
-    public function errors()
+    public function getError(String $code, String $msg)
     {
-        echo 'errors';
+        return [
+            'error' => [
+                'code' => $code,
+                'msg'  => $msg,
+            ]
+        ];
     }
 
-    public function setCreated()
+    public function getFiles(Array $paths = [])
     {
+        $files = [];
 
+        foreach ($paths as $path) {
+            if (is_dir($path)) {
+                $files = array_merge($files, $this->getFilesInDir($path));
+            }
+        }
+
+        return $files;
     }
 
-    public function setError()
-    {
-
-    }
-
-    public function setUpdated()
-    {
-
-    }
-
-    public function getFiles(String $dir = null)
+    public function getFilesInDir(String $dir = null)
     {
         $files = [];
 
@@ -44,7 +48,7 @@ class Parser
                     $files[]= $path;
                 }
                 elseif (is_dir($path)) {
-                    $files = array_merge($files, $this->getFiles($path));
+                    $files = array_merge($files, $this->getFilesInDir($path));
                 }
             }
         }
@@ -52,28 +56,40 @@ class Parser
         return $files;
     }
 
-    public function getFilesInPaths(Array $paths = [])
+    public function getOutput()
     {
-        $files = [];
-
-        foreach ($paths as $path) {
-            if (is_dir($path)) {
-                $files = array_merge($files, $this->getFiles($path));
-            }
-        }
-
-        return $files;
+        return $this->output;
     }
 
+    public function handle(Array $paths = [])
+    {
+        $data  = [];
+        $files = $this->getFiles($paths);
 
-    // public $obj = null;
+        foreach ($files as $file) {
+            $parse  = $this->parse($file);
+            $result = isset($parse['error']) ? 'error' : 'success';
 
-    // public function __call($method, $args)
-    // {
-    //     if (!$this->obj) {
-    //         $this->obj = new $this->model;
-    //     }
+            $data[$result][$file] = $parse;
+        }
 
-    //     return call_user_func_array([$this->obj, $method], $args);
-    // }
+        return $data;
+    }
+
+    public function parse(String $file = null)
+    {
+        if (is_file($file)) {
+            $contents = file_get_contents($file);
+
+            try {
+                return LarablogMarkdown::parse($contents);
+            }
+            catch(Exception $e) {
+                return $this->getError('invalid', 'Format: ' . $e->getMessage());
+            }
+        }
+        else {
+            return $this->getError('fdne', 'File does not exist');
+        }
+    }
 }

@@ -4,6 +4,7 @@ namespace Websanova\Larablog\Parsers;
 
 class DocParser extends Parser
 {
+
     // Step 1: Just parse the files into standard format using a renderer (with body).
     // Step 2: Use the output to start entering data into the database => this is the actual parsers job
     //          - we can use the Parser parent class for commong stuff.
@@ -11,10 +12,15 @@ class DocParser extends Parser
     // Docs dealing with sections?
         // - everything in post somehow?
 
-    public function handle()
+    public function build()
     {
-        $files = $this->getFilesInPaths(config('larablog.doc.paths'));
+        // Need hash for checking diffs
 
-        print_r($files);
+
+        // $files = $this->getFilesInPaths(config('larablog.doc.paths'));
+
+        // foreach ($files as $file) {
+        //     // echo $file;
+        // }
     }
 }

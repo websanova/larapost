@@ -22,7 +22,7 @@ class Larablog
 
     protected static function make($method)
     {
-        $class = '\\Websanova\\Larablog\\Models\\' . ucfirst($method);
+        $class = '\\Websanova\\Larablog\\Parsers\\' . ucfirst($method) . 'Parser';
 
         return new $class;
     }
