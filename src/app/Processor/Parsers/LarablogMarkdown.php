@@ -3,9 +3,15 @@
 namespace Websanova\Larablog\Processor\Parsers;
 
 use Exception;
+use Michelf\MarkdownExtra;
 
 class LarablogMarkdown
 {
+    public static function getBodyFormatted(String $str)
+    {
+        return (new MarkdownExtra)->transform($str);
+    }
+
     public static function parse(String $contents = '')
     {
         $data = [];
@@ -65,6 +71,10 @@ class LarablogMarkdown
 
         $data['body'] = [
             implode("\n", $data['body'])
+        ];
+
+        $data['body-html'] = [
+            self::getBodyFormatted($data['body'][0])
         ];
 
         return $data;

@@ -12,6 +12,9 @@
             "homepage": "http://websanova.com"
         }
     ],
+    "require": {
+        "michelf/php-markdown": "1.9.1"
+    },
     "autoload": {
         "psr-4": {
             "Websanova\\Larablog\\": "src/app/"
