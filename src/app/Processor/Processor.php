@@ -6,8 +6,24 @@ use Exception;
 
 class Processor
 {
+    /*
+     * Current procssor name used to reference config options.
+     */
     public $name = null;
 
+    /*
+     * Output of build stored here.
+     */
+    public $output = [];
+
+    /*
+     * Default parser.
+     */
+    public $parser = \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class;
+
+    /*
+     * @return Void
+     */
     public function __construct()
     {
         if (!$this->name) {
@@ -15,25 +31,33 @@ class Processor
         }
     }
 
+    /*
+     * Process all files in all paths.
+     *
+     * @return Void
+     */
     public function build()
     {
         $paths = $this->getPaths();
-
-        $data  = [];
         $files = $this->getFiles($paths);
 
+        $output = [];
+
         foreach ($files as $file) {
-            $parse  = $this->parse($file);
+            $parse  = $this->getParsed($file);
             $result = isset($parse['error']) ? 'error' : 'success';
 
-            $data[$result][$file] = $parse;
+            $output[$result][$file] = $parse;
         }
 
-        print_r($data);
-
-        return $data;
+        $this->output = $output;
     }
 
+    /*
+     * Get error formatted.
+     *
+     * @return Array
+     */
     public function getError(String $code, String $msg)
     {
         return [
@@ -44,6 +68,12 @@ class Processor
         ];
     }
 
+    /*
+     * Loop through all paths to collect all files.
+     *
+     * @param  Array $paths
+     * @return Array
+     */
     public function getFiles(Array $paths = [])
     {
         $files = [];
@@ -57,6 +87,12 @@ class Processor
         return $files;
     }
 
+    /*
+     * Get all the files in a directory recursively.
+     *
+     * @param  String $dir
+     * @return Array
+     */
     public function getFilesInDir(String $dir = null)
     {
         $files = [];
@@ -83,15 +119,28 @@ class Processor
         return $files;
     }
 
+    /*
+     * Get current processor name.
+     *
+     * @return String
+     */
     public function getName()
     {
+        if ($this->name) {
+            return $this->name;
+        }
+
         $name = get_class($this);
         $name = explode('\\', $name);
         $name = end($name);
-        $name = str_replace('Parser', '', $name);
         $name = strtolower($name);
 
         return $name;
+    }
+
+    public function getOutput()
+    {
+        return $this->output;
     }
 
     public function getPaths()
@@ -101,12 +150,11 @@ class Processor
 
     public function getParser()
     {
-        return config('larablog.' . $this->name . '.parser');
+        return config('larablog.' . $this->name . '.parser') ?: $this->parser;
     }
 
-    public function parse(String $file = null)
+    public function getParsed(String $file = null)
     {
-
         if (is_file($file)) {
             $contents = file_get_contents($file);
 

@@ -3,7 +3,7 @@
 return [
 
     'doc' => [
-        'parser' => \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class,
+        // 'parser' => \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class,
 
         'paths' => [
             //
@@ -11,13 +11,13 @@ return [
     ],
 
     'post' => [
-        'parser' => \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class,
+        // 'parser' => \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class,
 
         'paths' => [
             //
         ],
 
-        'per_page' => 10,
+        // 'per_page' => 10,
     ],
 
     'tables' => [
