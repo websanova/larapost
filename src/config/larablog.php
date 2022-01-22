@@ -3,7 +3,7 @@
 return [
 
     'doc' => [
-        'renderer' => \Websanova\Larablog\Renderers\LarablogMarkdown::class,
+        'parser' => \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class,
 
         'paths' => [
             //
@@ -11,7 +11,7 @@ return [
     ],
 
     'post' => [
-        'renderer' => '',
+        'parser' => \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class,
 
         'paths' => [
             //

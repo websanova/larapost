@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Renderers;
+namespace Websanova\Larablog\Processor\Parsers;
 
 use Exception;
 

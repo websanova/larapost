@@ -38,7 +38,7 @@ class LarablogBuild extends Command
 
         $this->info('Larablog: docs');
 
-        Larablog::doc()->build();
+        // Larablog::doc()->build();
 
         // Larablog::post()->build();
 
