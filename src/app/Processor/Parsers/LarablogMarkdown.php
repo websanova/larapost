@@ -51,6 +51,7 @@ class LarablogMarkdown
                 }
 
                 $key = trim($field[0]);
+                $key = strtolower($key);
                 $val = trim($field[1]);
 
                 if (empty($key) || empty($val)) {
@@ -69,12 +70,12 @@ class LarablogMarkdown
             throw new Exception('Missing closing "---" at line ' . ($index + 2));
         }
 
-        $data['body'] = [
+        $data['body-raw'] = [
             implode("\n", $data['body'])
         ];
 
-        $data['body-html'] = [
-            self::getBodyFormatted($data['body'][0])
+        $data['body'] = [
+            self::getBodyFormatted($data['body-raw'][0])
         ];
 
         return $data;

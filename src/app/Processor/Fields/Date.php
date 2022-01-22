@@ -2,13 +2,13 @@
 
 namespace Websanova\Larablog\Processor\Fields;
 
-use Illuminate\Support\Str;
+use Carbon\Carbon;
 
-class Body
+class Date
 {
     public static function parse(Array $data, Array $file)
     {
-        $data['body'] = $file['body'][0];
+        $data['published_at'] = Carbon::parse($file['date'][0]);
 
         return $data;
     }

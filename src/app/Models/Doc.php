@@ -7,6 +7,10 @@ use Websanova\Larablog\Parsers\DocParser;
 
 class Doc extends Model
 {
+    protected $guarded = [];
+
+    protected $hidden = [];
+
     public function posts()
     {
         return $this->morphMany(Post::class, 'postable');

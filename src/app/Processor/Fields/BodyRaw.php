@@ -4,11 +4,11 @@ namespace Websanova\Larablog\Processor\Fields;
 
 use Illuminate\Support\Str;
 
-class Body
+class BodyRaw
 {
     public static function parse(Array $data, Array $file)
     {
-        $data['body'] = $file['body'][0];
+        $data['searchable'] = str_replace('-', ' ', Str::slug($file['body-raw'][0]));
 
         return $data;
     }

@@ -3,23 +3,31 @@
 namespace Websanova\Larablog\Processor;
 
 use Exception;
+use Illuminate\Support\Str;
+use Websanova\Larablog\Models\Post;
 
 class Processor
 {
     /*
      * Current procssor name used to reference config options.
      */
-    public $name = null;
+    private $name = null;
 
     /*
-     * Output of build stored here.
+     * Output of build parsing error/success and deletes/inserts/updates.
      */
-    public $output = [];
+    private $output = [
+        'delete'  => [],
+        'error'   => [],
+        'insert'  => [],
+        'success' => [],
+        'update'  => [],
+    ];
 
     /*
      * Default parser.
      */
-    public $parser = \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class;
+    private $parser = \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class;
 
     /*
      * @return Void
@@ -51,7 +59,53 @@ class Processor
         }
 
         $this->output = $output;
+
+        // TODO: Check for error.
+        //       - error out here and display only.
+
+        // TODO: Run through each files fields to convert to model update/create.
+
+        return $this;
     }
+
+    public function save()
+    {
+        $files = $this->getOutput();
+
+        foreach ($files['success'] as $file) {
+            $record = [];
+
+            foreach ($file as $key => $val) {
+                $class = '\\Websanova\\Larablog\\Processor\\Fields\\' . ucfirst(Str::camel($key));
+
+                $record = array_merge($record, $class::parse($record, $file));
+            }
+
+            // print_r($record);
+        }
+
+        $relations = $record['relations'];
+
+        unset($record['relations']);
+
+        $post = Post::create($record);
+
+        echo $post->id;
+
+
+        // TODO: Process relations (which will be by model so it should all be automagical).
+        // as createOrUpdate then attach
+        // ex. $post->tags()->save($tag) ??? something like that...???
+
+
+
+    }
+
+
+
+
+
+
 
     /*
      * Get error formatted.

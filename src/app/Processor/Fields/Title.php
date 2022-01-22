@@ -2,13 +2,13 @@
 
 namespace Websanova\Larablog\Processor\Fields;
 
-use Illuminate\Support\Str;
-
-class Body
+class Title
 {
     public static function parse(Array $data, Array $file)
     {
-        $data['body'] = $file['body'][0];
+        $data['title'] = $file['title'][0];
+
+        $data['meta']['title'] = $file['title'][0];
 
         return $data;
     }

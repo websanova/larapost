@@ -14,26 +14,29 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'posts', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
-                $t->integer('postable_id')->unsigned();
-                $t->string('postable_type')->varchar(32);
+                $t->integer('postable_id')->nullable()->unsigned();
+                $t->string('postable_type')->nullable()->varchar(32);
 
 
                 // $t->integer('serie_id')->unsigned()->default(0)->index();
-                $t->string('identifier', 255)->unique()->nullable()->index();
-                $t->string('type', 255)->index();
+                $t->string('key', 255)->unique()->nullable()->index();
+                $t->string('type', 255)->nullable()->index();
                 $t->integer('order')->unsigned()->default(0)->index();
                 $t->string('permalink', 255)->unique()->index();
                 $t->string('title', 255);
-                $t->text('body');
-                $t->text('meta');
+                $t->text('searchable')->nullable();
+                $t->text('body')->nullable();
+                $t->text('meta')->nullable();
                 $t->integer('views_count')->unsigned()->default(0)->index();
                 $t->timestamp('published_at')->nullable()->index();
-                $t->timestamp('deleted_at')->nullable()->index();
+                // $t->timestamp('deleted_at')->nullable()->index();
                 $t->timestamp('updated_at')->nullable()->index();
                 $t->timestamp('created_at')->nullable()->index();
             });
 
-            \DB::statement("ALTER TABLE " . $prefix . "posts ADD FULLTEXT KEY " . $prefix . "posts_title_body_fulltext (`title`, `body`)");
+            // TODO: Index by order, date, title
+
+            \DB::statement("ALTER TABLE " . $prefix . "posts ADD FULLTEXT KEY " . $prefix . "searchable (`searchable`)");
         }
 
         if (!Schema::hasTable($prefix . 'tags'))

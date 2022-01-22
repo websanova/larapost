@@ -34,7 +34,23 @@ class LarablogBuild extends Command
     {
         $this->info('Larablog: posts');
 
-        Larablog::post()->build();
+        $lb = Larablog::post();
+
+        $lb->build();
+
+        // $lb->errors()->each();
+
+        $lb->save();
+
+        // $lb->inserts()->each();
+
+        // $lb->updates()->each();
+
+        // $lb->deletes()->each();
+
+
+
+
 
         $this->info('Larablog: docs');
 
