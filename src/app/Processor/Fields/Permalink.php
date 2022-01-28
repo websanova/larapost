@@ -2,14 +2,14 @@
 
 namespace Websanova\Larablog\Processor\Fields;
 
+use Illuminate\Support\Str;
+
 class Permalink
 {
-    public static function parse(Array $data, Array $file)
+    public static function parse(Array $record, Array $file)
     {
-        $data['key'] = $file['permalink'][0];
+        $record['permalink'] = '/' . trim($file['permalink'][0], '/');
 
-        $data['permalink'] = $data['key'];
-
-        return $data;
+        return $record;
     }
 }

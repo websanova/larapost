@@ -6,10 +6,10 @@ use Carbon\Carbon;
 
 class Date
 {
-    public static function parse(Array $data, Array $file)
+    public static function parse(Array $record, Array $file)
     {
-        $data['published_at'] = Carbon::parse($file['date'][0]);
+        $record['published_at'] = Carbon::parse($file['date'][0]);
 
-        return $data;
+        return $record;
     }
 }

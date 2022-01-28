@@ -26,12 +26,12 @@ class Post extends Model
 
     public function redirects()
     {
-
+        return $this->hasMany(Post::class, 'body', 'permalink');
     }
 
     public function tags()
     {
-
+        return $this->belongsToMany(Tag::class);
     }
 
 

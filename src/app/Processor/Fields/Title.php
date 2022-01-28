@@ -2,14 +2,19 @@
 
 namespace Websanova\Larablog\Processor\Fields;
 
+use Illuminate\Support\Str;
+
 class Title
 {
-    public static function parse(Array $data, Array $file)
+    public static function parse(Array $record, Array $file)
     {
-        $data['title'] = $file['title'][0];
+        $title      = $file['title'][0];
+        $searchable = $record['searchable'] ?? '';
 
-        $data['meta']['title'] = $file['title'][0];
+        $record['searchable']    = str_replace('-', ' ', Str::slug($title . ' ' . $searchable));
+        $record['title']         = $title;
+        $record['meta']['title'] = $title;
 
-        return $data;
+        return $record;
     }
 }

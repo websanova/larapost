@@ -71,6 +71,7 @@ class Processor
     public function save()
     {
         $files = $this->getOutput();
+        $posts = Post::get()->keyBy('permalink');
 
         foreach ($files['success'] as $file) {
             $record = [];
@@ -81,16 +82,34 @@ class Processor
                 $record = array_merge($record, $class::parse($record, $file));
             }
 
-            // print_r($record);
+            $relations = $record['relations'];
+
+            unset($record['relations']);
+
+            if (isset($posts[$record['permalink']])) {
+                $post = $posts[$record['permalink']];
+
+                $post->update($record);
+            }
+            else {
+                $post = Post::create($record);
+            }
+
+            foreach ($relations as $key => $models) {
+
+                foreach ($models as $model) {
+                    if (!$post->{$key}->contains($model)) {
+                        $post->{$key}()->attach($model);
+                    }
+                }
+            }
+
+
+            // TODO: relations..
         }
 
-        $relations = $record['relations'];
 
-        unset($record['relations']);
-
-        $post = Post::create($record);
-
-        echo $post->id;
+        // echo $post->id;
 
 
         // TODO: Process relations (which will be by model so it should all be automagical).

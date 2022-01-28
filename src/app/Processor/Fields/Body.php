@@ -6,10 +6,10 @@ use Illuminate\Support\Str;
 
 class Body
 {
-    public static function parse(Array $data, Array $file)
+    public static function parse(Array $record, Array $file)
     {
-        $data['body'] = $file['body'][0];
+        $record['body'] = $file['body'][0];
 
-        return $data;
+        return $record;
     }
 }

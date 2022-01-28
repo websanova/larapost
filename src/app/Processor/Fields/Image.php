@@ -4,10 +4,10 @@ namespace Websanova\Larablog\Processor\Fields;
 
 class Image
 {
-    public static function parse(Array $data, Array $file)
+    public static function parse(Array $record, Array $file)
     {
-        $data['meta']['image'] = $file['image'][0];
+        $record['meta']['image'] = $file['image'][0];
 
-        return $data;
+        return $record;
     }
 }

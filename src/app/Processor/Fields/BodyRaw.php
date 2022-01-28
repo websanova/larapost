@@ -6,10 +6,13 @@ use Illuminate\Support\Str;
 
 class BodyRaw
 {
-    public static function parse(Array $data, Array $file)
+    public static function parse(Array $record, Array $file)
     {
-        $data['searchable'] = str_replace('-', ' ', Str::slug($file['body-raw'][0]));
+        $body       = $file['body-raw'][0];
+        $searchable = $record['searchable'] ?? '';
 
-        return $data;
+        $record['searchable'] = str_replace('-', ' ', Str::slug($body . ' ' . $searchable));
+
+        return $record;
     }
 }
