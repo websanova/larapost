@@ -14,16 +14,16 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'posts', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
-                $t->integer('postable_id')->nullable()->unsigned();
-                $t->string('postable_type')->nullable()->varchar(32);
+                // $t->integer('postable_id')->nullable()->unsigned();
+                // $t->string('postable_type')->nullable()->varchar(32);
 
 
                 // $t->integer('serie_id')->unsigned()->default(0)->index();
-                $t->string('key', 255)->unique()->nullable()->index();
-                $t->string('type', 255)->nullable()->index();
+                // $t->string('key', 255)->unique()->nullable()->index();
+                $t->string('type', 255)->default('post')->index();
                 $t->integer('order')->unsigned()->default(0)->index();
                 $t->string('permalink', 255)->unique()->index();
-                $t->string('title', 255);
+                $t->string('title', 255)->nullable();
                 $t->text('searchable')->nullable();
                 $t->text('body')->nullable();
                 $t->text('meta')->nullable();
@@ -80,6 +80,7 @@ class CreateLarablogTables extends Migration
          Schema::create($prefix . 'docs', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
+                $t->string('type', 255)->default('tag')->index();
                 $t->string('slug', 255)->unique()->index();
                 $t->string('title', 255);
                 $t->integer('posts_count')->unsigned()->default(0)->index();
