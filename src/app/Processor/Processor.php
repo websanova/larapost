@@ -14,14 +14,18 @@ class Processor
     private $name = null;
 
     /*
-     * Output of build parsing error/success and deletes/inserts/updates.
+     * Output of build parsing as error/success.
      */
     private $output = [
-        'delete'  => [],
         'error'   => [],
-        'insert'  => [],
         'success' => [],
-        'update'  => [],
+    ];
+
+    /*
+     * Output of all models by relation in the build run.
+     */
+    private $models = [
+        // By class name
     ];
 
     /*
@@ -49,21 +53,12 @@ class Processor
         $paths = $this->getPaths();
         $files = $this->getFiles($paths);
 
-        $output = [];
-
         foreach ($files as $file) {
             $parse  = $this->getParsed($file);
             $result = isset($parse['error']) ? 'error' : 'success';
 
-            $output[$result][$file] = $parse;
+            $this->output[$result][$file] = $parse;
         }
-
-        $this->output = $output;
-
-        // TODO: Check for error.
-        //       - error out here and display only.
-
-        // TODO: Run through each files fields to convert to model update/create.
 
         return $this;
     }
@@ -72,6 +67,10 @@ class Processor
     {
         $files = $this->getOutput();
         $posts = Post::get()->keyBy('permalink');
+
+        if (count($files['error'])) {
+            return;
+        }
 
         foreach ($files['success'] as $file) {
             $record = [];
@@ -95,36 +94,39 @@ class Processor
                 $post = Post::create($record);
             }
 
-            foreach ($relations as $key => $models) {
+            $ops[$post::class][]= $post;
 
+            foreach ($relations as $key => $models) {
                 foreach ($models as $model) {
                     if (!$post->{$key}->contains($model)) {
                         $post->{$key}()->attach($model);
                     }
+
+                    $ops[$model::class][]= $model;
                 }
             }
-
-
-            // TODO: relations..
         }
 
-
-        // echo $post->id;
-
-
-        // TODO: Process relations (which will be by model so it should all be automagical).
-        // as createOrUpdate then attach
-        // ex. $post->tags()->save($tag) ??? something like that...???
+        // TODO: Before delete runs need to run the checks below.
 
 
+        // TODO: This does not have to be done here, just need to store
+        //       the values for later output processing if necessary.
 
+        // TODO:
+        //  - get list of ids in new
+        //  - get list of ids in db
+        //  - Run the following comparisons:
+        //  - updates => get list of ids in new and in db.
+        //  - creates => get list of ids in new and not in db.
+        //  - deletes => get list of ids in db and not in new.
+
+
+        echo count($ops['Websanova\Larablog\Models\Post']);
+        echo count($ops['Websanova\Larablog\Models\Tag']);
+
+        // TODO: Clean up check for deletes
     }
-
-
-
-
-
-
 
     /*
      * Get error formatted.
