@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Processor;
 
 use Exception;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Websanova\Larablog\Models\Post;
 
@@ -20,17 +21,19 @@ class Processor
         'error'   => [],
         'success' => [],
 
-        // delete => [],
-        // create => [],
-        // update => [],
+        //
+
+        'create' => [],
+        'delete' => [],
+        'update' => [],
     ];
 
-    /*
-     * Output of all models by relation in the build run.
-     */
-    private $models = [
-        // By class name
-    ];
+
+    //  * Output of all models by relation in the build run.
+
+    // private $models = [
+    //     // By class name
+    // ];
 
     /*
      * Default parser.
@@ -52,7 +55,7 @@ class Processor
      *
      * @return Void
      */
-    public function build()
+    public function parse()
     {
         $paths = $this->getPaths();
         $files = $this->getFiles($paths);
@@ -67,93 +70,58 @@ class Processor
         return $this;
     }
 
-    public function save()
+    public function process()
     {
+        $data  = [];
         $files = $this->getOutput();
-        $posts = Post::get()->keyBy('permalink');
 
         if (count($files['error'])) {
             return;
         }
 
         foreach ($files['success'] as $file) {
-            $record = [];
+            $post = new Post;
 
             // Collect all the field data.
             foreach ($file as $key => $val) {
                 $class = '\\Websanova\\Larablog\\Processor\\Fields\\' . ucfirst(Str::camel($key));
 
-                $record = array_merge($record, $class::parse($record, $file));
+                $post = $class::parse($post, $file);
             }
 
-            // Clean up special case for relations sets.
-            $relations = $record['relations'];
+            // Collect all raw post data.
+            $data[$post::class][]= $post;
 
-            unset($record['relations']);
-
-            // Create / Update a post.
-            if (isset($posts[$record['permalink']])) {
-                $post = $posts[$record['permalink']];
-
-                $post->update($record);
-            }
-            else {
-                $post = Post::create($record);
-            }
-
-            // Add post to model set.
-            $this->models[$post::class][]= $post;
-
-            // Create all model relations and add to model sets.
-            foreach ($relations as $key => $models) {
+            foreach ($post->getRelations() as $models) {
                 foreach ($models as $model) {
-                    if (!$post->{$key}->contains($model)) {
-                        $post->{$key}()->attach($model);
-                    }
-
-                    $this->models[$model::class][]= $model;
+                    $data[$model::class][]= $model;
                 }
             }
         }
 
-        // Process create/delete/update
-        //  - update => list of ids in $this->models AND in db.
-        //  - create => list of ids in $this->models AND NOT in db.
-        //  - delete => list of ids in db AND NOT in $this->models.
+        // Compare create/delete/update.
+        foreach ($data as $class => $models) {
+            $db  = $class::get();
+            $key = (new $class)->getUniqueKey();
+            $raw = new Collection($models);
 
+            $this->output['create'][$class] = $raw->whereNotIn($key, $db->pluck($key)->toArray());
+            $this->output['delete'][$class] = $db->whereNotIn($key, $raw->pluck($key)->toArray());
+            $this->output['update'][$class] = $raw->whereIn($key, $db->pluck($key)->toArray());
+        }
 
+        return $this;
+    }
 
-        // Finally run the deletes for any stale data.
+    public function save()
+    {
+        $files = $this->getOutput();
 
+        if (count($files['error'])) {
+            return;
+        }
 
-        echo count($ops['Websanova\Larablog\Models\Post']);
-        echo count($ops['Websanova\Larablog\Models\Tag']);
-
-
-
-
-
-
-
-        // Finally run our dbs.
-
-        // TODO: Before delete runs need to run the checks below.
-
-
-        // TODO: This does not have to be done here, just need to store
-        //       the values for later output processing if necessary.
-
-        // TODO:
-        //  - get list of ids in new
-        //  - get list of ids in db
-        //  - Run the following comparisons:
-        //  - updates => get list of ids in new and in db.
-        //  - creates => get list of ids in new and not in db.
-        //  - deletes => get list of ids in db and not in new.
-
-
-
-        // TODO: Clean up check for deletes
+        //
     }
 
     /*
@@ -273,5 +241,10 @@ class Processor
         else {
             return $this->getError('fdne', 'File does not exist');
         }
+    }
+
+    public function isErrors()
+    {
+        return count($this->output['error']);
     }
 }

@@ -3,13 +3,14 @@
 namespace Websanova\Larablog\Processor\Fields;
 
 use Carbon\Carbon;
+use Websanova\Larablog\Models\Post;
 
 class Date
 {
-    public static function parse(Array $record, Array $file)
+    public static function parse(Post $post, Array $file)
     {
-        $record['published_at'] = Carbon::parse($file['date'][0]);
+        $post->published_at = Carbon::parse($file['date'][0]);
 
-        return $record;
+        return $post;
     }
 }

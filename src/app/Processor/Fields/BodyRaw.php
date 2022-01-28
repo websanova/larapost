@@ -3,16 +3,17 @@
 namespace Websanova\Larablog\Processor\Fields;
 
 use Illuminate\Support\Str;
+use Websanova\Larablog\Models\Post;
 
 class BodyRaw
 {
-    public static function parse(Array $record, Array $file)
+    public static function parse(Post $post, Array $file)
     {
         $body       = $file['body-raw'][0];
-        $searchable = $record['searchable'] ?? '';
+        $searchable = $post->searchable ?? '';
 
-        $record['searchable'] = str_replace('-', ' ', Str::slug($body . ' ' . $searchable));
+        $post->searchable = str_replace('-', ' ', Str::slug($body . ' ' . $searchable));
 
-        return $record;
+        return $post;
     }
 }

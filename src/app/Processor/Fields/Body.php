@@ -3,13 +3,14 @@
 namespace Websanova\Larablog\Processor\Fields;
 
 use Illuminate\Support\Str;
+use Websanova\Larablog\Models\Post;
 
 class Body
 {
-    public static function parse(Array $record, Array $file)
+    public static function parse(Post $post, Array $file)
     {
-        $record['body'] = $file['body'][0];
+        $post->body = $file['body'][0];
 
-        return $record;
+        return $post;
     }
 }

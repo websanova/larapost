@@ -32,14 +32,27 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        $this->info('Larablog: posts');
+        $this->info('> Larablog: posts');
 
         $lb = Larablog::post();
 
-        $lb->build();
+        // Parse
 
-        // $lb->errors()->each();
+        $lb->parse();
 
+        $this->echoError($lb);
+
+        // Process
+
+        $lb->process();
+
+        $this->echoCreate($lb);
+
+        $this->echoUpdate($lb);
+
+        $this->echoDelete($lb);
+
+        // Save
         $lb->save();
 
         // $lb->inserts()->each();
@@ -52,7 +65,7 @@ class LarablogBuild extends Command
 
 
 
-        $this->info('Larablog: docs');
+        // $this->info('Larablog: docs');
 
         // Larablog::doc()->build();
 
@@ -80,5 +93,58 @@ class LarablogBuild extends Command
         // (new Page)->handle();
 
         // (new Doc)->handle();
+    }
+
+    public function echoError($lb)
+    {
+        $output = $lb->getOutput();
+
+        foreach ($output['error'] as $key => $file) {
+            $this->comment('  > Error: ' . $key);
+
+            $this->line(
+                '    - ' .
+                str_pad($file['error']['code'], 9) . ': ' .
+                $file['error']['msg']
+            );
+
+            $this->line('');
+        }
+    }
+
+    public function echoCreate($lb)
+    {
+        $this->echoInput($lb, 'create');
+    }
+
+    public function echoDelete($lb)
+    {
+        $this->echoInput($lb, 'delete');
+    }
+
+    public function echoUpdate($lb)
+    {
+        $this->echoInput($lb, 'update');
+    }
+
+    public function echoInput($lb, $op)
+    {
+        $output = $lb->getOutput();
+
+        $classes = $output[$op];
+
+        foreach ($classes as $class => $models) {
+            $this->comment('  > ' . ucfirst($op) . ': ' . $class);
+
+            foreach ($models as $model) {
+                $this->line(
+                    '    - ' .
+                    str_pad($model->type, 9) . ': ' .
+                    $model->{$model->getUniqueKey()}
+                );
+            }
+
+            $this->line('');
+        }
     }
 }

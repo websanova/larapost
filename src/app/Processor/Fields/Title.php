@@ -3,18 +3,19 @@
 namespace Websanova\Larablog\Processor\Fields;
 
 use Illuminate\Support\Str;
+use Websanova\Larablog\Models\Post;
 
 class Title
 {
-    public static function parse(Array $record, Array $file)
+    public static function parse(Post $post, Array $file)
     {
         $title      = $file['title'][0];
-        $searchable = $record['searchable'] ?? '';
+        $searchable = $post->searchable ?? '';
 
-        $record['searchable']    = str_replace('-', ' ', Str::slug($title . ' ' . $searchable));
-        $record['title']         = $title;
-        $record['meta']['title'] = $title;
+        $post->meta       = array_merge($post->meta ?? [], ['title' => $title]);
+        $post->searchable = str_replace('-', ' ', Str::slug($title . ' ' . $searchable));
+        $post->title      = $title;
 
-        return $record;
+        return $post;
     }
 }

@@ -2,12 +2,14 @@
 
 namespace Websanova\Larablog\Processor\Fields;
 
+use Websanova\Larablog\Models\Post;
+
 class Image
 {
-    public static function parse(Array $record, Array $file)
+    public static function parse(Post $post, Array $file)
     {
-        $record['meta']['image'] = $file['image'][0];
+        $post->meta = array_merge($post->meta ?? [], ['image' => $file['image'][0]]);
 
-        return $record;
+        return $post;
     }
 }

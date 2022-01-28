@@ -2,12 +2,14 @@
 
 namespace Websanova\Larablog\Processor\Fields;
 
+use Websanova\Larablog\Models\Post;
+
 class Description
 {
-    public static function parse(Array $record, Array $file)
+    public static function parse(Post $post, Array $file)
     {
-        $record['meta']['description'] = $file['description'][0];
+        $post->meta = array_merge($post->meta ?? [], ['description' => $file['description'][0]]);
 
-        return $record;
+        return $post;
     }
 }

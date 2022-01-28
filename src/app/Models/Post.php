@@ -8,7 +8,7 @@ use Websanova\Larablog\Parsers\PostParser;
 class Post extends Model
 {
     protected $casts = [
-        'meta' => 'object',
+        'meta' => 'array',
     ];
 
     protected $dates = [
@@ -35,15 +35,30 @@ class Post extends Model
     }
 
 
+    public function getTypeAttribute($val)
+    {
+        return $val ?? 'post';
+    }
 
-    public function next()
+
+
+
+
+
+    public function getNext()
     {
         // order by date, name
     }
 
-    public function prev()
+    public function getPrev()
     {
         // order by date, name
 
+    }
+
+
+    public function getUniqueKey()
+    {
+        return 'permalink';
     }
 }
