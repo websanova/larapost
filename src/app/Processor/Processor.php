@@ -19,6 +19,10 @@ class Processor
     private $output = [
         'error'   => [],
         'success' => [],
+
+        // delete => [],
+        // create => [],
+        // update => [],
     ];
 
     /*
@@ -75,16 +79,19 @@ class Processor
         foreach ($files['success'] as $file) {
             $record = [];
 
+            // Collect all the field data.
             foreach ($file as $key => $val) {
                 $class = '\\Websanova\\Larablog\\Processor\\Fields\\' . ucfirst(Str::camel($key));
 
                 $record = array_merge($record, $class::parse($record, $file));
             }
 
+            // Clean up special case for relations sets.
             $relations = $record['relations'];
 
             unset($record['relations']);
 
+            // Create / Update a post.
             if (isset($posts[$record['permalink']])) {
                 $post = $posts[$record['permalink']];
 
@@ -94,18 +101,41 @@ class Processor
                 $post = Post::create($record);
             }
 
-            $ops[$post::class][]= $post;
+            // Add post to model set.
+            $this->models[$post::class][]= $post;
 
+            // Create all model relations and add to model sets.
             foreach ($relations as $key => $models) {
                 foreach ($models as $model) {
                     if (!$post->{$key}->contains($model)) {
                         $post->{$key}()->attach($model);
                     }
 
-                    $ops[$model::class][]= $model;
+                    $this->models[$model::class][]= $model;
                 }
             }
         }
+
+        // Process create/delete/update
+        //  - update => list of ids in $this->models AND in db.
+        //  - create => list of ids in $this->models AND NOT in db.
+        //  - delete => list of ids in db AND NOT in $this->models.
+
+
+
+        // Finally run the deletes for any stale data.
+
+
+        echo count($ops['Websanova\Larablog\Models\Post']);
+        echo count($ops['Websanova\Larablog\Models\Tag']);
+
+
+
+
+
+
+
+        // Finally run our dbs.
 
         // TODO: Before delete runs need to run the checks below.
 
@@ -122,8 +152,6 @@ class Processor
         //  - deletes => get list of ids in db and not in new.
 
 
-        echo count($ops['Websanova\Larablog\Models\Post']);
-        echo count($ops['Websanova\Larablog\Models\Tag']);
 
         // TODO: Clean up check for deletes
     }
