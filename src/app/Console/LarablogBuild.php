@@ -141,6 +141,7 @@ class LarablogBuild extends Command
                     '    - ' .
                     str_pad($model->type, 9) . ': ' .
                     $model->{$model->getUniqueKey()}
+                    // array_keys($model->getDirty())
                 );
             }
 

@@ -28,12 +28,12 @@ class Processor
         'update' => [],
     ];
 
-
-    //  * Output of all models by relation in the build run.
-
-    // private $models = [
-    //     // By class name
-    // ];
+    /*
+     * Model classes and relations tree for optimized loading.
+     */
+    private $classes = [
+        //
+    ];
 
     /*
      * Default parser.
@@ -93,8 +93,19 @@ class Processor
             $data[$post::class][]= $post;
 
             foreach ($post->getRelations() as $models) {
+
+                // Gather all classes and relations used on all the raw
+                // models. Unfortunately, not much better way to do this
+                // dynamically as it needs to come from the raw data set.
+                $this->classes[$post::class] = array_unique(array_merge($this->classes[$post::class] ?? [], array_keys($post->getRelations())));
+
                 foreach ($models as $model) {
                     $data[$model::class][]= $model;
+
+                    // Gather from above.
+                    if ($post::class !== $model::class) {
+                        $this->classes[$model::class] = [];
+                    }
                 }
             }
         }
@@ -103,11 +114,25 @@ class Processor
         foreach ($data as $class => $models) {
             $db  = $class::get();
             $key = (new $class)->getUniqueKey();
+
             $raw = new Collection($models);
+            $raw = $raw->unique($key);
 
             $this->output['create'][$class] = $raw->whereNotIn($key, $db->pluck($key)->toArray());
             $this->output['delete'][$class] = $db->whereNotIn($key, $raw->pluck($key)->toArray());
-            $this->output['update'][$class] = $raw->whereIn($key, $db->pluck($key)->toArray());
+            $this->output['update'][$class] = [];
+
+            // Updates require a bit of finessing for dirty checks.
+            $update = $raw->whereIn($key, $db->pluck($key)->toArray());
+            $db = $db->keyBy($key);
+
+            foreach ($update as $model) {
+                $db[$model->{$key}]->fill($model->withoutRelations()->toArray());
+
+                if ($db[$model->{$key}]->isDirty()) {
+                    $this->output['update'][$class][]= $db[$model->{$key}];
+                }
+            }
         }
 
         return $this;
@@ -121,7 +146,53 @@ class Processor
             return;
         }
 
-        //
+        $output = [];
+
+        // Merge create/update data.
+        foreach (['create', 'update'] as $op) {
+            foreach ($this->output[$op] as $class => $models) {
+                if (!isset($output[$class])) {
+                    $output[$class] = new Collection;
+                }
+
+                $output[$class] = $output[$class]->merge($models);
+            }
+        }
+
+        // Save create/update models.
+        foreach ($output as $class => $models) {
+            foreach ($models as $model) {
+                $model->save();
+            }
+        }
+
+        // Preload all the db data, at this point there
+        // should be no new data that is NOT in the db.
+        $db = [];
+
+        foreach ($this->classes as $class => $relations) {
+            $key = (new $class)->getUniqueKey();
+
+            $db[$class] = $class::with($relations)->get()->keyBy($key);
+        }
+
+        // TODO: Update create/update relations.
+
+
+        // Wipe out deletes and associated relations.
+        foreach ($this->output['delete'] as $class => $models) {
+            foreach ($models as $model) {
+                $key = $model->getUniqueKey();
+
+                $model = $db[$model::class][$model->{$key}];
+
+                foreach ($model->getRelations() as $relation => $val) {
+                    $model->{$relation}->delete();
+                }
+
+                $model->delete();
+            }
+        }
     }
 
     /*
