@@ -8,3 +8,15 @@
 
 
 // LMD Larablog Markdown Format (pretty much markdown but with a header and some rendering mods for better linking).
+
+
+
+
+It's been designed to be as dynamic and automagical as possible for creating new fields and relations around posts. For instance the tags and docs don't require any special coding and other such relations that make sense should be addable.
+
+
+The diff command is especially useful is it allows us to first see any changes to our entire structure before actually running any saves.
+
+
+
+

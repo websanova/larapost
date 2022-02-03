@@ -138,11 +138,35 @@ class LarablogBuild extends Command
 
             foreach ($models as $model) {
                 $this->line(
-                    '    - ' .
-                    str_pad($model->type, 9) . ': ' .
-                    $model->{$model->getUniqueKey()}
-                    // array_keys($model->getDirty())
+                    '    > ' . $model->type . ' : ' . $model->{$model->getUniqueKey()}
                 );
+
+                // TODO: If model or relation is dirty.
+
+                foreach ($model->getDirty() as $key => $val) {
+                    $orig = $model->getOriginal($key);
+
+                    if ($orig && is_array($orig)) {
+                        $orig = json_encode($orig);
+                    }
+
+                    $this->line('<fg=green>' . substr('      + ' . $key . ' : ' . $val, 0, 100) . '</>');
+
+                    if ($orig) {
+                        $this->line('<fg=red>' . substr('      - ' . $key . ' : ' . $orig, 0, 100) . '</>');
+                    }
+
+                    foreach ($model->getRelations() as $relation => $relation_models) {
+
+                        // if ($model->relationLoaded($relation)) {
+                        //     print_r($model->{$relation}->toArray());
+                        // }
+
+                        // if ($model->relationLoaded($relation . '_new')) {
+                        //     print_r($model->{$relation . '_new'}->toArray());
+                        // }
+                    }
+                }
             }
 
             $this->line('');

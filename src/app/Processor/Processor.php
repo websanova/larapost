@@ -29,7 +29,14 @@ class Processor
     ];
 
     /*
-     * Model classes and relations tree for optimized loading.
+     * Capture all the relations for each model.
+     */
+    private $relations = [
+        //
+    ];
+
+    /*
+     * Capture all the classes of each relation.
      */
     private $classes = [
         //
@@ -72,7 +79,7 @@ class Processor
 
     public function process()
     {
-        $data  = [];
+        $output  = [];
         $files = $this->getOutput();
 
         if (count($files['error'])) {
@@ -90,31 +97,36 @@ class Processor
             }
 
             // Collect all raw post data.
-            $data[$post::class][]= $post;
+            $output[$post::class][]= $post;
 
-            foreach ($post->getRelations() as $models) {
+            foreach ($post->getRelations() as $relation => $relation_models) {
 
                 // Gather all classes and relations used on all the raw
                 // models. Unfortunately, not much better way to do this
                 // dynamically as it needs to come from the raw data set.
-                $this->classes[$post::class] = array_unique(array_merge($this->classes[$post::class] ?? [], array_keys($post->getRelations())));
+                $this->relations[$post::class] = array_unique(array_merge($this->relations[$post::class] ?? [], array_keys($post->getRelations())));
 
-                foreach ($models as $model) {
-                    $data[$model::class][]= $model;
+                foreach ($relation_models as $relation_model) {
 
-                    // Gather from above.
-                    if ($post::class !== $model::class) {
-                        $this->classes[$model::class] = [];
+                    // We also need to collect the relations classes
+                    // which we'll need later on to dynamically get
+                    // the unique keys need for running diffs.
+                    $this->classes[$relation] = $relation_model::class;
+
+                    $output[$relation_model::class][]= $relation_model;
+
+                    // Gather from above on relation models.
+                    if ($post::class !== $relation_model::class) {
+                        $this->relations[$relation_model::class] = [];
                     }
                 }
             }
         }
 
         // Compare create/delete/update.
-        foreach ($data as $class => $models) {
-            $db  = $class::get();
+        foreach ($output as $class => $models) {
+            $db  = $class::with($this->relations[$class])->get();
             $key = (new $class)->getUniqueKey();
-
             $raw = new Collection($models);
             $raw = $raw->unique($key);
 
@@ -123,13 +135,41 @@ class Processor
             $this->output['update'][$class] = [];
 
             // Updates require a bit of finessing for dirty checks.
+            $db     = $db->keyBy($key);
             $update = $raw->whereIn($key, $db->pluck($key)->toArray());
-            $db = $db->keyBy($key);
 
             foreach ($update as $model) {
+
+                // Generic fill which will work nicely for create/update
+                // and any isDirty checks for diff print out later on.
                 $db[$model->{$key}]->fill($model->withoutRelations()->toArray());
 
-                if ($db[$model->{$key}]->isDirty()) {
+                // Check for dirty relations which will be done manually
+                // here by comparing the raw set to the db relation set.
+                $is_dirty_relation = false;
+
+                foreach ($model->getRelations() as $relation => $relation_models) {
+
+                    // This is a temp var which will be useful for printing out
+                    // diffs later on and for running a sync on any create/update.
+                    $db[$model->{$key}]->setRelation($relation . '_new', $relation_models);
+
+                    $relation_key         = (new $this->classes[$relation])->getUniqueKey();
+                    $relation_db_keys     = $db[$model->{$key}]->{$relation}->pluck($relation_key)->toArray();
+                    $relation_models_keys = $relation_models->pluck($relation_key)->toArray();
+
+                    if (
+                        array_diff($relation_db_keys, $relation_models_keys) ||
+                        array_diff($relation_models_keys, $relation_db_keys)
+                    ) {
+                        $is_dirty_relation = true;
+                    }
+                }
+
+                if (
+                    $is_dirty_relation  ||
+                    $db[$model->{$key}]->isDirty()
+                ) {
                     $this->output['update'][$class][]= $db[$model->{$key}];
                 }
             }
@@ -148,7 +188,8 @@ class Processor
 
         $output = [];
 
-        // Merge create/update data.
+        // Merge create/update data since they can run the same
+        // save operations for model save and relation sync.
         foreach (['create', 'update'] as $op) {
             foreach ($this->output[$op] as $class => $models) {
                 if (!isset($output[$class])) {
@@ -162,35 +203,40 @@ class Processor
         // Save create/update models.
         foreach ($output as $class => $models) {
             foreach ($models as $model) {
-                $model->save();
+                // $model->save();
             }
         }
 
-        // Preload all the db data, at this point there
+        // Reload all the db data, at this point there
         // should be no new data that is NOT in the db.
         $db = [];
 
-        foreach ($this->classes as $class => $relations) {
+        foreach ($this->relations as $class => $relations) {
             $key = (new $class)->getUniqueKey();
 
             $db[$class] = $class::with($relations)->get()->keyBy($key);
         }
 
-        // TODO: Update create/update relations.
-
+        // Update create/update relations.
+        foreach ($output as $class => $models) {
+            foreach ($models as $model) {
+                foreach ($model->getRelations() as $relation => $relation_model) {
+                    // TODO: Just need to run sync here on the relation with new.
+                }
+            }
+        }
 
         // Wipe out deletes and associated relations.
         foreach ($this->output['delete'] as $class => $models) {
             foreach ($models as $model) {
-                $key = $model->getUniqueKey();
+                $key      = $model->getUniqueKey();
+                $model_db = $db[$model::class][$model->{$key}];
 
-                $model = $db[$model::class][$model->{$key}];
-
-                foreach ($model->getRelations() as $relation => $val) {
-                    $model->{$relation}->delete();
+                foreach ($model_db->getRelations() as $relation => $relation_models) {
+                    $model_db->{$relation}->delete();
                 }
 
-                $model->delete();
+                $model_db->delete();
             }
         }
     }
