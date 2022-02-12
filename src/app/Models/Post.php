@@ -19,13 +19,22 @@ class Post extends Model
 
     protected $hidden = [];
 
-    // public function postable()
+    // For doc
+    public function postable()
+    {
+        return $this->morphTo();
+    }
+
+    // public function doc()
     // {
-    //     return $this->morphTo();
+    //     return $this->belongsTo(Doc::class);
     // }
 
     public function redirects()
     {
+        // TODO: Use morph here for id instead of this...
+
+
         return $this->hasMany(Post::class, 'body', 'permalink');
     }
 
@@ -35,30 +44,87 @@ class Post extends Model
     }
 
 
-    public function getTypeAttribute($val)
+    // public function getTypeAttribute($val)
+    // {
+    //     return $val ?? 'post';
+    // }
+
+    public function next()
     {
-        return $val ?? 'post';
-    }
+        // if type post => get prev/next by published_at
+        // if type doc  => get prev/next by order
 
-
-
-
-
-
-    public function getNext()
-    {
         // order by date, name
     }
 
-    public function getPrev()
+    public function prev()
     {
         // order by date, name
 
     }
 
 
-    public function getUniqueKey()
+    /////////
+
+    /**
+     * The original loaded relationships for the model.
+     *
+     * @var array
+     */
+    protected $relations_original = [];
+
+    /**
+     * Set the given relationship on the model.
+     *
+     * @param  string  $relation
+     * @param  mixed  $value
+     * @return $this
+     */
+    public function fillRelation($relation, $value)
     {
-        return 'permalink';
+        if (!isset($this->relations_original[$relation])) {
+            $this->relations_original[$relation] = $this->{$relation};
+        }
+
+        $this->setRelation($relation, $value);
+
+        return $this;
     }
+
+    public function isDirtyRelation(String $relation, String $key = 'id')
+    {
+        if (
+            $this->relationLoaded($relation) &&
+            isset($this->relations_original[$relation])
+        ) {
+            $old_keys = array_unique($this->relations_original[$relation] ? $this->relations_original[$relation]->pluck($key)->toArray() : []);
+            $new_keys = array_unique($this->{$relation} ? $this->{$relation}->pluck($key)->toArray() : []);
+
+            if (
+                array_diff($old_keys, $new_keys) ||
+                array_diff($new_keys, $old_keys)
+            ) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function getDirtyRelationCreate(String $relation, String $key = 'id')
+    {
+        
+    }
+
+    public function getDirtyRelationDelete(String $relation, String $key = 'id')
+    {
+
+    }
+
+
+
+
+
+
+
 }

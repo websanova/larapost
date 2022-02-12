@@ -9,53 +9,80 @@ use Websanova\Larablog\Models\Post;
 
 class Processor
 {
-    /*
-     * Current procssor name used to reference config options.
-     */
-    private $name = null;
+
+    //  * Current procssor name used to reference config options.
+
+    // private $name = null;
 
     /*
      * Output of build parsing as error/success.
      */
-    private $output = [
-        'error'   => [],
-        'success' => [],
+    // private $output = [
+    //     'error'   => [],
+    //     'success' => [],
 
-        //
+    //     //
 
-        'create' => [],
-        'delete' => [],
-        'update' => [],
-    ];
+    //     'create' => [],
+    //     'delete' => [],
+    //     'update' => [],
+    // ];
+
+    //
+
+    private $error   = [];
+    private $success = [];
+
+    //
+
+    private $create = [];
+    private $delete = [];
+    private $update = [];
+
+    //
+
+
 
     /*
-     * Capture all the relations for each model.
+     * Track all the relations associated with a model.
      */
-    private $relations = [
-        //
-    ];
+    private $model_relations = [];
 
     /*
-     * Capture all the classes of each relation.
+     * Track the model associated with each relation.
      */
-    private $classes = [
-        //
-    ];
+    private $relation_model = [];
+
+    //
+
+    // /*
+    //  * Capture all the relations for each model.
+    //  */
+    // private $relations = [
+    //     //
+    // ];
+
+    // /*
+    //  * Capture all the classes of each relation.
+    //  */
+    // private $classes = [
+    //     //
+    // ];
 
     /*
      * Default parser.
      */
-    private $parser = \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class;
+    // private $parser = \Websanova\Larablog\Processor\Parsers\LarablogMarkdown::class;
 
-    /*
-     * @return Void
-     */
-    public function __construct()
-    {
-        if (!$this->name) {
-            $this->name = $this->getName();
-        }
-    }
+    // /*
+    //  * @return Void
+    //  */
+    // public function __construct()
+    // {
+    //     if (!$this->name) {
+    //         $this->name = $this->getName();
+    //     }
+    // }
 
     /*
      * Process all files in all paths.
@@ -71,7 +98,7 @@ class Processor
             $parse  = $this->getParsed($file);
             $result = isset($parse['error']) ? 'error' : 'success';
 
-            $this->output[$result][$file] = $parse;
+            $this->{$result}[$file] = $parse;
         }
 
         return $this;
@@ -79,98 +106,62 @@ class Processor
 
     public function process()
     {
-        $output  = [];
-        $files = $this->getOutput();
+        $models_by_class = [];
 
-        if (count($files['error'])) {
+        if ($this->isParseErrors()) {
             return;
         }
 
-        foreach ($files['success'] as $file) {
-            $post = new Post;
+        // Gather up all the models (direct and relations).
+        foreach ($this->getParseSuccess() as $file) {
+            $post = $this->initPost($file);
 
-            // Collect all the field data.
-            foreach ($file as $key => $val) {
-                $class = '\\Websanova\\Larablog\\Processor\\Fields\\' . ucfirst(Str::camel($key));
+            $models_by_class[$post::class][]= $post;
 
-                $post = $class::parse($post, $file);
-            }
-
-            // Collect all raw post data.
-            $output[$post::class][]= $post;
-
-            foreach ($post->getRelations() as $relation => $relation_models) {
-
-                // Gather all classes and relations used on all the raw
-                // models. Unfortunately, not much better way to do this
-                // dynamically as it needs to come from the raw data set.
-                $this->relations[$post::class] = array_unique(array_merge($this->relations[$post::class] ?? [], array_keys($post->getRelations())));
-
+            foreach ($post->getRelations() as $relation_key => $relation_models) {
                 foreach ($relation_models as $relation_model) {
+                    $models_by_class[$relation_model::class][]= $relation_model;
 
-                    // We also need to collect the relations classes
-                    // which we'll need later on to dynamically get
-                    // the unique keys need for running diffs.
-                    $this->classes[$relation] = $relation_model::class;
-
-                    $output[$relation_model::class][]= $relation_model;
-
-                    // Gather from above on relation models.
-                    if ($post::class !== $relation_model::class) {
-                        $this->relations[$relation_model::class] = [];
-                    }
+                    $this->model_relations[$post::class][]= $relation_key;
+                    $this->relation_model[$relation_key] = $relation_model::class;
                 }
             }
         }
 
-        // Compare create/delete/update.
-        foreach ($output as $class => $models) {
-            $db  = $class::with($this->relations[$class])->get();
-            $key = (new $class)->getUniqueKey();
-            $raw = new Collection($models);
-            $raw = $raw->unique($key);
+        // Clean up our model/relation tracking.
+        foreach ($this->model_relations as $key => $val) {
+            $this->model_relations[$key] = array_unique($val);
+        }
 
-            $this->output['create'][$class] = $raw->whereNotIn($key, $db->pluck($key)->toArray());
-            $this->output['delete'][$class] = $db->whereNotIn($key, $raw->pluck($key)->toArray());
-            $this->output['update'][$class] = [];
+        // Compare create/delete/update.
+        foreach ($models_by_class as $model_class => $models) {
+            $attr_key = $this->getAttributeKey($model_class);
+
+            $db  = $model_class::with($this->model_relations[$model_class] ?? [])->get();
+            $raw = (new Collection($models))->unique($attr_key);
+
+            $this->create[$model_class] = $raw->whereNotIn($attr_key, $db->pluck($attr_key)->toArray());
+            $this->delete[$model_class] = $db->whereNotIn($attr_key, $raw->pluck($attr_key)->toArray());
+            $this->update[$model_class] = [];
 
             // Updates require a bit of finessing for dirty checks.
-            $db     = $db->keyBy($key);
-            $update = $raw->whereIn($key, $db->pluck($key)->toArray());
+            $db     = $db->keyBy($attr_key);
+            $update = $raw->whereIn($attr_key, $db->pluck($attr_key)->toArray());
 
-            foreach ($update as $model) {
+            foreach ($update as $model_raw) {
+                $model_db = $db[$model_raw->{$attr_key}];
 
                 // Generic fill which will work nicely for create/update
                 // and any isDirty checks for diff print out later on.
-                $db[$model->{$key}]->fill($model->withoutRelations()->toArray());
+                $model_db->fill($model_raw->withoutRelations()->toArray());
 
-                // Check for dirty relations which will be done manually
-                // here by comparing the raw set to the db relation set.
-                $is_dirty_relation = false;
-
-                foreach ($model->getRelations() as $relation => $relation_models) {
-
-                    // This is a temp var which will be useful for printing out
-                    // diffs later on and for running a sync on any create/update.
-                    $db[$model->{$key}]->setRelation($relation . '_new', $relation_models);
-
-                    $relation_key         = (new $this->classes[$relation])->getUniqueKey();
-                    $relation_db_keys     = $db[$model->{$key}]->{$relation}->pluck($relation_key)->toArray();
-                    $relation_models_keys = $relation_models->pluck($relation_key)->toArray();
-
-                    if (
-                        array_diff($relation_db_keys, $relation_models_keys) ||
-                        array_diff($relation_models_keys, $relation_db_keys)
-                    ) {
-                        $is_dirty_relation = true;
-                    }
+                foreach ($model_db->getRelations() as $relation_key => $relation_models) {
+                    $model_db->fillRelation($relation_key, $model_raw->{$relation_key} ?? null);
                 }
 
-                if (
-                    $is_dirty_relation  ||
-                    $db[$model->{$key}]->isDirty()
-                ) {
-                    $this->output['update'][$class][]= $db[$model->{$key}];
+                // Check for any changes on the model.
+                if ($this->isModelDirty($model_db)) {
+                    $this->update[$model_class][]= $model_db;
                 }
             }
         }
@@ -180,9 +171,10 @@ class Processor
 
     public function save()
     {
-        $files = $this->getOutput();
+        // $classes = $this->getClasses();
+        // $files   = $this->getOutput();
 
-        if (count($files['error'])) {
+        if ($this->isParseErrors()) {
             return;
         }
 
@@ -203,7 +195,7 @@ class Processor
         // Save create/update models.
         foreach ($output as $class => $models) {
             foreach ($models as $model) {
-                // $model->save();
+                $model->save();
             }
         }
 
@@ -220,7 +212,56 @@ class Processor
         // Update create/update relations.
         foreach ($output as $class => $models) {
             foreach ($models as $model) {
-                foreach ($model->getRelations() as $relation => $relation_model) {
+                foreach ($model->getRelations() as $relation => $relation_models) {
+                    $relation_class = $classes[$relation] ?? null;
+
+                    if (!$relation_class) {
+                        continue;
+                    }
+
+                    $relation_key = (new $relation_class)->getUniqueKey();
+
+                    // $sync_models = new Collection;
+
+                    // echo $relation;
+                    // echo 'hi';
+
+                    if (method_exists($model->{$relation}(), 'sync')) {
+                        $ids = [];
+
+                        foreach ($relation_models as $relation_model) {
+                            $ids[]= $db[$relation_class][$relation_model->{$relation_key}]->id;
+                        }
+
+                        $model->{$relation}()->sync($ids);
+                    }
+
+                    else {
+                        foreach ($relation_models as $relation_model) {
+                            $model_db = $db[$relation_class][$relation_model->{$relation_key}];
+
+                            if (
+                                !$model->{'_' . $relation} ||
+                                !$model->{'_' . $relation}->contains($model_db)
+                            ) {
+                                $model->{$relation}()->save($model_db);
+                            }
+                        }
+                    }
+
+
+
+
+                    // print_r($sync_ids);
+
+
+                    // $new_keys = $model->{'_' . $relation} ? $model->{'_' . $relation}
+
+
+
+                    // $model->{$relation}()->delete();
+                    // $model->{$relation}()->saveMany($sync_models);
+
                     // TODO: Just need to run sync here on the relation with new.
                 }
             }
@@ -233,13 +274,24 @@ class Processor
                 $model_db = $db[$model::class][$model->{$key}];
 
                 foreach ($model_db->getRelations() as $relation => $relation_models) {
-                    $model_db->{$relation}->delete();
+                    $model_db->{$relation}()->delete();
                 }
 
                 $model_db->delete();
             }
         }
     }
+
+
+
+
+
+
+
+    // public function addRelationRef(String $relation_key, String $class)
+    // {
+    //     $this->relation_model[$relation_key] = array_unique(array_merge($this->relation_model[$relation_key] ?? [], [$class]));
+    // }
 
     /*
      * Get error formatted.
@@ -307,38 +359,49 @@ class Processor
         return $files;
     }
 
-    /*
-     * Get current processor name.
-     *
-     * @return String
-     */
-    public function getName()
+    public function getAttributeKey(String $model_class)
     {
-        if ($this->name) {
-            return $this->name;
-        }
-
-        $name = get_class($this);
-        $name = explode('\\', $name);
-        $name = end($name);
-        $name = strtolower($name);
-
-        return $name;
+        return config('larablog.keys.' . $model_class);
     }
 
-    public function getOutput()
+    public function getFieldClass(String $key)
     {
-        return $this->output;
+        return config('larablog.fields.' . $key);
+    }
+
+    public function getModelsCreate()
+    {
+        return $this->create;
+    }
+
+    public function getModelsDelete()
+    {
+        return $this->delete;
+    }
+
+    public function getModelsUpdate()
+    {
+        return $this->update;
     }
 
     public function getPaths()
     {
-        return config('larablog.' . $this->name . '.paths');
+        return config('larablog.paths');
+    }
+
+    public function getParseErrors()
+    {
+        return $this->error;
+    }
+
+    public function getParseSuccess()
+    {
+        return $this->success;
     }
 
     public function getParser()
     {
-        return config('larablog.' . $this->name . '.parser') ?: $this->parser;
+        return config('larablog.parser');
     }
 
     public function getParsed(String $file = null)
@@ -360,8 +423,43 @@ class Processor
         }
     }
 
-    public function isErrors()
+    public function getPostClass()
     {
-        return count($this->output['error']);
+        return config('larablog.post');
+    }
+
+    public function initPost(Array $file = null)
+    {
+        $class = $this->getPostClass();
+        $post  = new $class;
+
+        foreach ($file as $key => $val) {
+            $class = $this->getFieldClass($key);
+            $post  = $class::parse($post, $file);
+        }
+
+        return $post;
+    }
+
+    public function isModelDirty($model_db)
+    {
+        if ($model_db->isDirty()) {
+            return true;
+        }
+
+        foreach ($model_db->getRelations() as $relation_key => $relation_models) {
+            $attr_key = $this->getAttributeKey($this->relation_model[$relation_key]);
+
+            if ($model_db->isDirtyRelation($relation_key, $attr_key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isParseErrors()
+    {
+        return count($this->getParseErrors()) ? true : false;
     }
 }

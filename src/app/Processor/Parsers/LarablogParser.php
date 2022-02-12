@@ -3,15 +3,9 @@
 namespace Websanova\Larablog\Processor\Parsers;
 
 use Exception;
-use Michelf\MarkdownExtra;
 
-class LarablogMarkdown
+class LarablogParser
 {
-    public static function getBodyFormatted(String $str)
-    {
-        return (new MarkdownExtra)->transform($str);
-    }
-
     public static function parse(String $contents = '')
     {
         $data = [];
@@ -70,12 +64,8 @@ class LarablogMarkdown
             throw new Exception('Missing closing "---" at line ' . ($index + 2));
         }
 
-        $data['body-raw'] = [
-            implode("\n", $data['body'])
-        ];
-
         $data['body'] = [
-            self::getBodyFormatted($data['body-raw'][0])
+            implode("\n", $data['body'])
         ];
 
         return $data;

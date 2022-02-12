@@ -32,7 +32,7 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        $this->info('> Larablog: posts');
+        $this->info('> Larablog: Build');
 
         $lb = Larablog::post();
 
@@ -48,12 +48,12 @@ class LarablogBuild extends Command
 
         $this->echoCreate($lb);
 
-        $this->echoUpdate($lb);
+        // $this->echoUpdate($lb);
 
-        $this->echoDelete($lb);
+        // $this->echoDelete($lb);
 
         // Save
-        $lb->save();
+        // $lb->save();
 
         // $lb->inserts()->each();
 
@@ -97,9 +97,9 @@ class LarablogBuild extends Command
 
     public function echoError($lb)
     {
-        $output = $lb->getOutput();
+        $errors = $lb->getParseErrors();
 
-        foreach ($output['error'] as $key => $file) {
+        foreach ($errors as $key => $file) {
             $this->comment('  > Error: ' . $key);
 
             $this->line(
@@ -114,7 +114,7 @@ class LarablogBuild extends Command
 
     public function echoCreate($lb)
     {
-        $this->echoInput($lb, 'create');
+        $this->echoInput('create', $lb->getModelsCreate());
     }
 
     public function echoDelete($lb)
@@ -127,13 +127,17 @@ class LarablogBuild extends Command
         $this->echoInput($lb, 'update');
     }
 
-    public function echoInput($lb, $op)
+    public function echoInput(String $op, Array $models_by_class)
     {
-        $output = $lb->getOutput();
+        // $classes = $lb->getClasses();
+        // $output  = $lb->getOutput();
 
-        $classes = $output[$op];
+        // $ops = $output[$op];
 
-        foreach ($classes as $class => $models) {
+        // print_r($models_by_class);
+
+
+        foreach ($models_by_class as $class => $models) {
             $this->comment('  > ' . ucfirst($op) . ': ' . $class);
 
             foreach ($models as $model) {
@@ -141,32 +145,44 @@ class LarablogBuild extends Command
                     '    > ' . $model->type . ' : ' . $model->{$model->getUniqueKey()}
                 );
 
-                // TODO: If model or relation is dirty.
+                foreach ($model->getDirty() as $attr => $val) {
+                    $orig = $model->getOriginal($attr) ?? null;
+                    $orig = is_array($orig) ? json_encode($orig) : $orig;
 
-                foreach ($model->getDirty() as $key => $val) {
-                    $orig = $model->getOriginal($key);
-
-                    if ($orig && is_array($orig)) {
-                        $orig = json_encode($orig);
-                    }
-
-                    $this->line('<fg=green>' . substr('      + ' . $key . ' : ' . $val, 0, 100) . '</>');
+                    $this->line('<fg=green>' . substr('      + ' . $attr . ' : ' . $val, 0, 100) . '</>');
 
                     if ($orig) {
-                        $this->line('<fg=red>' . substr('      - ' . $key . ' : ' . $orig, 0, 100) . '</>');
-                    }
-
-                    foreach ($model->getRelations() as $relation => $relation_models) {
-
-                        // if ($model->relationLoaded($relation)) {
-                        //     print_r($model->{$relation}->toArray());
-                        // }
-
-                        // if ($model->relationLoaded($relation . '_new')) {
-                        //     print_r($model->{$relation . '_new'}->toArray());
-                        // }
+                        $this->line('<fg=red>' . substr('      - ' . $attr . ' : ' . $orig, 0, 100) . '</>');
                     }
                 }
+
+                // foreach ($model->getRelations() as $relation => $relation_models) {
+                //     if (!isset($classes[$relation])) {
+                //         continue;
+                //     }
+
+                //     $key = (new $classes[$relation])->getUniqueKey();
+
+                //     $old = ($model->{'_' . $relation} ?? collect())->keyBy($key);
+                //     $new = $model->{$relation}->keyBy($key);
+
+                //     // print_r($old);
+
+
+
+                //     $old_keys = $old->pluck($key)->toArray();
+                //     $new_keys = $new->pluck($key)->toArray();
+                //     $add_keys = array_diff($new_keys, $old_keys);
+                //     $rem_keys = array_diff($old_keys, $new_keys);
+
+                //     foreach ($add_keys as $add_key) {
+                //         $this->line('<fg=green>' . substr('      + ' . $relation . ' : ' . $new[$add_key]->{$key}, 0, 100) . '</>');
+                //     }
+
+                //     foreach ($rem_keys as $rem_key) {
+                //         $this->line('<fg=red>' . substr('      - ' . $relation . ' : ' . $old[$rem_key]->{$key}, 0, 100) . '</>');
+                //     }
+                // }
             }
 
             $this->line('');

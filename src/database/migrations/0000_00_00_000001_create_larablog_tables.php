@@ -14,6 +14,9 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'posts', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
+
+                // NOTE: This will be needed to link to docs (so we have doc->hasMany(Post))
+                //       However it may not always be post so we need to morph.
                 // $t->integer('postable_id')->nullable()->unsigned();
                 // $t->string('postable_type')->nullable()->varchar(32);
 
