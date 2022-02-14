@@ -48,9 +48,9 @@ class LarablogBuild extends Command
 
         $this->echoCreate($lb);
 
-        // $this->echoUpdate($lb);
+        $this->echoUpdate($lb);
 
-        // $this->echoDelete($lb);
+        $this->echoDelete($lb);
 
         // Save
         // $lb->save();
@@ -119,12 +119,12 @@ class LarablogBuild extends Command
 
     public function echoDelete($lb)
     {
-        $this->echoInput($lb, 'delete');
+        $this->echoInput('delete', $lb->getModelsDelete());
     }
 
     public function echoUpdate($lb)
     {
-        $this->echoInput($lb, 'update');
+        $this->echoInput('update', $lb->getModelsUpdate());
     }
 
     public function echoInput(String $op, Array $models_by_class)
@@ -142,7 +142,7 @@ class LarablogBuild extends Command
 
             foreach ($models as $model) {
                 $this->line(
-                    '    > ' . $model->type . ' : ' . $model->{$model->getUniqueKey()}
+                    '    > ' . $model->type . ' : ' . $model->{config('larablog.keys')[$model::class]}
                 );
 
                 foreach ($model->getDirty() as $attr => $val) {

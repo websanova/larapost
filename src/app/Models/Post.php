@@ -64,17 +64,18 @@ class Post extends Model
     }
 
 
-    /////////
+    // Helper functions for processor script and output.
 
     /**
-     * The original loaded relationships for the model.
+     * The original relationships loaded for the model.
      *
      * @var array
      */
     protected $relations_original = [];
 
     /**
-     * Set the given relationship on the model.
+     * Back the original relation if not already set
+     * and set the new relation to it's new value.
      *
      * @param  string  $relation
      * @param  mixed  $value
@@ -111,19 +112,15 @@ class Post extends Model
         return false;
     }
 
-    public function getDirtyRelationCreate(String $relation, String $key = 'id')
-    {
-        
-    }
-
-    public function getDirtyRelationDelete(String $relation, String $key = 'id')
+    public function getDirtyRelationCreateAttribute(String $relation, String $key = 'id')
     {
 
     }
 
+    public function getDirtyRelationDeleteAttribute(String $relation, String $key = 'id')
+    {
 
-
-
+    }
 
 
 

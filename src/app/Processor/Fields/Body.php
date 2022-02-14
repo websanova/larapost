@@ -9,7 +9,10 @@ class Body
 {
     public static function parse(Post $post, Array $file)
     {
-        $post->body = $file['body'][0];
+        $post->body = Str::markdown($file['body'][0]);
+        $searchable = $post->searchable ?? '';
+
+        $post->searchable = str_replace('-', ' ', Str::slug($file['body'][0] . ' ' . $searchable));
 
         return $post;
     }
