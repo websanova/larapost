@@ -129,14 +129,6 @@ class LarablogBuild extends Command
 
     public function echoInput(String $op, Array $models_by_class)
     {
-        // $classes = $lb->getClasses();
-        // $output  = $lb->getOutput();
-
-        // $ops = $output[$op];
-
-        // print_r($models_by_class);
-
-
         foreach ($models_by_class as $class => $models) {
             $this->comment('  > ' . ucfirst($op) . ': ' . $class);
 
@@ -156,33 +148,19 @@ class LarablogBuild extends Command
                     }
                 }
 
-                // foreach ($model->getRelations() as $relation => $relation_models) {
-                //     if (!isset($classes[$relation])) {
-                //         continue;
-                //     }
+                foreach ($model->getRelations() as $relation_key => $relation_models) {
+                    $attr_key = config('larablog.keys')[$model->{$relation_key}()->getRelated()::class];
 
-                //     $key = (new $classes[$relation])->getUniqueKey();
+                    if ($model->isDirtyRelation($relation_key, $attr_key)) {
+                        foreach ($model->getDirtyRelationCreate($relation_key, $attr_key) as $model_new) {
+                            $this->line('<fg=green>' . substr('      + ' . $relation_key . ' : ' . $model_new->{$attr_key}, 0, 100) . '</>');
+                        }
 
-                //     $old = ($model->{'_' . $relation} ?? collect())->keyBy($key);
-                //     $new = $model->{$relation}->keyBy($key);
-
-                //     // print_r($old);
-
-
-
-                //     $old_keys = $old->pluck($key)->toArray();
-                //     $new_keys = $new->pluck($key)->toArray();
-                //     $add_keys = array_diff($new_keys, $old_keys);
-                //     $rem_keys = array_diff($old_keys, $new_keys);
-
-                //     foreach ($add_keys as $add_key) {
-                //         $this->line('<fg=green>' . substr('      + ' . $relation . ' : ' . $new[$add_key]->{$key}, 0, 100) . '</>');
-                //     }
-
-                //     foreach ($rem_keys as $rem_key) {
-                //         $this->line('<fg=red>' . substr('      - ' . $relation . ' : ' . $old[$rem_key]->{$key}, 0, 100) . '</>');
-                //     }
-                // }
+                        foreach ($model->getDirtyRelationDelete($relation_key, $attr_key) as $model_new) {
+                            $this->line('<fg=red>' . substr('      - ' . $relation_key . ' : ' . $model_new->{$attr_key}, 0, 100) . '</>');
+                        }
+                    }
+                }
             }
 
             $this->line('');

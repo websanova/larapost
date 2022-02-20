@@ -46,12 +46,8 @@ class Processor
     /*
      * Track all the relations associated with a model.
      */
-    private $model_relations = [];
+    // private $model_relations = [];
 
-    /*
-     * Track the model associated with each relation.
-     */
-    private $relation_model = [];
 
     //
 
@@ -107,6 +103,7 @@ class Processor
     public function process()
     {
         $models_by_class = [];
+        $model_relations = [];
 
         if ($this->isParseErrors()) {
             return;
@@ -118,31 +115,30 @@ class Processor
 
             $models_by_class[$post::class][]= $post;
 
+            // Dynamically keep track of post relations since
+            // we don't know what will come out of the fields.
+            $model_relations[$post::class] = array_unique(array_merge(
+                $model_relations[$post::class] ?? [],
+                array_keys($post->getRelations())
+            ));
+
             foreach ($post->getRelations() as $relation_key => $relation_models) {
                 foreach ($relation_models as $relation_model) {
                     $models_by_class[$relation_model::class][]= $relation_model;
-
-                    $this->model_relations[$post::class][]= $relation_key;
-                    $this->relation_model[$relation_key] = $relation_model::class;
                 }
             }
-        }
-
-        // Clean up our model/relation tracking.
-        foreach ($this->model_relations as $key => $val) {
-            $this->model_relations[$key] = array_unique($val);
         }
 
         // Compare create/delete/update.
         foreach ($models_by_class as $model_class => $models) {
             $attr_key = $this->getAttributeKey($model_class);
 
-            $db  = $model_class::with($this->model_relations[$model_class] ?? [])->get();
+            $db  = $model_class::with($model_relations[$model_class] ?? [])->get();
             $raw = (new Collection($models))->unique($attr_key);
 
             $this->create[$model_class] = $raw->whereNotIn($attr_key, $db->pluck($attr_key)->toArray());
             $this->delete[$model_class] = $db->whereNotIn($attr_key, $raw->pluck($attr_key)->toArray());
-            $this->update[$model_class] = [];
+            $this->update[$model_class] = collect();
 
             // Updates require a bit of finessing for dirty checks.
             $db     = $db->keyBy($attr_key);
@@ -161,7 +157,7 @@ class Processor
 
                 // Check for any changes on the model.
                 if ($this->isModelDirty($model_db)) {
-                    $this->update[$model_class][]= $model_db;
+                    $this->update[$model_class]->push($model_db);
                 }
             }
         }
@@ -171,115 +167,120 @@ class Processor
 
     public function save()
     {
-        // $classes = $this->getClasses();
-        // $files   = $this->getOutput();
-
-        if ($this->isParseErrors()) {
-            return;
-        }
-
-        $output = [];
-
-        // Merge create/update data since they can run the same
-        // save operations for model save and relation sync.
-        foreach (['create', 'update'] as $op) {
-            foreach ($this->output[$op] as $class => $models) {
-                if (!isset($output[$class])) {
-                    $output[$class] = new Collection;
-                }
-
-                $output[$class] = $output[$class]->merge($models);
-            }
-        }
-
-        // Save create/update models.
-        foreach ($output as $class => $models) {
-            foreach ($models as $model) {
-                $model->save();
-            }
-        }
-
-        // Reload all the db data, at this point there
-        // should be no new data that is NOT in the db.
-        $db = [];
-
-        foreach ($this->relations as $class => $relations) {
-            $key = (new $class)->getUniqueKey();
-
-            $db[$class] = $class::with($relations)->get()->keyBy($key);
-        }
-
-        // Update create/update relations.
-        foreach ($output as $class => $models) {
-            foreach ($models as $model) {
-                foreach ($model->getRelations() as $relation => $relation_models) {
-                    $relation_class = $classes[$relation] ?? null;
-
-                    if (!$relation_class) {
-                        continue;
-                    }
-
-                    $relation_key = (new $relation_class)->getUniqueKey();
-
-                    // $sync_models = new Collection;
-
-                    // echo $relation;
-                    // echo 'hi';
-
-                    if (method_exists($model->{$relation}(), 'sync')) {
-                        $ids = [];
-
-                        foreach ($relation_models as $relation_model) {
-                            $ids[]= $db[$relation_class][$relation_model->{$relation_key}]->id;
-                        }
-
-                        $model->{$relation}()->sync($ids);
-                    }
-
-                    else {
-                        foreach ($relation_models as $relation_model) {
-                            $model_db = $db[$relation_class][$relation_model->{$relation_key}];
-
-                            if (
-                                !$model->{'_' . $relation} ||
-                                !$model->{'_' . $relation}->contains($model_db)
-                            ) {
-                                $model->{$relation}()->save($model_db);
-                            }
-                        }
-                    }
 
 
 
 
-                    // print_r($sync_ids);
+
+        // // $classes = $this->getClasses();
+        // // $files   = $this->getOutput();
+
+        // if ($this->isParseErrors()) {
+        //     return;
+        // }
+
+        // $output = [];
+
+        // // Merge create/update data since they can run the same
+        // // save operations for model save and relation sync.
+        // foreach (['create', 'update'] as $op) {
+        //     foreach ($this->output[$op] as $class => $models) {
+        //         if (!isset($output[$class])) {
+        //             $output[$class] = new Collection;
+        //         }
+
+        //         $output[$class] = $output[$class]->merge($models);
+        //     }
+        // }
+
+        // // Save create/update models.
+        // foreach ($output as $class => $models) {
+        //     foreach ($models as $model) {
+        //         $model->save();
+        //     }
+        // }
+
+        // // Reload all the db data, at this point there
+        // // should be no new data that is NOT in the db.
+        // $db = [];
+
+        // foreach ($this->relations as $class => $relations) {
+        //     $key = (new $class)->getUniqueKey();
+
+        //     $db[$class] = $class::with($relations)->get()->keyBy($key);
+        // }
+
+        // // Update create/update relations.
+        // foreach ($output as $class => $models) {
+        //     foreach ($models as $model) {
+        //         foreach ($model->getRelations() as $relation => $relation_models) {
+        //             $relation_class = $classes[$relation] ?? null;
+
+        //             if (!$relation_class) {
+        //                 continue;
+        //             }
+
+        //             $relation_key = (new $relation_class)->getUniqueKey();
+
+        //             // $sync_models = new Collection;
+
+        //             // echo $relation;
+        //             // echo 'hi';
+
+        //             if (method_exists($model->{$relation}(), 'sync')) {
+        //                 $ids = [];
+
+        //                 foreach ($relation_models as $relation_model) {
+        //                     $ids[]= $db[$relation_class][$relation_model->{$relation_key}]->id;
+        //                 }
+
+        //                 $model->{$relation}()->sync($ids);
+        //             }
+
+        //             else {
+        //                 foreach ($relation_models as $relation_model) {
+        //                     $model_db = $db[$relation_class][$relation_model->{$relation_key}];
+
+        //                     if (
+        //                         !$model->{'_' . $relation} ||
+        //                         !$model->{'_' . $relation}->contains($model_db)
+        //                     ) {
+        //                         $model->{$relation}()->save($model_db);
+        //                     }
+        //                 }
+        //             }
 
 
-                    // $new_keys = $model->{'_' . $relation} ? $model->{'_' . $relation}
+
+
+        //             // print_r($sync_ids);
+
+
+        //             // $new_keys = $model->{'_' . $relation} ? $model->{'_' . $relation}
 
 
 
-                    // $model->{$relation}()->delete();
-                    // $model->{$relation}()->saveMany($sync_models);
+        //             // $model->{$relation}()->delete();
+        //             // $model->{$relation}()->saveMany($sync_models);
 
-                    // TODO: Just need to run sync here on the relation with new.
-                }
-            }
-        }
+        //             // TODO: Just need to run sync here on the relation with new.
+        //         }
+        //     }
+        // }
 
-        // Wipe out deletes and associated relations.
-        foreach ($this->output['delete'] as $class => $models) {
-            foreach ($models as $model) {
-                $key      = $model->getUniqueKey();
-                $model_db = $db[$model::class][$model->{$key}];
+        // // Wipe out deletes and associated relations.
+        // foreach ($this->output['delete'] as $class => $models) {
+        //     foreach ($models as $model) {
+        //         $key      = $model->getUniqueKey();
+        //         $model_db = $db[$model::class][$model->{$key}];
 
-                foreach ($model_db->getRelations() as $relation => $relation_models) {
-                    $model_db->{$relation}()->delete();
-                }
+        //         foreach ($model_db->getRelations() as $relation => $relation_models) {
+        //             $model_db->{$relation}()->delete();
+        //         }
 
-                $model_db->delete();
-            }
-        }
+        //         $model_db->delete();
+        //     }
+        // }
     }
 
 
@@ -288,10 +289,6 @@ class Processor
 
 
 
-    // public function addRelationRef(String $relation_key, String $class)
-    // {
-    //     $this->relation_model[$relation_key] = array_unique(array_merge($this->relation_model[$relation_key] ?? [], [$class]));
-    // }
 
     /*
      * Get error formatted.
@@ -448,7 +445,7 @@ class Processor
         }
 
         foreach ($model_db->getRelations() as $relation_key => $relation_models) {
-            $attr_key = $this->getAttributeKey($this->relation_model[$relation_key]);
+            $attr_key = $this->getAttributeKey($model_db->{$relation_key}()->getRelated()::class);
 
             if ($model_db->isDirtyRelation($relation_key, $attr_key)) {
                 return true;
