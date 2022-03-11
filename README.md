@@ -1,4 +1,9 @@
 
+// TODO:
+
+- markdown / rendering on page.
+- serie as tag
+- doc as post
 
 
 
