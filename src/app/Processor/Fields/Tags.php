@@ -27,6 +27,7 @@ class Tags
             $post->tags->push(new Tag([
                 'name' => $tag,
                 'slug' => Str::slug($tag),
+                'type' => 'tag'
             ]));
         }
 

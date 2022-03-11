@@ -14,27 +14,24 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'posts', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
-
-                // NOTE: This will be needed to link to docs (so we have doc->hasMany(Post))
-                //       However it may not always be post so we need to morph.
                 // $t->integer('postable_id')->nullable()->unsigned();
                 // $t->string('postable_type')->nullable()->varchar(32);
 
 
                 // $t->integer('serie_id')->unsigned()->default(0)->index();
                 // $t->string('key', 255)->unique()->nullable()->index();
-                $t->string('type', 255)->default('post')->index();
-                $t->integer('order')->unsigned()->default(0)->index();
-                $t->string('permalink', 255)->unique()->index();
+                $t->string('type', 255)->default('post');
+                $t->integer('order')->unsigned()->default(0);
+                $t->string('permalink', 255)->unique();
                 $t->string('title', 255)->nullable();
                 $t->text('searchable')->nullable();
                 $t->text('body')->nullable();
                 $t->text('meta')->nullable();
-                $t->integer('views_count')->unsigned()->default(0)->index();
-                $t->timestamp('published_at')->nullable()->index();
-                // $t->timestamp('deleted_at')->nullable()->index();
-                $t->timestamp('updated_at')->nullable()->index();
-                $t->timestamp('created_at')->nullable()->index();
+                $t->integer('views_count')->unsigned()->default(0);
+                $t->timestamp('published_at')->nullable();
+                // $t->timestamp('deleted_at')->nullable();
+                $t->timestamp('updated_at')->nullable();
+                $t->timestamp('created_at')->nullable();
             });
 
             // TODO: Index by order, date, title
@@ -47,11 +44,12 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'tags', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
-                $t->string('slug', 255)->unique()->index();
+                $t->string('type', 255)->default('tag');
+                $t->string('slug', 255)->unique();
                 $t->string('name', 255);
-                $t->integer('posts_count')->unsigned()->default(0)->index();
-                $t->timestamp('updated_at')->nullable()->index();
-                $t->timestamp('created_at')->nullable()->index();
+                $t->integer('posts_count')->unsigned()->default(0);
+                $t->timestamp('updated_at')->nullable();
+                $t->timestamp('created_at')->nullable();
             });
         }
 
@@ -59,8 +57,8 @@ class CreateLarablogTables extends Migration
         {
             Schema::create($prefix . 'post_tag', function(Blueprint $t)
             {
-                $t->integer('post_id')->unsigned()->index();
-                $t->integer('tag_id')->unsigned()->index();
+                $t->integer('post_id')->unsigned();
+                $t->integer('tag_id')->unsigned();
             });
         }
 
@@ -78,19 +76,18 @@ class CreateLarablogTables extends Migration
         //     });
         // }
 
-        if (!Schema::hasTable($prefix . 'docs'))
-        {
-         Schema::create($prefix . 'docs', function(Blueprint $t)
-            {
-                $t->increments('id')->unsigned();
-                $t->string('type', 255)->default('tag')->index();
-                $t->string('slug', 255)->unique()->index();
-                $t->string('title', 255);
-                $t->integer('posts_count')->unsigned()->default(0)->index();
-                $t->timestamp('updated_at')->nullable()->index();
-             $t->timestamp('created_at')->nullable()->index();
-            });
-        }
+        // if (!Schema::hasTable($prefix . 'docs'))
+        // {
+        //  Schema::create($prefix . 'docs', function(Blueprint $t)
+        //     {
+        //         $t->increments('id')->unsigned();
+        //         $t->string('slug', 255)->unique()->index();
+        //         $t->string('title', 255);
+        //         $t->integer('posts_count')->unsigned()->default(0)->index();
+        //         $t->timestamp('updated_at')->nullable()->index();
+        //      $t->timestamp('created_at')->nullable()->index();
+        //     });
+        // }
 
         // if (!Schema::hasTable($prefix . 'sections'))
         // {
@@ -116,7 +113,7 @@ class CreateLarablogTables extends Migration
         Schema::dropIfExists($prefix . 'posts');
         Schema::dropIfExists($prefix . 'tags');
         // Schema::dropIfExists($prefix . 'series');
-        Schema::dropIfExists($prefix . 'docs');
+        // Schema::dropIfExists($prefix . 'docs');
         // Schema::dropIfExists($prefix . 'sections');
     }
 }

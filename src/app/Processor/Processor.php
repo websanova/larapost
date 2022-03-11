@@ -9,25 +9,6 @@ use Websanova\Larablog\Models\Post;
 
 class Processor
 {
-
-    //  * Current procssor name used to reference config options.
-
-    // private $name = null;
-
-    /*
-     * Output of build parsing as error/success.
-     */
-    // private $output = [
-    //     'error'   => [],
-    //     'success' => [],
-
-    //     //
-
-    //     'create' => [],
-    //     'delete' => [],
-    //     'update' => [],
-    // ];
-
     //
 
     private $error   = [];
@@ -40,6 +21,7 @@ class Processor
     private $update = [];
 
     //
+
 
 
 

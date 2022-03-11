@@ -10,10 +10,10 @@ class Tag extends Model
 
     protected $hidden = [];
 
-    public function getTypeAttribute($val)
-    {
-        return $val ?? 'tag';
-    }
+    // public function getTypeAttribute($val)
+    // {
+    //     return $val ?? 'tag';
+    // }
 
     public function getUniqueKey()
     {
