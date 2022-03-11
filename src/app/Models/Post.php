@@ -21,7 +21,7 @@ class Post extends Model
 
     protected $hidden = [];
 
-    // For doc
+    // For post to doc, redirect to post
     public function postable()
     {
         return $this->morphTo();
@@ -36,8 +36,9 @@ class Post extends Model
     {
         // TODO: Use morph here for id instead of this...
 
+        return $this->morphMany(Post::class, 'postable');
 
-        return $this->hasMany(Post::class, 'body', 'permalink');
+        // return $this->hasMany(Post::class, 'body', 'permalink');
     }
 
     public function tags()

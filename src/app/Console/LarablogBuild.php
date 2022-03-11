@@ -53,7 +53,7 @@ class LarablogBuild extends Command
         $this->echoDelete($lb);
 
         // Save
-        // $lb->save();
+        $lb->save();
 
         // $lb->inserts()->each();
 

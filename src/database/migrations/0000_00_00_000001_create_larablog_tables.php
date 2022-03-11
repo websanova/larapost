@@ -14,8 +14,8 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'posts', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
-                // $t->integer('postable_id')->nullable()->unsigned();
-                // $t->string('postable_type')->nullable()->varchar(32);
+                $t->integer('postable_id')->nullable()->unsigned();
+                $t->string('postable_type', 32)->nullable();
 
 
                 // $t->integer('serie_id')->unsigned()->default(0)->index();
