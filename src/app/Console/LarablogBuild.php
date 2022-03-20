@@ -34,7 +34,7 @@ class LarablogBuild extends Command
     {
         $this->info('> Larablog: Build');
 
-        $lb = Larablog::post();
+        $lb = Larablog::processor();
 
         // Parse
 

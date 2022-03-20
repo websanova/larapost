@@ -2,6 +2,8 @@
 
 namespace Websanova\Larablog;
 
+use Websanova\Larablog\Processor\Processor;
+
 class Larablog
 {
     // Checking for redirects (middleware).
@@ -20,20 +22,66 @@ class Larablog
     // $post->next();
     // $post->prev();
 
-    protected static function make($method)
-    {
-        $class = '\\Websanova\\Larablog\\Processor\\Processors\\' . ucfirst($method);
 
-        return new $class;
+    // Tags
+
+    public static function tag(String $slug)
+    {
+
     }
 
-    public static function __callStatic($method, $args)
+    public static function tags()
     {
-        return self::make($method);
+
     }
 
-    public function __call($method, $args)
+    public static function serie(String $slug)
     {
-        return self::make($method);
+
+    }
+
+    public static function series()
+    {
+
+    }
+
+    public static function doc(String $slug)
+    {
+
+    }
+
+    public static function docs()
+    {
+
+    }
+
+    // Posts
+
+    public static function post(String $slug)
+    {
+        $slug = '/' . trim($slug, '/');
+        $post = config('larablog.models.post');
+        $key  = config('larablog.keys.' . $post);
+
+        return $post::query()
+            ->where('type', 'post')
+            ->where($key, $slug)
+            ->first();
+    }
+
+    public static function posts()
+    {
+        $post = config('larablog.models.post');
+
+        return $post::query()
+            ->where('type', 'post')
+            ->paginate();
+    }
+
+    //
+
+    public static function processor()
+    {
+        return new Processor;
     }
 }

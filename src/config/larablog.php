@@ -19,9 +19,8 @@ return [
         \Websanova\Larablog\Models\Tag::class  => 'slug',
     ],
 
-    'relations' => [
-        \Websanova\Larablog\Models\Post::class => ['redirects', 'tags'],
-        \Websanova\Larablog\Models\Tag::class => [],
+    'models' => [
+        'post' => \Websanova\Larablog\Models\Post::class,
     ],
 
     'parser' => \Websanova\Larablog\Processor\Parsers\LarablogParser::class,
@@ -30,7 +29,10 @@ return [
         base_path('larablog/posts/2010'),
     ],
 
-    'post' => \Websanova\Larablog\Models\Post::class,
+    'relations' => [
+        \Websanova\Larablog\Models\Post::class => ['redirects', 'tags'],
+        \Websanova\Larablog\Models\Tag::class => [],
+    ],
 
     'tables' => [
         'prefix' => '',

@@ -324,7 +324,7 @@ class Processor
 
     public function getPostClass()
     {
-        return config('larablog.post');
+        return config('larablog.models.post');
     }
 
     public function getRelations()
