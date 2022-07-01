@@ -17,11 +17,11 @@ class Order
         }
 
         if (empty($parse['doc'])) {
-            throw new Exception('Doc is missing.');
+            throw new Exception('Doc is required.');
         }
 
         if (empty($parse['order'][0])) {
-            throw new Exception('Order is required.');
+            throw new Exception('Order is empty.');
         }
 
         $data['posts'][$name]->order = $parse['order'][0];

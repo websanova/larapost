@@ -20,8 +20,8 @@ class Doc
 
         if (!isset($data['groups'][$doc])) {
             $data['groups'][$doc] = (object)[
-                'title' => $doc,
-                'type'  => 'doc',
+                'name' => $doc,
+                'type' => 'doc',
             ];
         }
 

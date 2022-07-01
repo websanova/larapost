@@ -20,8 +20,8 @@ class Serie
 
         if (!isset($data['groups'][$serie])) {
             $data['groups'][$serie] = (object)[
-                'title' => $serie,
-                'type'  => 'serie',
+                'name' => $serie,
+                'type' => 'serie',
             ];
         }
 

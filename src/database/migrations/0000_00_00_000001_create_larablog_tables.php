@@ -62,7 +62,7 @@ class CreateLarablogTables extends Migration
             {
                 $t->increments('id')->unsigned();
                 $t->string('slug', 255)->unique();
-                $t->string('title', 255);
+                $t->string('name', 255);
                 $t->string('type', 255);
                 $t->integer('posts_count')->unsigned()->default(0);
                 $t->timestamp('updated_at')->nullable();
