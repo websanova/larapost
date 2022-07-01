@@ -9,13 +9,13 @@ class Permalink
     public static function parse(String $name, Array $data, Array $parse)
     {
         if (!isset($parse['permalink'])) {
-            throw new Exception('Missing permalink.');
+            throw new Exception('Permalink is required.');
         }
 
         $permalink = $parse['permalink'][0];
 
         if (isset($data['permalinks'][$permalink])) {
-            throw new Exception('Duplicate permalink.');
+            throw new Exception('Permalink is duplicate.');
         }
 
         if (!isset($data['groups'][$permalink])) {

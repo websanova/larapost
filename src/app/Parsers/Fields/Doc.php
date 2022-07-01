@@ -12,8 +12,8 @@ class Doc
             return $data;
         }
 
-        if (empty($parse['doc'])) {
-            throw new Exception('Doc cannot be empty.');
+        if (empty($parse['doc'][0])) {
+            throw new Exception('Doc is required.');
         }
 
         $doc = $parse['doc'][0];

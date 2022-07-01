@@ -10,23 +10,21 @@ class Order
     {
         if (!isset($parse['order'])) {
             if (isset($parse['doc'])) {
-                throw new Exception('Doc requires order field.');
+                throw new Exception('Order is required.');
             }
 
             return $data;
         }
 
         if (empty($parse['doc'])) {
-            throw new Exception('Order requires doc field.');
+            throw new Exception('Doc is missing.');
         }
 
-        if (empty($parse['order'])) {
-            throw new Exception('Order cannot be empty.');
+        if (empty($parse['order'][0])) {
+            throw new Exception('Order is required.');
         }
 
-        $order = $parse['order'][0];
-
-        $data['posts'][$name]->order = $order;
+        $data['posts'][$name]->order = $parse['order'][0];
 
         return $data;
     }
