@@ -5,6 +5,7 @@ namespace Websanova\Larablog\Console;
 use Illuminate\Console\Command;
 use Websanova\Larablog\Larablog;
 
+
 // use Websanova\Larablog\Parser\Type\Doc;
 // use Websanova\Larablog\Parser\Type\Page;
 // use Websanova\Larablog\Parser\Type\Post;
@@ -16,7 +17,7 @@ class LarablogBuild extends Command
     *
     * @var string
     */
-    protected $signature = 'larablog:build';
+    protected $signature = 'larablog:build {--docs} {--posts}';
 
     /**
     * The console command description.
@@ -34,26 +35,31 @@ class LarablogBuild extends Command
     {
         $this->info('> Larablog: Build');
 
-        $lb = Larablog::processor();
+        $out = Larablog::diff();
 
-        // Parse
+        print_r($out);
 
-        $lb->parse();
 
-        $this->echoError($lb);
+        // $lb = Larablog::processor();
 
-        // Process
+        // // Parse
 
-        $lb->process();
+        // $lb->parse();
 
-        $this->echoCreate($lb);
+        // $this->echoError($lb);
 
-        $this->echoUpdate($lb);
+        // // Process
 
-        $this->echoDelete($lb);
+        // $lb->process();
 
-        // Save
-        $lb->save();
+        // $this->echoCreate($lb);
+
+        // $this->echoUpdate($lb);
+
+        // $this->echoDelete($lb);
+
+        // // Save
+        // $lb->save();
 
         // $lb->inserts()->each();
 
