@@ -6,25 +6,24 @@ return [
 
     'fields' => [
         \Websanova\Larablog\Parsers\Fields\Doc::class,
+        \Websanova\Larablog\Parsers\Fields\Description::class,
+        \Websanova\Larablog\Parsers\Fields\Keywords::class,
         \Websanova\Larablog\Parsers\Fields\Order::class,
         \Websanova\Larablog\Parsers\Fields\Permalink::class,
+        \Websanova\Larablog\Parsers\Fields\Redirects::class,
         \Websanova\Larablog\Parsers\Fields\Serie::class,
+        \Websanova\Larablog\Parsers\Fields\Tags::class,
+        \Websanova\Larablog\Parsers\Fields\Title::class,
     ],
 
     'paths' => [
-        base_path('larablog/docs/vue-upload'),
-        base_path('larablog/posts/2010'),
+        // All directories here will be recursively searched for all files.
     ],
 
     'models' => [
-        // 'doc'   => \Websanova\Larablog\Models\Doc::class,
-        // 'serie' => \Websanova\Larablog\Models\Serie::class,
         'post'  => \Websanova\Larablog\Models\Post::class,
         'tag'   => \Websanova\Larablog\Models\Tag::class,
         'group' => \Websanova\Larablog\Models\Group::class,
-            // doc (where parent 0)
-            // doc where parent == up
-            // serie
     ],
 
     'tables' => [
