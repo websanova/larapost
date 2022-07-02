@@ -17,7 +17,7 @@ class Body
             throw new Exception('Body is empty.');
         }
 
-        $data['posts'][$name]->body = $parse['body'][0];
+        $data['posts'][$name]->attributes['body'] = $parse['body'][0];
 
         return $data;
     }

@@ -35,7 +35,7 @@ class LarablogBuild extends Command
     {
         $this->info('> Larablog: Build');
 
-        $out = Larablog::diff();
+        $out = Larablog::build();
 
         // print_r($out);
 

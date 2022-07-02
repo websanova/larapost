@@ -15,7 +15,7 @@ class Searchable
         $str = preg_replace('/[^a-zA-Z0-9]+/', ' ', $str);
         $str = strtolower($str);
 
-        $data['posts'][$name]->searchable = $str;
+        $data['posts'][$name]->attributes['searchable'] = $str;
 
         return $data;
     }

@@ -10,6 +10,11 @@ class Group extends Model
 
     protected $hidden = [];
 
+    public function getTable()
+    {
+        return config('larablog.table.prefix') . 'groups';
+    }
+
     public function posts()
     {
         return $this->hasMany(Post::class);

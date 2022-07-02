@@ -23,9 +23,13 @@ class Redirects
 
             $data['permalinks'][$redirect] = $data['posts'][$name];
 
-            $data['posts'][$name]->redirects[]= [
-                'permalink' => $redirect,
-                'post'      => $data['posts'][$name],
+            $data['posts'][$name]->relations['redirects'][]= [
+                'attributes' => [
+                    'permalink' => $redirect,
+                ],
+                'relations' => [
+                    'post' => $data['posts'][$name],
+                ]
             ];
         }
 

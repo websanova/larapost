@@ -16,7 +16,7 @@ class Keywords
             throw new Exception('Keywords is empty.');
         }
 
-        $data['posts'][$name]->keywords = $parse['keywords'][0];
+        $data['posts'][$name]->attributes['keywords'] = $parse['keywords'][0];
 
         return $data;
     }

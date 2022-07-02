@@ -20,12 +20,14 @@ class Doc
 
         if (!isset($data['docs'][$doc])) {
             $data['docs'][$doc] = (object)[
-                'name' => $doc,
-                'type' => 'doc',
+                'attributes' => [
+                    'name' => $doc,
+                    'type' => 'doc',
+                ]
             ];
         }
 
-        $data['posts'][$name]->group = $data['docs'][$doc];
+        $data['posts'][$name]->relations['doc'] = $data['docs'][$doc];
 
         return $data;
     }

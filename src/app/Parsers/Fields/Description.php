@@ -16,7 +16,7 @@ class Description
             throw new Exception('Description is empty.');
         }
 
-        $data['posts'][$name]->description = $parse['description'][0];
+        $data['posts'][$name]->attributes['description'] = $parse['description'][0];
 
         return $data;
     }

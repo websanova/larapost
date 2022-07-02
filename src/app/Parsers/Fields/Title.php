@@ -16,7 +16,7 @@ class Title
             throw new Exception('Title is empty.');
         }
 
-        $data['posts'][$name]->title = $parse['title'][0];
+        $data['posts'][$name]->attributes['title'] = $parse['title'][0];
 
         return $data;
     }

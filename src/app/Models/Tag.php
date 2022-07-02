@@ -9,4 +9,9 @@ class Tag extends Model
     protected $guarded = [];
 
     protected $hidden = [];
+
+    public function getTable()
+    {
+        return config('larablog.table.prefix') . 'tags';
+    }
 }

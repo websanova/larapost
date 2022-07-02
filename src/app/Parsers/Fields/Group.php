@@ -24,13 +24,17 @@ class Group
 
         if (!isset($data['group'][$group])) {
             $data['group'][$group] = (object)[
-                'doc'  => $data['docs'][$parse['doc'][0]],
-                'name' => $group,
-                'type' => 'group',
+                'attributes' => [
+                    'name' => $group,
+                    'type' => 'group',
+                ],
+                'relations' => [
+                    'doc' => $data['docs'][$parse['doc'][0]],
+                ]
             ];
         }
 
-        $data['posts'][$name]->group = $data['group'][$group];
+        $data['posts'][$name]->relations['group'] = $data['group'][$group];
 
         return $data;
     }

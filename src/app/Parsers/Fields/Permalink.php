@@ -20,7 +20,7 @@ class Permalink
 
         $data['permalinks'][$permalink] = $data['posts'][$name];
 
-        $data['posts'][$name]->permalink = $permalink;
+        $data['posts'][$name]->attributes['permalink'] = $permalink;
 
         return $data;
     }

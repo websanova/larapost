@@ -18,6 +18,11 @@ class Post extends Model
 
     protected $hidden = [];
 
+    public function getTable()
+    {
+        return config('larablog.table.prefix') . 'posts';
+    }
+
     // public function post()
     // {
     //     return $this->hasOne(Post::class, 'redirect_id');

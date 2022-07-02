@@ -23,11 +23,13 @@ class Tags
 
             if (!isset($data['tags'][$tag])) {
                 $data['tags'][$tag] = [
-                    'name' => $tag
+                    'attributes' => [
+                        'name' => $tag
+                    ]
                 ];
             }
 
-            $data['posts'][$name]->tags[]= $data['tags'][$tag];
+            $data['posts'][$name]->relations['tags'][]= $data['tags'][$tag];
         }
 
         return $data;

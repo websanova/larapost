@@ -20,12 +20,14 @@ class Serie
 
         if (!isset($data['series'][$serie])) {
             $data['series'][$serie] = (object)[
-                'name' => $serie,
-                'type' => 'serie',
+                'attributes' => [
+                    'name' => $serie,
+                    'type' => 'serie',
+                ]
             ];
         }
 
-        $data['posts'][$name]->group = $data['series'][$serie];
+        $data['posts'][$name]->relations['serie'] = $data['series'][$serie];
 
         return $data;
     }

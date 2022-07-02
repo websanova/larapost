@@ -57,9 +57,10 @@ class CreateLarablogTables extends Migration
                 $t->smallInteger('order')->unsigned()->default(0);
                 $t->string('permalink', 255);
                 $t->string('title', 255)->nullable();
-                $t->text('searchable')->nullable();
                 $t->text('body')->nullable();
-                $t->text('meta')->nullable();
+                $t->text('description')->nullable();
+                $t->text('keywords')->nullable();
+                $t->text('searchable')->nullable();
                 $t->timestamp('published_at')->nullable();
                 $t->timestamp('updated_at')->nullable();
                 $t->timestamp('created_at')->nullable();

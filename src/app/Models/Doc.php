@@ -10,6 +10,12 @@ class Doc extends Model
 
     protected $hidden = [];
 
+    public function getTable()
+    {
+        return config('larablog.table.prefix') . 'docs';
+    }
+
+
     public function groups()
     {
         return $this->hasMany(config('larablog.models.group'));
