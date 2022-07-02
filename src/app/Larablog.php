@@ -11,10 +11,37 @@ class Larablog
         $data = self::diff();
     }
 
-
     public static function diff()
     {
-        return LarablogParser::handle();
+        $parser = config('larablog.parser');
+        $data   = $parser::getData();
+
+        //
+
+        $doc   = config('larablog.models.doc');
+        $group = config('larablog.models.group');
+        $post  = config('larablog.models.post');
+        $serie = config('larablog.models.serie');
+        $tag   = config('larablog.models.tag');
+
+        //
+
+        $docs   = $doc::get();
+        $groups = $group::get();
+        $posts  = $post::with('doc', 'serie', 'tags', 'redirects')->get();
+        $series = $serie::get();
+        $tags   = $tag::get();
+
+
+
+
+
+        // $posts  = $post::get();
+        // $tags   = $tag::get();
+
+
+
+        return $data;
     }
 
 

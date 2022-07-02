@@ -37,7 +37,7 @@ class LarablogBuild extends Command
 
         $out = Larablog::diff();
 
-        print_r($out);
+        // print_r($out);
 
 
         // $lb = Larablog::processor();

@@ -8,6 +8,7 @@ return [
         \Websanova\Larablog\Parsers\Fields\Body::class,
         \Websanova\Larablog\Parsers\Fields\Doc::class,
         \Websanova\Larablog\Parsers\Fields\Description::class,
+        \Websanova\Larablog\Parsers\Fields\Group::class,
         \Websanova\Larablog\Parsers\Fields\Keywords::class,
         \Websanova\Larablog\Parsers\Fields\Order::class,
         \Websanova\Larablog\Parsers\Fields\Permalink::class,
@@ -23,9 +24,11 @@ return [
     ],
 
     'models' => [
-        'post'  => \Websanova\Larablog\Models\Post::class,
-        'tag'   => \Websanova\Larablog\Models\Tag::class,
+        'doc'   => \Websanova\Larablog\Models\Doc::class,
         'group' => \Websanova\Larablog\Models\Group::class,
+        'post'  => \Websanova\Larablog\Models\Post::class,
+        'serie' => \Websanova\Larablog\Models\Serie::class,
+        'tag'   => \Websanova\Larablog\Models\Tag::class,
     ],
 
     'tables' => [

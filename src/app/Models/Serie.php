@@ -4,7 +4,7 @@ namespace Websanova\Larablog\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Group extends Model
+class Serie extends Model
 {
     protected $guarded = [];
 

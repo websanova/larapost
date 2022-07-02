@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class LarablogParser
 {
-    public static function handle()
+    public static function getData()
     {
         $data  = [];
         $paths = config('larablog.paths');

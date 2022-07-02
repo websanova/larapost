@@ -3,12 +3,9 @@
 namespace Websanova\Larablog\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Websanova\Larablog\Parsers\PostParser;
 
 class Post extends Model
 {
-    // use Concerns\ManagesDirtyRelations;
-
     protected $casts = [
         'meta' => 'array',
     ];
@@ -21,28 +18,38 @@ class Post extends Model
 
     protected $hidden = [];
 
-    // For post to doc, redirect to post
-    public function postable()
-    {
-        return $this->morphTo();
-    }
-
-    // public function doc()
+    // public function post()
     // {
-    //     return $this->belongsTo(Doc::class);
+    //     return $this->hasOne(Post::class, 'redirect_id');
     // }
 
     // public function redirects()
     // {
-    //     // TODO: Use morph here for id instead of this...
-
-    //     return $this->morphMany(Post::class, 'postable');
-
-    //     // return $this->hasMany(Post::class, 'body', 'permalink');
+    //     return $this->hasMany(Post::class, 'redirect_id');
     // }
+
+    // public function tags()
+    // {
+    //     return $this->belongsToMany(Tag::class);
+    // }
+
+    public function doc()
+    {
+        return $this->belongsTo(config('larablog.models.doc'));
+    }
+
+    public function redirects()
+    {
+        return $this->hasMany(config('larablog.models.post'), 'redirect_id');
+    }
+
+    public function serie()
+    {
+        return $this->belongsTo(config('larablog.models.serie'));
+    }
 
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(config('larablog.models.tag'));
     }
 }
