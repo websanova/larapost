@@ -18,9 +18,7 @@ class Permalink
             throw new Exception('Permalink is duplicate.');
         }
 
-        if (!isset($data['groups'][$permalink])) {
-            $data['permalinks'][$permalink] = $data['posts'][$name];
-        }
+        $data['permalinks'][$permalink] = $data['posts'][$name];
 
         $data['posts'][$name]->permalink = $permalink;
 

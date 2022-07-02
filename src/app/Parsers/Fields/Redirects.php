@@ -17,6 +17,12 @@ class Redirects
                 throw new Exception('Redirect is empty.');
             }
 
+            if (isset($data['permalinks'][$redirect])) {
+                throw new Exception('Redirect is duplicate.');
+            }
+
+            $data['permalinks'][$redirect] = $data['posts'][$name];
+
             $data['posts'][$name]->redirects[]= [
                 'permalink' => $redirect,
                 'post'      => $data['posts'][$name],

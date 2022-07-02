@@ -5,6 +5,9 @@ return [
     'parser' => \Websanova\Larablog\Parsers\LarablogParser::class,
 
     'fields' => [
+        // NOTE: Order may matter here, for instance
+        //       group is dependant on having a doc.
+
         \Websanova\Larablog\Parsers\Fields\Body::class,
         \Websanova\Larablog\Parsers\Fields\Doc::class,
         \Websanova\Larablog\Parsers\Fields\Description::class,

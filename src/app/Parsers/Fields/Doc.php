@@ -13,19 +13,19 @@ class Doc
         }
 
         if (empty($parse['doc'][0])) {
-            throw new Exception('Doc is required.');
+            throw new Exception('Doc is empty.');
         }
 
         $doc = $parse['doc'][0];
 
-        if (!isset($data['groups'][$doc])) {
-            $data['groups'][$doc] = (object)[
+        if (!isset($data['doc'][$doc])) {
+            $data['doc'][$doc] = (object)[
                 'name' => $doc,
                 'type' => 'doc',
             ];
         }
 
-        $data['posts'][$name]->group = $data['groups'][$doc];
+        $data['posts'][$name]->group = $data['doc'][$doc];
 
         return $data;
     }

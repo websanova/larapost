@@ -13,6 +13,10 @@ class Body
             throw new Exception('body is required.');
         }
 
+        if (empty($parse['body'][0])) {
+            throw new Exception('Body is empty.');
+        }
+
         $data['posts'][$name]->body = $parse['body'][0];
 
         return $data;

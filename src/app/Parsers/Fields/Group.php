@@ -8,24 +8,29 @@ class Group
 {
     public static function parse(String $name, Array $data, Array $parse)
     {
-        // if (!isset($parse['doc'])) {
-        //     return $data;
-        // }
+        if (!isset($parse['group'])) {
+            return $data;
+        }
 
-        // if (empty($parse['doc'][0])) {
-        //     throw new Exception('Doc is required.');
-        // }
+        if (!isset($data['docs'][$parse['doc']])) {
+            throw new Exception('Doc is not set.');
+        }
 
-        // $doc = $parse['doc'][0];
+        if (empty($parse['group'][0])) {
+            throw new Exception('Group is empty.');
+        }
 
-        // if (!isset($data['groups'][$doc])) {
-        //     $data['groups'][$doc] = (object)[
-        //         'name' => $doc,
-        //         'type' => 'doc',
-        //     ];
-        // }
+        $group = $parse['group'][0];
 
-        // $data['posts'][$name]->group = $data['groups'][$doc];
+        if (!isset($data['group'][$group])) {
+            $data['group'][$group] = (object)[
+                'doc'  => $data['docs'][$parse['doc']],
+                'name' => $group,
+                'type' => 'group',
+            ];
+        }
+
+        $data['posts'][$name]->group = $data['group'][$group];
 
         return $data;
     }

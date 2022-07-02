@@ -13,19 +13,19 @@ class Serie
         }
 
         if (empty($parse['serie'])) {
-            throw new Exception('Serie cannot be empty.');
+            throw new Exception('Serie is empty.');
         }
 
         $serie = $parse['serie'][0];
 
-        if (!isset($data['groups'][$serie])) {
-            $data['groups'][$serie] = (object)[
+        if (!isset($data['series'][$serie])) {
+            $data['series'][$serie] = (object)[
                 'name' => $serie,
                 'type' => 'serie',
             ];
         }
 
-        $data['posts'][$name]->group = $data['groups'][$serie];
+        $data['posts'][$name]->group = $data['series'][$serie];
 
         return $data;
     }
