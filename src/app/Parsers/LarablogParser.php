@@ -16,7 +16,7 @@ class LarablogParser
             $files = File::allFiles($path);
 
             foreach ($files as $file) {
-                $name  = $file->getPathname();
+                $name = $file->getPathname();
 
                 $data['posts'][$name] = (object)[];
 
@@ -28,9 +28,14 @@ class LarablogParser
                     }
                 }
                 catch(Exception $e) {
-                    $data['posts'][$name]->error = $e->getMessage();
+                    unset($data['posts'][$name]);
 
-                    break;
+                    $data['errors'][]= [
+                        'msg'  => $e->getMessage(),
+                        'name' => $name,
+                    ];
+
+                    continue;
                 }
             }
         }

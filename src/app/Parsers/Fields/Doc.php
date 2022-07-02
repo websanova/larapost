@@ -18,14 +18,14 @@ class Doc
 
         $doc = $parse['doc'][0];
 
-        if (!isset($data['doc'][$doc])) {
-            $data['doc'][$doc] = (object)[
+        if (!isset($data['docs'][$doc])) {
+            $data['docs'][$doc] = (object)[
                 'name' => $doc,
                 'type' => 'doc',
             ];
         }
 
-        $data['posts'][$name]->group = $data['doc'][$doc];
+        $data['posts'][$name]->group = $data['docs'][$doc];
 
         return $data;
     }

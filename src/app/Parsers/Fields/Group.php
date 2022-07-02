@@ -12,7 +12,7 @@ class Group
             return $data;
         }
 
-        if (!isset($data['docs'][$parse['doc']])) {
+        if (!isset($data['docs'][$parse['doc'][0]])) {
             throw new Exception('Doc is not set.');
         }
 
@@ -24,7 +24,7 @@ class Group
 
         if (!isset($data['group'][$group])) {
             $data['group'][$group] = (object)[
-                'doc'  => $data['docs'][$parse['doc']],
+                'doc'  => $data['docs'][$parse['doc'][0]],
                 'name' => $group,
                 'type' => 'group',
             ];
