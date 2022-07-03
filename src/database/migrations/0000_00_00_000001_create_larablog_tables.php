@@ -58,6 +58,7 @@ class CreateLarablogTables extends Migration
                 $t->string('permalink', 255);
                 $t->string('title', 255)->nullable();
                 $t->text('body')->nullable();
+                $t->text('image')->nullable();
                 $t->text('description')->nullable();
                 $t->text('keywords')->nullable();
                 $t->text('searchable')->nullable();

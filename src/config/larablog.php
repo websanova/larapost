@@ -9,9 +9,11 @@ return [
         //       group is dependant on having a doc.
 
         \Websanova\Larablog\Parsers\Fields\Body::class,
+        \Websanova\Larablog\Parsers\Fields\Date::class,
         \Websanova\Larablog\Parsers\Fields\Doc::class,
         \Websanova\Larablog\Parsers\Fields\Description::class,
         \Websanova\Larablog\Parsers\Fields\Group::class,
+        \Websanova\Larablog\Parsers\Fields\Image::class,
         \Websanova\Larablog\Parsers\Fields\Keywords::class,
         \Websanova\Larablog\Parsers\Fields\Order::class,
         \Websanova\Larablog\Parsers\Fields\Permalink::class,
