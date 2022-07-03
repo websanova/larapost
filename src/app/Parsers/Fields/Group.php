@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Parsers\Fields;
 
 use Exception;
+use Illuminate\Support\Str;
 
 class Group
 {
@@ -22,11 +23,11 @@ class Group
 
         $group = $parse['group'][0];
 
-        if (!isset($data['group'][$group])) {
-            $data['group'][$group] = (object)[
+        if (!isset($data['groups'][$group])) {
+            $data['groups'][$group] = (object)[
                 'attributes' => [
                     'name' => $group,
-                    'type' => 'group',
+                    'slug' => Str::slug($group),
                 ],
                 'relations' => [
                     'doc' => $data['docs'][$parse['doc'][0]],
@@ -34,7 +35,7 @@ class Group
             ];
         }
 
-        $data['posts'][$name]->relations['group'] = $data['group'][$group];
+        $data['posts'][$name]->relations['group'] = $data['groups'][$group];
 
         return $data;
     }

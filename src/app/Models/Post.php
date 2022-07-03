@@ -18,6 +18,8 @@ class Post extends Model
 
     protected $hidden = [];
 
+    public $timestamps = false;
+
     public function getTable()
     {
         return config('larablog.table.prefix') . 'posts';

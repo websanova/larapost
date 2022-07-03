@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Parsers\Fields;
 
 use Exception;
+use Illuminate\Support\Str;
 
 class Serie
 {
@@ -22,7 +23,7 @@ class Serie
             $data['series'][$serie] = (object)[
                 'attributes' => [
                     'name' => $serie,
-                    'type' => 'serie',
+                    'slug' => Str::slug($serie),
                 ]
             ];
         }

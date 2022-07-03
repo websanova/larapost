@@ -15,7 +15,7 @@ return [
         \Websanova\Larablog\Parsers\Fields\Keywords::class,
         \Websanova\Larablog\Parsers\Fields\Order::class,
         \Websanova\Larablog\Parsers\Fields\Permalink::class,
-        \Websanova\Larablog\Parsers\Fields\Redirects::class,
+        \Websanova\Larablog\Parsers\Fields\Redirect::class,
         \Websanova\Larablog\Parsers\Fields\Searchable::class,
         \Websanova\Larablog\Parsers\Fields\Serie::class,
         \Websanova\Larablog\Parsers\Fields\Tags::class,

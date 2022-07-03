@@ -4,15 +4,16 @@ namespace Websanova\Larablog\Parsers\Fields;
 
 use Exception;
 
-class Redirects
+class Redirect
 {
     public static function parse(String $name, Array $data, Array $parse)
     {
-        if (!isset($parse['redirects'])) {
+
+        if (!isset($parse['redirect'])) {
             return $data;
         }
 
-        foreach ($parse['redirects'] as $redirect) {
+        foreach ($parse['redirect'] as $redirect) {
             if (empty($redirect)) {
                 throw new Exception('Redirect is empty.');
             }
@@ -23,7 +24,7 @@ class Redirects
 
             $data['permalinks'][$redirect] = $data['posts'][$name];
 
-            $data['posts'][$name]->relations['redirects'][]= [
+            $data['posts'][$name]->relations['redirects'][]= (object)[
                 'attributes' => [
                     'permalink' => $redirect,
                 ],

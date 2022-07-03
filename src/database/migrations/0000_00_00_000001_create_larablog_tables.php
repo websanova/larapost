@@ -28,7 +28,7 @@ class CreateLarablogTables extends Migration
             Schema::create($prefix . 'groups', function(Blueprint $t)
             {
                 $t->increments('id')->unsigned();
-                $t->integer('doc_id')->unsigned();
+                $t->integer('doc_id')->unsigned()->default(0);
                 $t->string('slug', 255);
                 $t->string('name', 255);
 
@@ -62,8 +62,6 @@ class CreateLarablogTables extends Migration
                 $t->text('keywords')->nullable();
                 $t->text('searchable')->nullable();
                 $t->timestamp('published_at')->nullable();
-                $t->timestamp('updated_at')->nullable();
-                $t->timestamp('created_at')->nullable();
 
                 $t->unique('permalink');
                 // $t->index(['redirect_id', 'order']);

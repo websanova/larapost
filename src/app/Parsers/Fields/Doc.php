@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Parsers\Fields;
 
 use Exception;
+use Illuminate\Support\Str;
 
 class Doc
 {
@@ -22,7 +23,7 @@ class Doc
             $data['docs'][$doc] = (object)[
                 'attributes' => [
                     'name' => $doc,
-                    'type' => 'doc',
+                    'slug' => Str::slug($doc),
                 ]
             ];
         }

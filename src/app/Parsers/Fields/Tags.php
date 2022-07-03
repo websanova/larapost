@@ -3,6 +3,7 @@
 namespace Websanova\Larablog\Parsers\Fields;
 
 use Exception;
+use Illuminate\Support\Str;
 
 class Tags
 {
@@ -22,9 +23,10 @@ class Tags
             }
 
             if (!isset($data['tags'][$tag])) {
-                $data['tags'][$tag] = [
+                $data['tags'][$tag] = (object)[
                     'attributes' => [
-                        'name' => $tag
+                        'name' => $tag,
+                        'slug' => Str::slug($tag),
                     ]
                 ];
             }
