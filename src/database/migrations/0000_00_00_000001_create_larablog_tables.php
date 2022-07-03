@@ -32,7 +32,7 @@ class CreateLarablogTables extends Migration
                 $t->string('slug', 255);
                 $t->string('name', 255);
 
-                $t->unique('slug');
+                // $t->unique('slug');
             });
         }
 
@@ -62,6 +62,9 @@ class CreateLarablogTables extends Migration
                 $t->text('description')->nullable();
                 $t->text('keywords')->nullable();
                 $t->text('searchable')->nullable();
+                $t->string('demo', 255)->nullable();
+                $t->string('release', 255)->nullable();
+                $t->string('docs', 255)->nullable();
                 $t->timestamp('published_at')->nullable();
 
                 $t->unique('permalink');

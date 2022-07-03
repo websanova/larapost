@@ -22,9 +22,10 @@ class Group
         }
 
         $group = $parse['group'][0];
+        $key   = $parse['doc'][0] . ' : ' . $parse['group'][0];
 
-        if (!isset($data['groups'][$group])) {
-            $data['groups'][$group] = (object)[
+        if (!isset($data['groups'][$key])) {
+            $data['groups'][$key] = (object)[
                 'attributes' => [
                     'name' => $group,
                     'slug' => Str::slug($group),
@@ -35,7 +36,7 @@ class Group
             ];
         }
 
-        $data['posts'][$name]->relations['group'] = $data['groups'][$group];
+        $data['posts'][$name]->relations['group'] = $data['groups'][$key];
 
         return $data;
     }

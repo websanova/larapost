@@ -75,7 +75,7 @@ class LarablogParser
 
             // Parse field into key/val.
             if (!$is_end) {
-                $field = preg_split('/\:/', $line);
+                $field = preg_split('/\:/', $line, 2);
 
                 if (count($field) !== 2) {
                     throw new Exception('Invalid field at line ' . ($index + 1) . ': ' . $line);
