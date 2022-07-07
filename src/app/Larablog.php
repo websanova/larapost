@@ -8,7 +8,8 @@ class Larablog
 {
     public static function build()
     {
-        $models = config('larablog.models');
+        // Parse
+
         $parser = config('larablog.parser');
         $data   = $parser::parse();
 
@@ -22,6 +23,8 @@ class Larablog
         }
 
         // Build
+
+        $models = config('larablog.models');
 
         foreach ($models as $key => $model) {
             if (isset($data[$key])) {
@@ -37,8 +40,33 @@ class Larablog
         ];
     }
 
+    public static function doc(String $slug)
+    {
+        return config('larablog.models.doc')::whereFirst('slug', $slug);
+    }
+
     public static function docs()
     {
+        return config('larablog.models.doc')::get();
+    }
 
+    public static function serie(String $slug)
+    {
+        return config('larablog.models.serie')::whereFirst('slug', $slug);
+    }
+
+    public static function series()
+    {
+        return config('larablog.models.serie')::get();
+    }
+
+    public static function tag(String $slug)
+    {
+        return config('larablog.models.tag')::whereFirst('slug', $slug);
+    }
+
+    public static function tags()
+    {
+        return config('larablog.models.tag')::get();
     }
 }
