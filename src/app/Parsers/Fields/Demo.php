@@ -16,7 +16,7 @@ class Demo
             throw new Exception('Demo is empty.');
         }
 
-        $data['posts'][$name]->attributes['demo'] = $parse['demo'][0];
+        $data['post'][$name]->attributes['demo'] = $parse['demo'][0];
 
         return $data;
     }

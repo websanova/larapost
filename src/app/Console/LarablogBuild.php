@@ -43,10 +43,9 @@ class LarablogBuild extends Command
         }
 
         $this->info(' > Larablog: Build complete');
-        $this->comment('   - ' . count($out['data']['docs'] ?? []) . ' docs');
-        $this->comment('   - ' . count($out['data']['groups'] ?? []) . ' groups');
-        $this->comment('   - ' . count($out['data']['series'] ?? []) . ' series');
-        $this->comment('   - ' . count($out['data']['tags'] ?? []) . ' tags');
-        $this->comment('   - ' . count($out['data']['posts'] ?? []) . ' posts');
+
+        foreach (config('larablog.models') as $key => $model) {
+            $this->comment('   - ' . count($out['data'][$key] ?? []) . ' ' . $key);
+        }
     }
 }

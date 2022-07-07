@@ -16,4 +16,13 @@ class Tag extends Model
     {
         return config('larablog.table.prefix') . 'tags';
     }
+
+    public static function build(Array $tags = [])
+    {
+        self::truncate();
+
+        foreach ($tags as $tag) {
+            $tag->model = self::create($tag->attributes);
+        }
+    }
 }

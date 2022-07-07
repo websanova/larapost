@@ -17,7 +17,7 @@ class Date
             throw new Exception('Date is empty.');
         }
 
-        $data['posts'][$name]->attributes['published_at'] = Carbon::parse($parse['date'][0]);
+        $data['post'][$name]->attributes['published_at'] = Carbon::parse($parse['date'][0]);
 
         return $data;
     }

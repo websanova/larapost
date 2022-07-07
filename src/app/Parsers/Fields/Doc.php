@@ -19,8 +19,8 @@ class Doc
 
         $doc = $parse['doc'][0];
 
-        if (!isset($data['docs'][$doc])) {
-            $data['docs'][$doc] = (object)[
+        if (!isset($data['doc'][$doc])) {
+            $data['doc'][$doc] = (object)[
                 'attributes' => [
                     'name' => $doc,
                     'slug' => Str::slug($doc),
@@ -28,7 +28,7 @@ class Doc
             ];
         }
 
-        $data['posts'][$name]->relations['doc'] = $data['docs'][$doc];
+        $data['post'][$name]->relations['doc'] = $data['doc'][$doc];
 
         return $data;
     }

@@ -59,4 +59,47 @@ class Post extends Model
     {
         return $this->belongsToMany(config('larablog.models.tag'));
     }
+
+    public static function build(Array $posts = [])
+    {
+        self::truncate();
+
+        foreach ($posts as $post) {
+            if (isset($post->relations['doc'])) {
+                $post->attributes['doc_id'] = $post->relations['doc']->model->id;
+            }
+
+            if (isset($post->relations['serie'])) {
+                $post->attributes['serie_id'] = $post->relations['serie']->model->id;
+            }
+
+            if (isset($post->relations['group'])) {
+                $post->attributes['group_id'] = $post->relations['group']->model->id;
+            }
+
+            $post->model = self::create($post->attributes);
+
+            // Tags
+
+            if (isset($post->relations['tags'])) {
+                $ids = [];
+
+                foreach ($post->relations['tags'] as $tag) {
+                    $ids[]= $tag->model->id;
+                }
+
+                $post->model->tags()->sync($ids);
+            }
+
+            // Redirects
+
+            if (isset($post->relations['redirects'])) {
+                foreach ($post->relations['redirects'] as $redirect) {
+                    $redirect->attributes['redirect_id'] = $post->model->id;
+
+                    $redirect->model = self::create($redirect->attributes);
+                }
+            }
+        }
+    }
 }

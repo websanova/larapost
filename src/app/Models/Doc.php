@@ -27,4 +27,13 @@ class Doc extends Model
     {
         return $this->hasMany(config('larablog.models.post'));
     }
+
+    public static function build(Array $docs = [])
+    {
+        self::truncate();
+
+        foreach ($docs as $doc) {
+            $doc->model = self::create($doc->attributes);
+        }
+    }
 }

@@ -22,8 +22,8 @@ class Tags
                 throw new Exception('Tag is empty.');
             }
 
-            if (!isset($data['tags'][$tag])) {
-                $data['tags'][$tag] = (object)[
+            if (!isset($data['tag'][$tag])) {
+                $data['tag'][$tag] = (object)[
                     'attributes' => [
                         'name' => $tag,
                         'slug' => Str::slug($tag),
@@ -31,7 +31,7 @@ class Tags
                 ];
             }
 
-            $data['posts'][$name]->relations['tags'][]= $data['tags'][$tag];
+            $data['post'][$name]->relations['tags'][]= $data['tag'][$tag];
         }
 
         return $data;

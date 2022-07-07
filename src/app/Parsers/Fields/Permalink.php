@@ -18,9 +18,9 @@ class Permalink
             throw new Exception('Permalink is duplicate.');
         }
 
-        $data['permalinks'][$permalink] = $data['posts'][$name];
+        $data['permalink'][$permalink] = $data['post'][$name];
 
-        $data['posts'][$name]->attributes['permalink'] = $permalink;
+        $data['post'][$name]->attributes['permalink'] = $permalink;
 
         return $data;
     }

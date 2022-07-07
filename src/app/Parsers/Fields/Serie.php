@@ -19,8 +19,8 @@ class Serie
 
         $serie = $parse['serie'][0];
 
-        if (!isset($data['series'][$serie])) {
-            $data['series'][$serie] = (object)[
+        if (!isset($data['serie'][$serie])) {
+            $data['serie'][$serie] = (object)[
                 'attributes' => [
                     'name' => $serie,
                     'slug' => Str::slug($serie),
@@ -28,7 +28,7 @@ class Serie
             ];
         }
 
-        $data['posts'][$name]->relations['serie'] = $data['series'][$serie];
+        $data['post'][$name]->relations['serie'] = $data['serie'][$serie];
 
         return $data;
     }

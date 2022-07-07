@@ -16,7 +16,7 @@ class Release
             throw new Exception('Release is empty.');
         }
 
-        $data['posts'][$name]->attributes['release'] = $parse['release'][0];
+        $data['post'][$name]->attributes['release'] = $parse['release'][0];
 
         return $data;
     }

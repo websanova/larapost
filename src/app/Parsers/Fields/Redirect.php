@@ -22,14 +22,14 @@ class Redirect
                 throw new Exception('Redirect is duplicate.');
             }
 
-            $data['permalinks'][$redirect] = $data['posts'][$name];
+            $data['permalink'][$redirect] = $data['post'][$name];
 
-            $data['posts'][$name]->relations['redirects'][]= (object)[
+            $data['post'][$name]->relations['redirects'][]= (object)[
                 'attributes' => [
                     'permalink' => $redirect,
                 ],
                 'relations' => [
-                    'post' => $data['posts'][$name],
+                    'post' => $data['post'][$name],
                 ]
             ];
         }

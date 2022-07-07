@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class LarablogParser
 {
-    public static function getData()
+    public static function parse()
     {
         $data  = [];
         $paths = config('larablog.paths');
@@ -18,7 +18,7 @@ class LarablogParser
             foreach ($files as $file) {
                 $name = $file->getPathname();
 
-                $data['posts'][$name] = (object)[];
+                $data['post'][$name] = (object)[];
 
                 try {
                     $parse = self::parseContents($file->getContents());
@@ -28,7 +28,7 @@ class LarablogParser
                     }
                 }
                 catch(Exception $e) {
-                    unset($data['posts'][$name]);
+                    unset($data['post'][$name]);
 
                     $data['errors'][]= [
                         'msg'  => $e->getMessage(),

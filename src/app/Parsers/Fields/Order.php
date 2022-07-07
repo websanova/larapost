@@ -20,7 +20,7 @@ class Order
             throw new Exception('Order is empty.');
         }
 
-        $data['posts'][$name]->attributes['order'] = $parse['order'][0];
+        $data['post'][$name]->attributes['order'] = $parse['order'][0];
 
         return $data;
     }

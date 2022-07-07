@@ -16,7 +16,7 @@ class Image
             throw new Exception('Image is empty.');
         }
 
-        $data['posts'][$name]->attributes['image'] = $parse['image'][0];
+        $data['post'][$name]->attributes['image'] = $parse['image'][0];
 
         return $data;
     }

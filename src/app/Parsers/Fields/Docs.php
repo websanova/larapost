@@ -16,7 +16,7 @@ class Docs
             throw new Exception('Docs is empty.');
         }
 
-        $data['posts'][$name]->attributes['docs'] = $parse['docs'][0];
+        $data['post'][$name]->attributes['docs'] = $parse['docs'][0];
 
         return $data;
     }

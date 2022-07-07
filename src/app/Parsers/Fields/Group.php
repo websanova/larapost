@@ -13,7 +13,7 @@ class Group
             return $data;
         }
 
-        if (!isset($data['docs'][$parse['doc'][0]])) {
+        if (!isset($data['doc'][$parse['doc'][0]])) {
             throw new Exception('Doc is not set.');
         }
 
@@ -24,19 +24,19 @@ class Group
         $group = $parse['group'][0];
         $key   = $parse['doc'][0] . ' : ' . $parse['group'][0];
 
-        if (!isset($data['groups'][$key])) {
-            $data['groups'][$key] = (object)[
+        if (!isset($data['group'][$key])) {
+            $data['group'][$key] = (object)[
                 'attributes' => [
                     'name' => $group,
                     'slug' => Str::slug($group),
                 ],
                 'relations' => [
-                    'doc' => $data['docs'][$parse['doc'][0]],
+                    'doc' => $data['doc'][$parse['doc'][0]],
                 ]
             ];
         }
 
-        $data['posts'][$name]->relations['group'] = $data['groups'][$key];
+        $data['post'][$name]->relations['group'] = $data['group'][$key];
 
         return $data;
     }
