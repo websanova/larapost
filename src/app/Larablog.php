@@ -40,33 +40,14 @@ class Larablog
         ];
     }
 
-    public static function doc(String $slug)
+    public static function __callStatic($method, $args)
     {
-        return config('larablog.models.doc')::whereFirst('slug', $slug);
-    }
+        $model = config('larablog.models.' . $method);
 
-    public static function docs()
-    {
-        return config('larablog.models.doc')::get();
-    }
+        if ($model) {
+            return new $model;
+        }
 
-    public static function serie(String $slug)
-    {
-        return config('larablog.models.serie')::whereFirst('slug', $slug);
-    }
-
-    public static function series()
-    {
-        return config('larablog.models.serie')::get();
-    }
-
-    public static function tag(String $slug)
-    {
-        return config('larablog.models.tag')::whereFirst('slug', $slug);
-    }
-
-    public static function tags()
-    {
-        return config('larablog.models.tag')::get();
+        throw new \Exception('Call to undefined method ' . self::class . '::' . $method . '()');
     }
 }

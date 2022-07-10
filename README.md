@@ -1,6 +1,18 @@
 
 // TODO:
 
+
+
+Can use models directly \Websanova\Larablog\Models\Doc
+
+or use helper methods which automagically route to models specified in config
+
+\Websanova\Larablog\Larablog::doc()->all()
+
+- everything else is done in the models, so you can extend override, etc via config and still use the Larablog to route through.
+
+
+
 - markdown / rendering on page.
 - serie as tag
 - doc as post
