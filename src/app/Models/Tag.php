@@ -25,4 +25,9 @@ class Tag extends Model
             $tag->model = self::create($tag->attributes);
         }
     }
+
+    public function getPermalinkAttribute()
+    {
+        return '/' . $this->slug;
+    }
 }

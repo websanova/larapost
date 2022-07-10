@@ -17,16 +17,15 @@ class Doc extends Model
         return config('larablog.table.prefix') . 'docs';
     }
 
+    // public function groups()
+    // {
+    //     return $this->hasMany(config('larablog.models.group'));
+    // }
 
-    public function groups()
-    {
-        return $this->hasMany(config('larablog.models.group'));
-    }
-
-    public function posts()
-    {
-        return $this->hasMany(config('larablog.models.post'));
-    }
+    // public function posts()
+    // {
+    //     return $this->hasMany(config('larablog.models.post'));
+    // }
 
     public static function build(Array $docs = [])
     {
@@ -35,5 +34,10 @@ class Doc extends Model
         foreach ($docs as $doc) {
             $doc->model = self::create($doc->attributes);
         }
+    }
+
+    public function getPermalinkAttribute()
+    {
+        return '/' . $this->slug;
     }
 }

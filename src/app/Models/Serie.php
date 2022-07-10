@@ -30,4 +30,9 @@ class Serie extends Model
             $serie->model = self::create($serie->attributes);
         }
     }
+
+    public function getPermalinkAttribute()
+    {
+        return '/' . $this->slug;
+    }
 }
