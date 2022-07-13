@@ -102,4 +102,20 @@ class Post extends Model
             }
         }
     }
+
+    public function scopeIsDoc($q)
+    {
+        $q->where('doc_id', '<>', 0);
+    }
+
+    public function scopeIsPost($q)
+    {
+        $q->where('doc_id', 0);
+        $q->where('redirect_id', 0);
+    }
+
+    public function scopeIsPostOrRedirect($q)
+    {
+        $q->where('doc_id', 0);
+    }
 }

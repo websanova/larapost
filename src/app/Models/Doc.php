@@ -35,9 +35,4 @@ class Doc extends Model
             $doc->model = self::create($doc->attributes);
         }
     }
-
-    public function getPermalinkAttribute()
-    {
-        return '/' . $this->slug;
-    }
 }
