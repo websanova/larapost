@@ -26,8 +26,8 @@ class Tag extends Model
         }
     }
 
-    public function getPermalinkAttribute()
+    public function getUrlAttribute()
     {
-        return '/' . $this->slug;
+        return url('/tags/' . $this->slug);
     }
 }

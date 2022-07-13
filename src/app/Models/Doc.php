@@ -35,4 +35,9 @@ class Doc extends Model
             $doc->model = self::create($doc->attributes);
         }
     }
+
+    public function getUrlAttribute()
+    {
+        return url('/docs/' . $this->slug);
+    }
 }

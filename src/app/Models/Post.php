@@ -118,4 +118,9 @@ class Post extends Model
     {
         $q->where('doc_id', 0);
     }
+
+    public function getUrlAttribute()
+    {
+        return '/blog' . $this->permalink;
+    }
 }

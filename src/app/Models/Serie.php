@@ -31,8 +31,8 @@ class Serie extends Model
         }
     }
 
-    public function getPermalinkAttribute()
+    public function getUrlAttribute()
     {
-        return '/' . $this->slug;
+        return url('/series/' . $this->slug);
     }
 }
