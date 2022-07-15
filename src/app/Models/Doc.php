@@ -42,18 +42,16 @@ class Doc extends Model
                     $group = $post->group;
 
                     $data[]= [
-                        'title' => $post->group->name,
+                        'group' => $post->group,
                         'posts' => []
                     ];
                 }
 
-                $data[count($data) - 1]['posts'][]= [
-                    'title' => $post->title,
-                ];
+                $data[count($data) - 1]['posts'][]= $post;
             }
             else {
                 $data[]= [
-                    'title' => $post->title,
+                    'post' => $post,
                 ];
             }
         }
