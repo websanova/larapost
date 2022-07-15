@@ -12,7 +12,7 @@ class Permalink
             throw new Exception('Permalink is required.');
         }
 
-        $permalink = $parse['permalink'][0];
+        $permalink = trim($parse['permalink'][0], '/');
 
         if (isset($data['permalinks'][$permalink])) {
             throw new Exception('Permalink is duplicate.');
