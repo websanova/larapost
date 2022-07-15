@@ -35,6 +35,11 @@ class Post extends Model
         return $this->belongsTo(config('larablog.models.group'));
     }
 
+    public function redirect()
+    {
+        return $this->belongsTo(config('larablog.models.post'), 'redirect_id');
+    }
+
     public function redirects()
     {
         return $this->hasMany(config('larablog.models.post'), 'redirect_id');
@@ -127,8 +132,21 @@ class Post extends Model
         $q->where('doc_id', 0);
     }
 
+    public function getIsDocAttribute($q)
+    {
+        return $this->doc_id !== 0;
+    }
+
+    public function getIsRedirectAttribute($q)
+    {
+        return $this->redirect_id !== 0;
+    }
+
     public function getUrlAttribute()
     {
-        return '/blog/' . trim($this->permalink, '/');
+        return (
+            '/' . ($this->is_doc ? 'docs' : 'blog') .
+            '/' . trim($this->permalink, '/')
+        );
     }
 }
