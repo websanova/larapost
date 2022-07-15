@@ -36,28 +36,6 @@ class Doc extends Model
         }
     }
 
-    public function scopeWithPosts($q)
-    {
-        $q->with([
-            'posts' => function($q) {
-                $q->isDoc();
-                $q->with('doc', 'group');
-                $q->orderBy('order');
-            }
-        ]);
-    }
-
-    public function loadPosts()
-    {
-        $this->load([
-            'posts' => function($q) {
-                $q->isDoc();
-                $q->with('doc', 'group');
-                $q->orderBy('order');
-            }
-        ]);
-    }
-
     public function getMenuAttribute()
     {
         $data  = [];

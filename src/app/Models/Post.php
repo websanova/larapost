@@ -98,14 +98,6 @@ class Post extends Model
         }
     }
 
-    public static function loadPosts()
-    {
-        return self::query()
-            ->isPost()
-            ->orderBy('published_at', 'desc')
-            ->paginate();
-    }
-
     public function nextPageUrl()
     {
         return '';
