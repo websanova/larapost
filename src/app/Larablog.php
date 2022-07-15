@@ -39,15 +39,4 @@ class Larablog
             'status' => 'success',
         ];
     }
-
-    public static function __callStatic($method, $args)
-    {
-        $model = config('larablog.models.' . $method);
-
-        if ($model) {
-            return new $model;
-        }
-
-        throw new \Exception('Call to undefined method ' . self::class . '::' . $method . '()');
-    }
 }
