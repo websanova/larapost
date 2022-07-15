@@ -22,10 +22,10 @@ class Doc extends Model
     //     return $this->hasMany(config('larablog.models.group'));
     // }
 
-    // public function posts()
-    // {
-    //     return $this->hasMany(config('larablog.models.post'));
-    // }
+    public function posts()
+    {
+        return $this->hasMany(config('larablog.models.post'));
+    }
 
     public static function build(Array $docs = [])
     {
@@ -36,8 +36,66 @@ class Doc extends Model
         }
     }
 
+    public function scopeWithPosts($q)
+    {
+        $q->with([
+            'posts' => function($q) {
+                $q->isDoc();
+                $q->with('doc', 'group');
+                $q->orderBy('order');
+            }
+        ]);
+    }
+
+    public function loadPosts()
+    {
+        $this->load([
+            'posts' => function($q) {
+                $q->isDoc();
+                $q->with('doc', 'group');
+                $q->orderBy('order');
+            }
+        ]);
+    }
+
+    public function getMenuAttribute()
+    {
+        $data  = [];
+        $group = null;
+
+        if ($this->relationLoaded('posts')) {
+            foreach ($this->posts as $post) {
+                if ($post->group) {
+                    if ($post->group->id !== ($group->id ?? null)) {
+                        $group = $post->group;
+
+                        $data[]= [
+                            'title' => $post->group->name,
+                            'posts' => []
+                        ];
+                    }
+
+                    $data[count($data) - 1]['posts'][]= [
+                        'title' => $post->title,
+                    ];
+                }
+                else {
+                    $data[]= [
+                        'title' => $post->title,
+                    ];
+                }
+            }
+
+            return collect($data);
+        }
+
+        return null;
+    }
+
     public function getUrlAttribute()
     {
         return url('/docs/' . $this->slug);
     }
+
+
 }

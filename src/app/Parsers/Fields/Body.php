@@ -17,7 +17,7 @@ class Body
             throw new Exception('Body is empty.');
         }
 
-        $data['post'][$name]->attributes['body'] = $parse['body'][0];
+        $data['post'][$name]->attributes['body'] = Str::markdown($parse['body'][0]);
 
         return $data;
     }

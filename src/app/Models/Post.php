@@ -25,24 +25,14 @@ class Post extends Model
         return config('larablog.table.prefix') . 'posts';
     }
 
-    // public function post()
-    // {
-    //     return $this->hasOne(Post::class, 'redirect_id');
-    // }
-
-    // public function redirects()
-    // {
-    //     return $this->hasMany(Post::class, 'redirect_id');
-    // }
-
-    // public function tags()
-    // {
-    //     return $this->belongsToMany(Tag::class);
-    // }
-
     public function doc()
     {
         return $this->belongsTo(config('larablog.models.doc'));
+    }
+
+    public function group()
+    {
+        return $this->belongsTo(config('larablog.models.group'));
     }
 
     public function redirects()
@@ -103,6 +93,24 @@ class Post extends Model
         }
     }
 
+    public static function loadPosts()
+    {
+        return self::query()
+            ->isPost()
+            ->orderBy('published_at', 'desc')
+            ->paginate();
+    }
+
+    public function nextPageUrl()
+    {
+        return '';
+    }
+
+    public function previousPageUrl()
+    {
+        return '';
+    }
+
     public function scopeIsDoc($q)
     {
         $q->where('doc_id', '<>', 0);
@@ -121,6 +129,6 @@ class Post extends Model
 
     public function getUrlAttribute()
     {
-        return '/blog' . $this->permalink;
+        return '/blog/' . trim($this->permalink, '/');
     }
 }
