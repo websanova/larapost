@@ -74,6 +74,4 @@ class Doc extends Model
     {
         return url('/docs/' . $this->slug);
     }
-
-
 }

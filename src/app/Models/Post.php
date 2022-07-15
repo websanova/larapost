@@ -119,14 +119,14 @@ class Post extends Model
         $q->where('redirect_id', 0);
     }
 
-    public function scopeIsPostOrRedirect($q)
-    {
-        $q->where('doc_id', 0);
-    }
-
     public function getIsDocAttribute($q)
     {
-        return $this->doc_id !== 0;
+        return $this->doc_id !== 0 && $this->redirect_id === 0;
+    }
+
+    public function getIsPostAttribute($q)
+    {
+        return $this->doc_id === 0 && $this->redirect_id === 0;
     }
 
     public function getIsRedirectAttribute($q)
