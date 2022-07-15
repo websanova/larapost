@@ -17,11 +17,6 @@ class Doc extends Model
         return config('larablog.table.prefix') . 'docs';
     }
 
-    // public function groups()
-    // {
-    //     return $this->hasMany(config('larablog.models.group'));
-    // }
-
     public function posts()
     {
         return $this->hasMany(config('larablog.models.post'));
@@ -41,33 +36,29 @@ class Doc extends Model
         $data  = [];
         $group = null;
 
-        if ($this->relationLoaded('posts')) {
-            foreach ($this->posts as $post) {
-                if ($post->group) {
-                    if ($post->group->id !== ($group->id ?? null)) {
-                        $group = $post->group;
+        foreach ($this->posts as $post) {
+            if ($post->group) {
+                if ($post->group->id !== ($group->id ?? null)) {
+                    $group = $post->group;
 
-                        $data[]= [
-                            'title' => $post->group->name,
-                            'posts' => []
-                        ];
-                    }
-
-                    $data[count($data) - 1]['posts'][]= [
-                        'title' => $post->title,
-                    ];
-                }
-                else {
                     $data[]= [
-                        'title' => $post->title,
+                        'title' => $post->group->name,
+                        'posts' => []
                     ];
                 }
-            }
 
-            return collect($data);
+                $data[count($data) - 1]['posts'][]= [
+                    'title' => $post->title,
+                ];
+            }
+            else {
+                $data[]= [
+                    'title' => $post->title,
+                ];
+            }
         }
 
-        return null;
+        return collect($data);
     }
 
     public function getUrlAttribute()

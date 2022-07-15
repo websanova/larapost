@@ -100,17 +100,51 @@ class Post extends Model
 
     public function nextPageUrl()
     {
-        return '';
+        if ($this->is_doc) {
+            $post = $this->doc
+                ->posts()
+                ->isDoc()
+                ->orderBy('order')
+                ->where('order', '>', $this->order)
+                ->first();
+        }
+        else {
+            $post = self::query()
+                ->isPost()
+                ->orderBy('published_at', 'desc')
+                ->where('published_at', '<=', $this->published_at)
+                ->where('id', '<>', $this->id)
+                ->first();
+        }
+
+        return $post->url ?? null;
     }
 
     public function previousPageUrl()
     {
-        return '';
+        if ($this->is_doc) {
+            $post = $this->doc->posts()
+                ->isDoc()
+                ->orderBy('order', 'desc')
+                ->where('order', '<', $this->order)
+                ->first();
+        }
+        else {
+            $post = self::query()
+                ->isPost()
+                ->orderBy('published_at', 'asc')
+                ->where('published_at', '>=', $this->published_at)
+                ->where('id', '<>', $this->id)
+                ->first();
+        }
+
+        return $post->url ?? null;
     }
 
     public function scopeIsDoc($q)
     {
         $q->where('doc_id', '<>', 0);
+        $q->where('redirect_id', 0);
     }
 
     public function scopeIsPost($q)
