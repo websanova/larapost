@@ -153,6 +153,15 @@ class Post extends Model
         $q->where('redirect_id', 0);
     }
 
+    public function scopeSearch($q, String $query = null)
+    {
+        $query = trim($query);
+
+        if (!empty($query)) {
+            $q->whereRaw("MATCH (searchable) AGAINST (? IN BOOLEAN MODE)", [$query]);
+        }
+    }
+
     public function getIsDocAttribute($q)
     {
         return $this->doc_id !== 0 && $this->redirect_id === 0;
