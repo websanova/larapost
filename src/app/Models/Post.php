@@ -162,19 +162,31 @@ class Post extends Model
         }
     }
 
-    public function getIsDocAttribute($q)
+    public function getIsDocAttribute()
     {
         return $this->doc_id !== 0 && $this->redirect_id === 0;
     }
 
-    public function getIsPostAttribute($q)
+    public function getIsPostAttribute()
     {
         return $this->doc_id === 0 && $this->redirect_id === 0;
     }
 
-    public function getIsRedirectAttribute($q)
+    public function getIsRedirectAttribute()
     {
         return $this->redirect_id !== 0;
+    }
+
+    public function getTitleAttribute(String $val = null)
+    {
+        if (
+            $this->relationLoaded('serie') &&
+            $this->serie
+        ) {
+            return $this->serie->name . ' \ ' . $val;
+        }
+
+        return $val;
     }
 
     public function getUrlAttribute()
