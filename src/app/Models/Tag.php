@@ -17,6 +17,11 @@ class Tag extends Model
         return config('larablog.table.prefix') . 'tags';
     }
 
+    public function posts()
+    {
+        return $this->belongsToMany(config('larablog.models.post'));
+    }
+
     public static function build(Array $tags = [])
     {
         self::truncate();
