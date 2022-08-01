@@ -108,6 +108,14 @@ class Post extends Model
                 ->where('order', '>', $this->order)
                 ->first();
         }
+        elseif ($this->is_serie) {
+            $post = $this->serie
+                ->posts()
+                ->isPost()
+                ->orderBy('order')
+                ->where('order', '>', $this->order)
+                ->first();
+        }
         else {
             $post = self::query()
                 ->isPost()
@@ -125,6 +133,14 @@ class Post extends Model
         if ($this->is_doc) {
             $post = $this->doc->posts()
                 ->isDoc()
+                ->orderBy('order', 'desc')
+                ->where('order', '<', $this->order)
+                ->first();
+        }
+        elseif ($this->is_serie) {
+            $post = $this->serie
+                ->posts()
+                ->isPost()
                 ->orderBy('order', 'desc')
                 ->where('order', '<', $this->order)
                 ->first();
