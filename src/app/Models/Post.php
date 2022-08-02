@@ -108,14 +108,6 @@ class Post extends Model
                 ->where('order', '>', $this->order)
                 ->first();
         }
-        elseif ($this->is_serie) {
-            $post = $this->serie
-                ->posts()
-                ->isPost()
-                ->orderBy('order')
-                ->where('order', '>', $this->order)
-                ->first();
-        }
         else {
             $post = self::query()
                 ->isPost()
@@ -137,14 +129,6 @@ class Post extends Model
                 ->where('order', '<', $this->order)
                 ->first();
         }
-        elseif ($this->is_serie) {
-            $post = $this->serie
-                ->posts()
-                ->isPost()
-                ->orderBy('order', 'desc')
-                ->where('order', '<', $this->order)
-                ->first();
-        }
         else {
             $post = self::query()
                 ->isPost()
@@ -153,6 +137,80 @@ class Post extends Model
                 ->where('id', '<>', $this->id)
                 ->first();
         }
+
+        return $post->url ?? null;
+    }
+
+    public function nextPageSerieUrl()
+    {
+        $post = $this->serie
+            ->posts()
+            ->isPost()
+            ->orderBy('order')
+            ->where('order', '>', $this->order)
+            ->first();
+
+        return $post->url ?? null;
+    }
+
+    public function previousPageSerieUrl()
+    {
+        $post = $this->serie
+            ->posts()
+            ->isPost()
+            ->orderBy('order', 'desc')
+            ->where('order', '<', $this->order)
+            ->first();
+
+        return $post->url ?? null;
+    }
+
+    public function nextPageTagUrl(Tag $tag)
+    {
+        $post = $tag->posts()
+            ->isPost()
+            ->orderBy('published_at', 'desc')
+            ->where('published_at', '<=', $this->published_at)
+            ->where('id', '<>', $this->id)
+            ->first();
+
+        return $post->url ?? null;
+    }
+
+    public function previousPageTagUrl(Tag $tag)
+    {
+        $post = $tag->posts()
+            ->isPost()
+            ->orderBy('published_at', 'asc')
+            ->where('published_at', '>=', $this->published_at)
+            ->where('id', '<>', $this->id)
+            ->first();
+
+        return $post->url ?? null;
+    }
+
+    public function nextPageQueryUrl(String $query)
+    {
+        $post = self::query()
+            ->isPost()
+            ->search($query)
+            ->orderBy('published_at', 'desc')
+            ->where('published_at', '<=', $this->published_at)
+            ->where('id', '<>', $this->id)
+            ->first();
+
+        return $post->url ?? null;
+    }
+
+    public function previousPageQueryUrl(String $query)
+    {
+        $post = self::query()
+            ->isPost()
+            ->search($query)
+            ->orderBy('published_at', 'asc')
+            ->where('published_at', '>=', $this->published_at)
+            ->where('id', '<>', $this->id)
+            ->first();
 
         return $post->url ?? null;
     }
