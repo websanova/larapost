@@ -65,9 +65,11 @@ class CreateLarablogTables extends Migration
                 $t->string('demo', 255)->nullable();
                 $t->string('release', 255)->nullable();
                 $t->string('docs', 255)->nullable();
+                $t->integer('views')->unsigned();
                 $t->timestamp('published_at')->nullable();
 
                 $t->unique('permalink');
+                $t->index(['views']);
                 // $t->index(['redirect_id', 'order']);
                 // $t->index(['redirect_id', 'published_at']);
             });

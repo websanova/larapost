@@ -251,16 +251,16 @@ class Post extends Model
         return $this->redirect_id !== 0;
     }
 
-    public function getTitleAttribute(String $val = null)
+    public function getFullTitleAttribute()
     {
         if (
             $this->relationLoaded('serie') &&
             $this->serie
         ) {
-            return $this->serie->name . ' \ ' . $val;
+            return $this->serie->name . ' \ ' . $this->title;
         }
 
-        return $val;
+        return $this->title;
     }
 
     public function getUrlAttribute()
