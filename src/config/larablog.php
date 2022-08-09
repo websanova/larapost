@@ -34,6 +34,7 @@ return [
         \Websanova\Larablog\Parsers\Fields\Docs::class,
         \Websanova\Larablog\Parsers\Fields\Demo::class,
         \Websanova\Larablog\Parsers\Fields\Description::class,
+        \Websanova\Larablog\Parsers\Fields\Featured::class,
         \Websanova\Larablog\Parsers\Fields\Group::class,
         \Websanova\Larablog\Parsers\Fields\Image::class,
         \Websanova\Larablog\Parsers\Fields\Keywords::class,

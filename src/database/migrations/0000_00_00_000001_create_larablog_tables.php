@@ -55,6 +55,7 @@ class CreateLarablogTables extends Migration
                 $t->integer('serie_id')->unsigned()->default(0);
                 $t->integer('redirect_id')->unsigned()->default(0);
                 $t->smallInteger('order')->unsigned()->default(0);
+                $t->smallInteger('featured')->unsigned()->default(0);
                 $t->string('permalink', 255);
                 $t->string('title', 255)->nullable();
                 $t->text('body')->nullable();
@@ -65,11 +66,9 @@ class CreateLarablogTables extends Migration
                 $t->string('demo', 255)->nullable();
                 $t->string('release', 255)->nullable();
                 $t->string('docs', 255)->nullable();
-                $t->integer('views')->unsigned();
                 $t->timestamp('published_at')->nullable();
 
                 $t->unique('permalink');
-                $t->index(['views']);
                 // $t->index(['redirect_id', 'order']);
                 // $t->index(['redirect_id', 'published_at']);
             });

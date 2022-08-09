@@ -221,6 +221,11 @@ class Post extends Model
         $q->where('redirect_id', 0);
     }
 
+    public function scopeIsFeatured($q)
+    {
+        $q->where('featured', '<>', 0);
+    }
+
     public function scopeIsPost($q)
     {
         $q->where('doc_id', 0);
