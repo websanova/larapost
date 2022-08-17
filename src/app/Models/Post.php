@@ -271,7 +271,7 @@ class Post extends Model
     public function getUrlAttribute()
     {
         return url(
-            '/' . ($this->is_doc ? 'docs' : 'blog') .
+            '/' . ($this->is_doc ? 'docs' : 'posts') .
             '/' . trim($this->permalink, '/')
         );
     }
