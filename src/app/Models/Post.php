@@ -215,6 +215,26 @@ class Post extends Model
         return $post->url ?? null;
     }
 
+    public function related(Int $limit = 5)
+    {
+        $q = Post::query()
+            ->isPost()
+            ->selectRaw('*, MATCH(`searchable`) AGAINST(?) AS score', [$this->title])
+            ->search($this->title)
+            ->where('id', '<>', $this->id)
+            ->orderBy('score', 'desc')
+            ->limit($limit);
+
+        if ($this->serie_id > 0) {
+            $q->where(function ($q) {
+                $q->whereNull('serie_id')
+                  ->orWhere('serie_id', '<>', $this->serie_id);
+            });
+        }
+
+        return $q->get();
+    }
+
     public function scopeIsDoc($q)
     {
         $q->where('doc_id', '<>', 0);
