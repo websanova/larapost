@@ -67,6 +67,7 @@ class CreateLarablogTables extends Migration
                 $t->string('release', 255)->nullable();
                 $t->string('docs', 255)->nullable();
                 $t->timestamp('published_at')->nullable();
+                $t->timestamp('updated_at')->nullable();
 
                 $t->unique('permalink');
                 // $t->index(['redirect_id', 'order']);

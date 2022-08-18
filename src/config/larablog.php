@@ -29,7 +29,6 @@ return [
 
     'fields' => [
         \Websanova\Larablog\Parsers\Fields\Body::class,
-        \Websanova\Larablog\Parsers\Fields\Date::class,
         \Websanova\Larablog\Parsers\Fields\Doc::class,
         \Websanova\Larablog\Parsers\Fields\Docs::class,
         \Websanova\Larablog\Parsers\Fields\Demo::class,
@@ -40,12 +39,14 @@ return [
         \Websanova\Larablog\Parsers\Fields\Keywords::class,
         \Websanova\Larablog\Parsers\Fields\Order::class,
         \Websanova\Larablog\Parsers\Fields\Permalink::class,
+        \Websanova\Larablog\Parsers\Fields\Published::class,
         \Websanova\Larablog\Parsers\Fields\Redirect::class,
         \Websanova\Larablog\Parsers\Fields\Release::class,
         \Websanova\Larablog\Parsers\Fields\Searchable::class,
         \Websanova\Larablog\Parsers\Fields\Serie::class,
         \Websanova\Larablog\Parsers\Fields\Tags::class,
         \Websanova\Larablog\Parsers\Fields\Title::class,
+        \Websanova\Larablog\Parsers\Fields\Updated::class,
     ],
 
     /*
