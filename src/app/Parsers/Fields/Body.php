@@ -31,7 +31,7 @@ class Body
                 'insert'            => 'before',
                 'max_heading_level' => 6,
                 'min_heading_level' => 1,
-                'symbol'            => '#',
+                'symbol'            => '',
                 'title'             => '',
             ],
         ], config('larablog.commonmark', [])));

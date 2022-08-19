@@ -12,7 +12,9 @@ return [
     */
 
     'commonmark' => [
-
+        'heading_permalink' => [
+            'symbol' => '#',
+        ]
     ],
 
     /*
