@@ -4,16 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Parser
+    | Commonmark
     |--------------------------------------------------------------------------
     |
-    | This value specifies the parser to use which includes functions for both
-    | the field and file parsing. This automatically specifies a "post" field
-    | which is the only requirement outside of the "field" classes.
+    | Replace common mark env config options for the default Body field parser.
     |
     */
 
-    'parser' => \Websanova\Larablog\Parsers\LarablogParser::class,
+    'commonmark' => [
+
+    ],
 
     /*
     |--------------------------------------------------------------------------
@@ -51,21 +51,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Paths
-    |--------------------------------------------------------------------------
-    |
-    | Specify fall the paths to process. This will recursively find all files
-    | in each directory specified. The file setup will not matter here as
-    | all the information for each file (post) is self contained.
-    |
-    */
-
-    'paths' => [
-        //
-    ],
-
-    /*
-    |--------------------------------------------------------------------------
     | Models
     |--------------------------------------------------------------------------
     |
@@ -84,6 +69,34 @@ return [
         'serie' => \Websanova\Larablog\Models\Serie::class,
         'tag'   => \Websanova\Larablog\Models\Tag::class,
         'post'  => \Websanova\Larablog\Models\Post::class,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Parser
+    |--------------------------------------------------------------------------
+    |
+    | This value specifies the parser to use which includes functions for both
+    | the field and file parsing. This automatically specifies a "post" field
+    | which is the only requirement outside of the "field" classes.
+    |
+    */
+
+    'parser' => \Websanova\Larablog\Parsers\LarablogParser::class,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Paths
+    |--------------------------------------------------------------------------
+    |
+    | Specify fall the paths to process. This will recursively find all files
+    | in each directory specified. The file setup will not matter here as
+    | all the information for each file (post) is self contained.
+    |
+    */
+
+    'paths' => [
+        //
     ],
 
     /*

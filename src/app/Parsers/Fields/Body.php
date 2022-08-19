@@ -4,6 +4,11 @@ namespace Websanova\Larablog\Parsers\Fields;
 
 use Exception;
 use Illuminate\Support\Str;
+use League\CommonMark\Environment\Environment;
+use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
+use League\CommonMark\Extension\GithubFlavoredMarkdownExtension;
+use League\CommonMark\Extension\HeadingPermalink\HeadingPermalinkExtension;
+use League\CommonMark\MarkdownConverter;
 
 class Body
 {
@@ -17,7 +22,29 @@ class Body
             throw new Exception('Body is empty.');
         }
 
-        $data['post'][$name]->attributes['body'] = Str::markdown($parse['body'][0]);
+        $env = new Environment(array_replace_recursive([
+            'heading_permalink' => [
+                'aria_hidden'       => true,
+                'fragment_prefix'   => '',
+                'html_class'        => 'permalink',
+                'id_prefix'         => '',
+                'insert'            => 'before',
+                'max_heading_level' => 6,
+                'min_heading_level' => 1,
+                'symbol'            => '#',
+                'title'             => '',
+            ],
+        ], config('larablog.commonmark', [])));
+
+        $env->addExtension(new CommonMarkCoreExtension());
+        $env->addExtension(new GithubFlavoredMarkdownExtension());
+        $env->addExtension(new HeadingPermalinkExtension());
+
+        $converter = new MarkdownConverter($env);
+
+        $body = (string) $converter->convert($parse['body'][0]);
+
+        $data['post'][$name]->attributes['body'] = $body;
 
         return $data;
     }
