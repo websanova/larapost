@@ -31,8 +31,6 @@ class CreateLarapostTables extends Migration
                 $t->integer('doc_id')->unsigned()->default(0);
                 $t->string('slug', 255);
                 $t->string('name', 255);
-
-                // $t->unique('slug');
             });
         }
 
@@ -69,9 +67,9 @@ class CreateLarapostTables extends Migration
                 $t->timestamp('published_at')->nullable();
                 $t->timestamp('updated_at')->nullable();
 
+                //
+
                 $t->unique('permalink');
-                // $t->index(['redirect_id', 'order']);
-                // $t->index(['redirect_id', 'published_at']);
             });
 
             \DB::statement("ALTER TABLE " . $prefix . "posts ADD FULLTEXT KEY " . $prefix . "searchable (`searchable`)");
