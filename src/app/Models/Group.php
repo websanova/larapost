@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Models;
+namespace Websanova\Larapost\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,17 +14,17 @@ class Group extends Model
 
     public function getTable()
     {
-        return config('larablog.table.prefix') . 'groups';
+        return config('larapost.table.prefix') . 'groups';
     }
 
     public function doc()
     {
-        return $this->belongsTo(config('larablog.models.doc'));
+        return $this->belongsTo(config('larapost.models.doc'));
     }
 
     public function posts()
     {
-        return $this->hasMany(config('larablog.models.post'));
+        return $this->hasMany(config('larapost.models.post'));
     }
 
     public static function build(Array $groups = [])

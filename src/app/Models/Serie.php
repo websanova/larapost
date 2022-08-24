@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Models;
+namespace Websanova\Larapost\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +14,7 @@ class Serie extends Model
 
     public function getTable()
     {
-        return config('larablog.table.prefix') . 'series';
+        return config('larapost.table.prefix') . 'series';
     }
 
     public function posts()

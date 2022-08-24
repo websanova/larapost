@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Models;
+namespace Websanova\Larapost\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,37 +22,37 @@ class Post extends Model
 
     public function getTable()
     {
-        return config('larablog.table.prefix') . 'posts';
+        return config('larapost.table.prefix') . 'posts';
     }
 
     public function doc()
     {
-        return $this->belongsTo(config('larablog.models.doc'));
+        return $this->belongsTo(config('larapost.models.doc'));
     }
 
     public function group()
     {
-        return $this->belongsTo(config('larablog.models.group'));
+        return $this->belongsTo(config('larapost.models.group'));
     }
 
     public function redirect()
     {
-        return $this->belongsTo(config('larablog.models.post'), 'redirect_id');
+        return $this->belongsTo(config('larapost.models.post'), 'redirect_id');
     }
 
     public function redirects()
     {
-        return $this->hasMany(config('larablog.models.post'), 'redirect_id');
+        return $this->hasMany(config('larapost.models.post'), 'redirect_id');
     }
 
     public function serie()
     {
-        return $this->belongsTo(config('larablog.models.serie'));
+        return $this->belongsTo(config('larapost.models.serie'));
     }
 
     public function tags()
     {
-        return $this->belongsToMany(config('larablog.models.tag'));
+        return $this->belongsToMany(config('larapost.models.tag'));
     }
 
     public static function build(Array $posts = [])

@@ -1,25 +1,25 @@
 <?php
 
-namespace Websanova\Larablog\Providers;
+namespace Websanova\Larapost\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Websanova\Larablog\Larablog;
+use Websanova\Larapost\Larapost;
 
-class LarablogServiceProvider extends ServiceProvider
+class LarapostServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind('larablog', function() {
-            return new Larablog;
+        $this->app->bind('larapost', function() {
+            return new Larapost;
         });
 
         $this->mergeConfigFrom(
-            __DIR__ . '/../../config/larablog.php', 'larablog'
+            __DIR__ . '/../../config/larapost.php', 'larapost'
         );
 
         $this->commands([
-            'Websanova\Larablog\Console\LarablogBuild',
-            'Websanova\Larablog\Console\LarablogPublish'
+            'Websanova\Larapost\Console\LarapostBuild',
+            'Websanova\Larapost\Console\LarapostPublish'
         ]);
     }
 
@@ -30,7 +30,7 @@ class LarablogServiceProvider extends ServiceProvider
         ], 'migrations');
 
         // $this->publishes([
-        //     __DIR__ . '/../../resources/views' => base_path('resources/views/vendor/larablog')
+        //     __DIR__ . '/../../resources/views' => base_path('resources/views/vendor/larapost')
         // ], 'views');
 
         $this->publishes([
@@ -45,6 +45,6 @@ class LarablogServiceProvider extends ServiceProvider
 
         // require __DIR__ . '/../Http/routes.php';
 
-        // $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'larablog');
+        // $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'larapost');
     }
 }

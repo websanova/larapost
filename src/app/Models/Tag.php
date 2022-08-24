@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Models;
+namespace Websanova\Larapost\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,12 +14,12 @@ class Tag extends Model
 
     public function getTable()
     {
-        return config('larablog.table.prefix') . 'tags';
+        return config('larapost.table.prefix') . 'tags';
     }
 
     public function posts()
     {
-        return $this->belongsToMany(config('larablog.models.post'));
+        return $this->belongsToMany(config('larapost.models.post'));
     }
 
     public static function build(Array $tags = [])

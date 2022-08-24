@@ -1,16 +1,16 @@
 <?php
 
-namespace Websanova\Larablog\Parsers;
+namespace Websanova\Larapost\Parsers;
 
 use Exception;
 use Illuminate\Support\Facades\File;
 
-class LarablogParser
+class LarapostParser
 {
     public static function parse()
     {
         $data  = [];
-        $paths = config('larablog.paths');
+        $paths = config('larapost.paths');
 
         foreach ($paths as $path) {
             $files = File::allFiles($path);
@@ -23,7 +23,7 @@ class LarablogParser
                 try {
                     $parse = self::parseContents($file->getContents());
 
-                    foreach (config('larablog.fields') as $class) {
+                    foreach (config('larapost.fields') as $class) {
                         $data = $class::parse($name, $data, $parse);
                     }
                 }

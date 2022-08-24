@@ -1,13 +1,13 @@
 <?php
 
-namespace Websanova\Larablog\Facades;
+namespace Websanova\Larapost\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class LarablogFacade extends Facade
+class LarapostFacade extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'larablog';
+        return 'larapost';
     }
 }

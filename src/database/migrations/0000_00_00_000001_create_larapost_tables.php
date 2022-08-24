@@ -3,13 +3,13 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateLarablogTables extends Migration
+class CreateLarapostTables extends Migration
 {
     public function up()
     {
         // TODO: Setup proper indexes.
 
-        $prefix = config('larablog.tables.prefix');
+        $prefix = config('larapost.tables.prefix');
 
         if (!Schema::hasTable($prefix . 'docs'))
         {
@@ -104,7 +104,7 @@ class CreateLarablogTables extends Migration
 
     public function down()
     {
-        $prefix = config('larablog.tables.prefix');
+        $prefix = config('larapost.tables.prefix');
 
         Schema::dropIfExists($prefix . 'doc');
         Schema::dropIfExists($prefix . 'groups');

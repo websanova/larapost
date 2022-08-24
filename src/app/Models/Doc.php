@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Models;
+namespace Websanova\Larapost\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,12 +14,12 @@ class Doc extends Model
 
     public function getTable()
     {
-        return config('larablog.table.prefix') . 'docs';
+        return config('larapost.table.prefix') . 'docs';
     }
 
     public function posts()
     {
-        return $this->hasMany(config('larablog.models.post'));
+        return $this->hasMany(config('larapost.models.post'));
     }
 
     public static function build(Array $docs = [])

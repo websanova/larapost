@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Parsers\Fields;
+namespace Websanova\Larapost\Parsers\Fields;
 
 use Exception;
 use Carbon\Carbon;

@@ -1,9 +1,9 @@
 {
-    "name": "websanova/larablog",
+    "name": "websanova/larapost",
     "type": "package",
     "description": "Drop in blog, docs, tagging solution for Laravel",
-    "keywords": ["laravel", "blog", "larablog", "markdown", "docs", "documentation", "posts", "tag", "tagging", "tags"],
-    "homepage": "https://github.com/websanova/larablog",
+    "keywords": ["laravel", "blog", "larapost", "markdown", "docs", "documentation", "posts", "tag", "tagging", "tags"],
+    "homepage": "https://github.com/websanova/larapost",
     "license": "MIT",
     "authors": [
         {
@@ -14,7 +14,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "Websanova\\Larablog\\": "src/app/"
+            "Websanova\\Larapost\\": "src/app/"
         }
     }
 }

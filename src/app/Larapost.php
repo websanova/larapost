@@ -1,16 +1,16 @@
 <?php
 
-namespace Websanova\Larablog;
+namespace Websanova\Larapost;
 
-use Websanova\Larablog\Parsers\LarablogParser;
+use Websanova\Larapost\Parsers\LarapostParser;
 
-class Larablog
+class Larapost
 {
     public static function build()
     {
         // Parse
 
-        $parser = config('larablog.parser');
+        $parser = config('larapost.parser');
         $data   = $parser::parse();
 
         // Error
@@ -24,7 +24,7 @@ class Larablog
 
         // Build
 
-        $models = config('larablog.models');
+        $models = config('larapost.models');
 
         foreach ($models as $key => $model) {
             if (isset($data[$key])) {

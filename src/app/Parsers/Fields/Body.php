@@ -1,6 +1,6 @@
 <?php
 
-namespace Websanova\Larablog\Parsers\Fields;
+namespace Websanova\Larapost\Parsers\Fields;
 
 use Exception;
 use Illuminate\Support\Str;
@@ -34,7 +34,7 @@ class Body
                 'symbol'            => '',
                 'title'             => '',
             ],
-        ], config('larablog.commonmark', [])));
+        ], config('larapost.commonmark', [])));
 
         $env->addExtension(new CommonMarkCoreExtension());
         $env->addExtension(new GithubFlavoredMarkdownExtension());

@@ -30,25 +30,25 @@ return [
     */
 
     'fields' => [
-        \Websanova\Larablog\Parsers\Fields\Body::class,
-        \Websanova\Larablog\Parsers\Fields\Doc::class,
-        \Websanova\Larablog\Parsers\Fields\Docs::class,
-        \Websanova\Larablog\Parsers\Fields\Demo::class,
-        \Websanova\Larablog\Parsers\Fields\Description::class,
-        \Websanova\Larablog\Parsers\Fields\Featured::class,
-        \Websanova\Larablog\Parsers\Fields\Group::class,
-        \Websanova\Larablog\Parsers\Fields\Image::class,
-        \Websanova\Larablog\Parsers\Fields\Keywords::class,
-        \Websanova\Larablog\Parsers\Fields\Order::class,
-        \Websanova\Larablog\Parsers\Fields\Permalink::class,
-        \Websanova\Larablog\Parsers\Fields\Published::class,
-        \Websanova\Larablog\Parsers\Fields\Redirect::class,
-        \Websanova\Larablog\Parsers\Fields\Release::class,
-        \Websanova\Larablog\Parsers\Fields\Searchable::class,
-        \Websanova\Larablog\Parsers\Fields\Serie::class,
-        \Websanova\Larablog\Parsers\Fields\Tags::class,
-        \Websanova\Larablog\Parsers\Fields\Title::class,
-        \Websanova\Larablog\Parsers\Fields\Updated::class,
+        \Websanova\Larapost\Parsers\Fields\Body::class,
+        \Websanova\Larapost\Parsers\Fields\Doc::class,
+        \Websanova\Larapost\Parsers\Fields\Docs::class,
+        \Websanova\Larapost\Parsers\Fields\Demo::class,
+        \Websanova\Larapost\Parsers\Fields\Description::class,
+        \Websanova\Larapost\Parsers\Fields\Featured::class,
+        \Websanova\Larapost\Parsers\Fields\Group::class,
+        \Websanova\Larapost\Parsers\Fields\Image::class,
+        \Websanova\Larapost\Parsers\Fields\Keywords::class,
+        \Websanova\Larapost\Parsers\Fields\Order::class,
+        \Websanova\Larapost\Parsers\Fields\Permalink::class,
+        \Websanova\Larapost\Parsers\Fields\Published::class,
+        \Websanova\Larapost\Parsers\Fields\Redirect::class,
+        \Websanova\Larapost\Parsers\Fields\Release::class,
+        \Websanova\Larapost\Parsers\Fields\Searchable::class,
+        \Websanova\Larapost\Parsers\Fields\Serie::class,
+        \Websanova\Larapost\Parsers\Fields\Tags::class,
+        \Websanova\Larapost\Parsers\Fields\Title::class,
+        \Websanova\Larapost\Parsers\Fields\Updated::class,
     ],
 
     /*
@@ -66,11 +66,11 @@ return [
     */
 
     'models' => [
-        'doc'   => \Websanova\Larablog\Models\Doc::class,
-        'group' => \Websanova\Larablog\Models\Group::class,
-        'serie' => \Websanova\Larablog\Models\Serie::class,
-        'tag'   => \Websanova\Larablog\Models\Tag::class,
-        'post'  => \Websanova\Larablog\Models\Post::class,
+        'doc'   => \Websanova\Larapost\Models\Doc::class,
+        'group' => \Websanova\Larapost\Models\Group::class,
+        'serie' => \Websanova\Larapost\Models\Serie::class,
+        'tag'   => \Websanova\Larapost\Models\Tag::class,
+        'post'  => \Websanova\Larapost\Models\Post::class,
     ],
 
     /*
@@ -84,7 +84,7 @@ return [
     |
     */
 
-    'parser' => \Websanova\Larablog\Parsers\LarablogParser::class,
+    'parser' => \Websanova\Larapost\Parsers\LarapostParser::class,
 
     /*
     |--------------------------------------------------------------------------

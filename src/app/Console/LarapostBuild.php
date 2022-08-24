@@ -1,25 +1,25 @@
 <?php
 
-namespace Websanova\Larablog\Console;
+namespace Websanova\Larapost\Console;
 
 use Illuminate\Console\Command;
-use Websanova\Larablog\Larablog;
+use Websanova\Larapost\Larapost;
 
-class LarablogBuild extends Command
+class LarapostBuild extends Command
 {
     /**
     * The name and signature of the console command.
     *
     * @var string
     */
-    protected $signature = 'larablog:build';
+    protected $signature = 'larapost:build';
 
     /**
     * The console command description.
     *
     * @var string
     */
-    protected $description = 'Build larablog docs and posts.';
+    protected $description = 'Build larapost docs and posts.';
 
     /**
     * Execute the console command.
@@ -28,12 +28,12 @@ class LarablogBuild extends Command
     */
     public function handle()
     {
-        $this->info(' > Larablog: Build start');
+        $this->info(' > Larapost: Build start');
 
-        $out = Larablog::build();
+        $out = Larapost::build();
 
         if ($out['status'] === 'error') {
-            $this->error(' > Larablog: Build error');
+            $this->error(' > Larapost: Build error');
 
             foreach ($out['data']['errors'] as $error) {
                 $this->error('   - ' . $error['name'] . ': ' . $error['msg']);
@@ -42,9 +42,9 @@ class LarablogBuild extends Command
             return;
         }
 
-        $this->info(' > Larablog: Build complete');
+        $this->info(' > Larapost: Build complete');
 
-        foreach (config('larablog.models') as $key => $model) {
+        foreach (config('larapost.models') as $key => $model) {
             $this->comment('   - ' . count($out['data'][$key] ?? []) . ' ' . $key);
         }
     }
