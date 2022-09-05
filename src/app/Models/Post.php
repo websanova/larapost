@@ -252,6 +252,11 @@ class Post extends Model
         $q->where('redirect_id', 0);
     }
 
+    public function scopeIsRedirect($q)
+    {
+        $q->where('redirect_id', '<>', 0);
+    }
+
     public function scopeSearch($q, String $query = null)
     {
         $query = trim($query);
